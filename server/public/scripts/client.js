@@ -17,8 +17,8 @@ myApp.config(function($routeProvider, $locationProvider) {
       templateUrl: '/views/templates/user.html',
       controller: 'UserController as uc',
       resolve: {
-        getuser : function(UserService){
-          return UserService.getuser();
+        getUser : function(UserService){
+          return UserService.getUser();
         }
       }
     })
@@ -26,8 +26,8 @@ myApp.config(function($routeProvider, $locationProvider) {
       templateUrl: '/views/templates/info.html',
       controller: 'InfoController',
       resolve: {
-        getuser : function(UserService){
-          return UserService.getuser();
+        getUser : function(UserService){
+          return UserService.getUser();
         }
       }
     })
