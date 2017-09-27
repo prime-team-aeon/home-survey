@@ -2,11 +2,8 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 
-var passport = require('./strategies/mongo.localstrategy');
+var passport = require('./strategies/sql.localstrategy');
 var sessionConfig = require('./modules/session.config');
-
-//DB Module
-var db = require('./modules/db.config.js');
 
 // Route includes
 var indexRouter = require('./routes/index.router');
@@ -17,7 +14,7 @@ var port = process.env.PORT || 5000;
 
 // Body parser middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve back static files
 app.use(express.static('./server/public'));
@@ -37,6 +34,6 @@ app.use('/user', userRouter);
 app.use('/', indexRouter);
 
 // Listen //
-app.listen(port, function(){
-   console.log('Listening on port:', port);
+app.listen(port, function () {
+    console.log('Listening on port:', port);
 });
