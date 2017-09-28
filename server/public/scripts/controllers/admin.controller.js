@@ -1,4 +1,4 @@
-myApp.controller('AdminController', function() {
+myApp.controller('AdminController', function(CsvService) {
   console.log('AdminController created');
   var self = this;
 
@@ -17,7 +17,7 @@ myApp.controller('AdminController', function() {
       console.log('reader onload', readerEvent);
       // this is where we actually send the data onward
 
-      // CsvService.uploadCsv(readerEvent.target.result);
+      CsvService.uploadCsv(readerEvent.target.result);
     }
     reader.readAsText(fileEvent.target.files[0]);
   }
