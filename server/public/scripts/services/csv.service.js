@@ -5,8 +5,12 @@ myApp.service('CsvService', function($http, $location, $mdToast){
 
   self.uploadCsv = function(file){
     console.log('CsvService', file);
-    var fileToUpload = { data: file }
-    $http.post('/csv/upload', fileToUpload).then(function(response){
+
+    var parsed = Papa.parse(file);
+
+    console.log('parsed', parsed);
+    
+    $http.post('/csv/upload', parsed).then(function(response){
       $mdToast.show(
         $mdToast.simple()
         .textContent('CSV uploaded!')
