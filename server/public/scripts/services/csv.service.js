@@ -22,5 +22,12 @@ myApp.service('CsvService', function($http, $location, $mdToast){
     })
   }
   
-
+  self.export = function(){
+    $http.get('/csv/export').then(function(response){
+      console.log('exported', response);
+      // format the data into a csv file
+      
+      // tell the browser to download it
+    })
+  }
 });

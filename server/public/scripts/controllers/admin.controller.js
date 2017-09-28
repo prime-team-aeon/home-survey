@@ -41,4 +41,8 @@ myApp.controller('AdminController', function(CsvService, $scope) {
 
   // assigns the event listener function self.handleFileSelect()
   document.getElementById('admin-file-input').addEventListener('change', self.handleFileSelect, false);
+
+  self.export = function(){
+    CsvService.export();
+  }
 });
