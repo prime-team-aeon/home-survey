@@ -8,17 +8,23 @@ var pool = require('../modules/pool.js');
 router.post('/upload', function (req, res) {
   console.log('/csv/upload POST');
 
-  // 'INSERT INTO occupancy (name, message) VALUES ($1, $2, $3), ($4,$5,$6), [...];'
+  const OCCUPANCY_ROW_LENGTH = 3;
+  const OCCUPANCY_IGNORE_ROWS = 1; // number of rows to ignore at top of imported .csv
+
   if (req.isAuthenticated()) {
     console.log('req.body', req.body);
     var unitsArray = req.body.data;
     var queryString = 'INSERT INTO occupancy (property, unit, year) VALUES (';
 
+    // SQL query looks like:
+    // INSERT INTO occupancy (name, message) VALUES ($1, $2, $3), ($4,$5,$6), [...];
+
     var explodedArray = [];
     
-    for (let i = 1; i < unitsArray.length; i++) {
-      if (unitsArray[i].length === 3) {
-        for (let j = 0; j < unitsArray[i].length; j++) {
+    // assuming header row, push any valid row into the explodedArray and build out the query string
+    for (var i = OCCUPANCY_IGNORE_ROWS; i < unitsArray.length; i++) {
+      if (unitsArray[i].length === OCCUPANCY_ROW_LENGTH) {
+        for (var j = 0; j < unitsArray[i].length; j++) {
           queryString += '$' + (j + ((i - 1) * 3) + 1) + ',';
           explodedArray.push(unitsArray[i][j]);          
         }
@@ -27,21 +33,10 @@ router.post('/upload', function (req, res) {
       }
     }
 
-    // if (unitsArray.length > 0){
-    //   queryString += '$1';
-    // }
-
-    // for (let i = 1; i < unitsArray.length; i++){
-    //   queryString += ', $' + (i + 1);
-    // }
-
     queryString = queryString.slice(0, -2);
     queryString += ';';
 
-    console.log('queryString', queryString);
-
-    console.log('explodedArray', explodedArray);
-    
+    // push the whole thing into the occupancy table of the db
     pool.connect(function (err, client, done) {
       if (err) {
         console.log('error connecting to db', err);
@@ -55,11 +50,9 @@ router.post('/upload', function (req, res) {
           } else {
             res.sendStatus(201);
           }
-
         });
       }
     })
-
 
   } else {
     // not authenticated

@@ -3,42 +3,35 @@ myApp.controller('AdminController', function(CsvService, $scope) {
   var self = this;
 
   const START_YEAR = 2010;
+  const NUM_FUTURE_YEARS = 3;
 
-  self.uploadCsv = function(){
-    console.log('ac.uploadCsv()');       
-  }
-  
+  // get the current year so the select defaults to it
   let now = new Date();
   self.thisYear = now.getFullYear();
-  console.log('ac.thisYear', self.thisYear);
-  
 
   self.yearsArray = [];
   self.yearToAdd = self.thisYear;
   self.validInput = false;
 
-  // build yearsArray
-  for (i = START_YEAR; i < (self.thisYear + 3); i++){
+  // build yearsArray - this is what's shown in the select. Starts at START_YEAR and ends at that plus NUM_FUTURE_YEARS
+  for (i = START_YEAR; i < (self.thisYear + NUM_FUTURE_YEARS); i++){
     self.yearsArray.push(i);
   }
 
+  // called by the UPLOAD CSV button, sends the chosen file and the year to the service for POSTing to the server. Hides the upload button to avoid weird double-click errors
   self.startUpload = function() {
-    console.log('ac.startUpload');
     CsvService.uploadCsv(self.userInput, self.yearToAdd);
     self.validInput = false;    
   }
 
-  self.handleFileSelect = function(fileEvent){
-    console.log('hfs');
-    
+  // event handler for 'change' event on file input. reads in the file, and sets the validInput flag to true which shows the upload button
+  self.handleFileSelect = function(fileEvent){    
     reader = new FileReader();
     reader.onerror = function(){
       console.log('reader error');
     };
     reader.onload = function(readerEvent){
-      console.log('reader onload', readerEvent);
-      // this is where we actually send the data onward
-
+      // this is where the data is ready
       self.validInput = true;
       $scope.$apply();
       self.userInput = readerEvent.target.result;
@@ -46,5 +39,6 @@ myApp.controller('AdminController', function(CsvService, $scope) {
     reader.readAsText(fileEvent.target.files[0]);
   }
 
+  // assigns the event listener function self.handleFileSelect()
   document.getElementById('admin-file-input').addEventListener('change', self.handleFileSelect, false);
 });

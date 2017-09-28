@@ -3,15 +3,14 @@ myApp.service('CsvService', function($http, $location, $mdToast){
 
   var self = this;
 
+  // called ultimately by the [UPLOAD] button on admin.html. Parses the imported file and sends it up to the server.
   self.uploadCsv = function(file, year){
-    console.log('CsvService', file);
-
+    // thanks Papa!
     var parsed = Papa.parse(file);
 
     for (var i = 0; i < parsed.data.length; i++) {
       parsed.data[i].push(year);
     }
-    console.log('parsed', parsed);
     
     $http.post('/csv/upload', parsed).then(function(response){
       $mdToast.show(
