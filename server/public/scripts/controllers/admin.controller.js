@@ -24,7 +24,7 @@ myApp.controller('AdminController', function(CsvService, $scope) {
 
   self.startUpload = function() {
     console.log('ac.startUpload');
-    CsvService.uploadCsv(readerEvent.target.result);
+    CsvService.uploadCsv(self.userInput, self.yearToAdd);
     self.validInput = false;    
   }
 
@@ -41,7 +41,7 @@ myApp.controller('AdminController', function(CsvService, $scope) {
 
       self.validInput = true;
       $scope.$apply();
-      
+      self.userInput = readerEvent.target.result;
     }
     reader.readAsText(fileEvent.target.files[0]);
   }

@@ -3,11 +3,14 @@ myApp.service('CsvService', function($http, $location, $mdToast){
 
   var self = this;
 
-  self.uploadCsv = function(file){
+  self.uploadCsv = function(file, year){
     console.log('CsvService', file);
 
     var parsed = Papa.parse(file);
 
+    for (var i = 0; i < parsed.data.length; i++) {
+      parsed.data[i].push(year);
+    }
     console.log('parsed', parsed);
     
     $http.post('/csv/upload', parsed).then(function(response){
