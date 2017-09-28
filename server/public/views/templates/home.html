@@ -1,6 +1,6 @@
-<div class="container">
-  <h1 class="lead">Login</h1>
-    <h1 class="lead alert alert-danger" role="alert" ng-if="lc.message != ''">{{lc.message}}</h2>
+<div >
+  <h1>Login</h1>
+    <h1  role="alert" ng-if="lc.message != ''">{{lc.message}}</h2>
     <form ng-submit="lc.login()">
       <div>
           <label for="username">Username:</label>
@@ -11,7 +11,7 @@
           <input type="password" ng-model="lc.user.password" />
       </div>
       <div>
-          <input class="btn btn-default" type="submit" name="submit" value="Log In" />
+          <input type="submit" name="submit" value="Log In" />
           <a href="#register">Register</a>
       </div>
     </form>
