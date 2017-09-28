@@ -19,6 +19,7 @@ myApp.service('CsvService', function($http, $location, $mdToast){
         .textContent('CSV uploaded!')
         .hideDelay(2000)
       );
+      $location.path('/admin');
     })
   }
   
