@@ -1,0 +1,14 @@
+<h1>Admin Page</h1>
+{{ac}}
+<section id="admin-upload-container">
+
+  <input type="file" id="admin-file-input" name="admin-file-input" accept=".csv">
+
+  <md-input-container>
+    <md-select ng-model="ac.yearToAdd" placeholder="Year to Add">
+      <md-option ng-value="year" ng-repeat="year in ac.yearsArray">{{year}}</md-option>
+    </md-select>
+  </md-input-container>
+
+    <md-button ng-show="ac.validInput" class="md-raised md-primary" ng-click="ac.startUpload()">Upload</md-button>
+</section>
