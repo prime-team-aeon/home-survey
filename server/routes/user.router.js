@@ -3,11 +3,11 @@ var router = express.Router();
 
 // Handles Ajax request for user information if user is authenticated
 router.get('/', function (req, res) {
-  console.log('get /user route');
+  // console.log('get /user route');
   // check if logged in
   if (req.isAuthenticated()) {
     // send back user object from database
-    console.log('logged in', req.user);
+    // console.log('logged in', req.user);
     var userInfo = {
       username: req.user.username
     };
