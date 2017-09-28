@@ -8,13 +8,6 @@ var pg = require('pg');
 var url = require('url');
 var config = {};
 
-// Database connection variabes
-var user = require('../config.js').user;
-var password = require('../config.js').password;
-var host = require('../config.js').host;
-var port = require('../config.js').port;
-var database = require('../config.js').database;
-
 if (process.env.DATABASE_URL) {
     // Heroku gives a url, not a connection object
     // https://github.com/brianc/node-pg-pool
@@ -34,15 +27,14 @@ if (process.env.DATABASE_URL) {
 
 } else {
     config = {
-        user: process.env.PG_USER || user, //env var: PGUSER
-        password: process.env.DATABASE_SECRET || password, //env var: PGPASSWORD
-        host: process.env.DATABASE_SERVER || host, // Server hosting the postgres database
+        user: process.env.PG_USER || null, //env var: PGUSER
+        password: process.env.DATABASE_SECRET || null, //env var: PGPASSWORD
+        host: process.env.DATABASE_SERVER || 'localhost', // Server hosting the postgres database
         port: process.env.DATABASE_PORT || 5432, //env var: PGPORT
-        ssl: true,
-        database: process.env.DATABASE_NAME || database, //env var: PGDATABASE
+        database: process.env.DATABASE_NAME || 'aeon', //env var: PGDATABASE
         max: 10, // max number of clients in the pool
         idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
-    };        
+    };
 }
 
 module.exports = new pg.Pool(config);
