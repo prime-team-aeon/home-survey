@@ -28,7 +28,6 @@ router.post('/', function (req, res, next) {
       [saveUser.username, saveUser.password],
       function (err, result) {
         client.end();
-
         if (err) {
           console.log("Error inserting data: ", err);
           res.sendStatus(500);
