@@ -15,7 +15,7 @@ router.get('/', function (req, res) {
                 res.sendStatus(500);
             } else {
                 //query
-                client.query('SELECT * FROM questions', function (err, data) {
+                client.query('SELECT question_number,english,theme FROM questions', function (err, data) {
                     done();
                     if (err) {
                         console.log('query error', err);
