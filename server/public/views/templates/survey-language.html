@@ -1,0 +1,23 @@
+<div ng-include="'views/partials/nav.html'"></div>
+
+<div layout="row" layout-align="space-around">
+    <div layout="column">
+        <md-button class=" md-raised md-primary">English</md-button>
+        <md-button class=" md-raised md-primary">Hmoob</md-button>
+    </div>
+
+    <div layout="column">
+        <md-button class=" md-raised md-primary">Somali</md-button>
+        <md-button class=" md-raised md-primary">Espanol</md-button>
+    </div>
+</div>
+
+<div  layout="row" layout-align="center center">
+    <md-button class=" md-raised md-primary">Property</md-button>
+    <md-button class=" md-raised md-primary">Unit #</md-button>
+</div>
+
+<div layout="row" layout-align="center center">
+    <md-button class=" md-raised md-primary" ng-click='sc.go("/survey-intro")'>Begin Survey</md-button>
+
+</div>
