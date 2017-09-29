@@ -1,4 +1,4 @@
-myApp.controller('LoginController', function($http, $location, UserService) {
+myApp.controller('LoginController', function ($http, $location, UserService, $mdToast) {
     console.log('LoginController created');
     var vm = this;
     vm.user = {
@@ -44,4 +44,28 @@ myApp.controller('LoginController', function($http, $location, UserService) {
         });
       }
     }
+
+    vm.cancelToast = function (ev) {
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent("Registration Canceled.")
+          .position('top right')
+      );//end of $mdToast
+    };//end of vm.showToast
+
+    vm.registerToast = function (ev) {
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent("Enter a new username and password")
+          .position('top right')
+      );//end of $mdToast
+    };//end of vm.showToast
+
+    vm.successToast = function (ev) {
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent("Registration Successful! Enter username and password to login.")
+          .position('top right')
+      );//end of $mdToast
+    };//end of vm.showToast
 });
