@@ -5,7 +5,8 @@ CREATE TABLE questions
     spanish VARCHAR(255) NOT NULL,
     somali VARCHAR(255) NOT NULL,
     hmong VARCHAR(255) NOT NULL,
-    tag VARCHAR(80) NOT NULL
+    question_number INT,
+    theme VARCHAR(80) NOT NULL
 );
 CREATE TABLE users
 (
