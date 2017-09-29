@@ -31,7 +31,7 @@ CREATE TABLE occupancy
 CREATE TABLE responses
 (
     id SERIAL PRIMARY KEY,
-    date DATE NOT NULL,
+    date TEXT NOT NULL,
     answer TEXT NOT NULL,
     property VARCHAR(255) NOT NULL,
     question_id INT REFERENCES questions
