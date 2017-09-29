@@ -1,7 +1,7 @@
 var myApp = angular.module('myApp', ['ngMaterial', 'ngRoute']);
 
 /// Routes ///
-myApp.config(function($routeProvider, $locationProvider, $mdThemingProvider) {
+myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
   $locationProvider.hashPrefix('');
   console.log('myApp -- config')
   $routeProvider
@@ -17,7 +17,7 @@ myApp.config(function($routeProvider, $locationProvider, $mdThemingProvider) {
       templateUrl: '/views/templates/user.html',
       controller: 'UserController as uc',
       resolve: {
-        getUser : function(UserService){
+        getUser: function (UserService) {
           return UserService.getUser();
         }
       }
@@ -58,7 +58,7 @@ myApp.config(function($routeProvider, $locationProvider, $mdThemingProvider) {
       templateUrl: '/views/templates/admin.html',
       controller: 'AdminController as ac',
       resolve: {
-        getUser : function(UserService){
+        getUser: function (UserService) {
           return UserService.getUser();
         }
       }
@@ -67,7 +67,9 @@ myApp.config(function($routeProvider, $locationProvider, $mdThemingProvider) {
       redirectTo: 'home'
     });
 
-    $mdThemingProvider.theme('default')
-      .primaryPalette('green')
-      .accentPalette('light-green')
+  $mdThemingProvider.theme('default')
+    .primaryPalette('green')
+    .accentPalette('light-green')
+
+  
 });

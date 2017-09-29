@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
   <h1 >Register User</h1>
   <h1 role="alert" ng-if="lc.message != ''">{{lc.message}}</h2>
   <form ng-submit="lc.registerUser()">
@@ -14,4 +14,36 @@
     <a href="#home">Cancel</a>
   </form>
 
-</div>
+</div> -->
+
+<md-content layout="row" layout-align="space-around" layout-padding="layout-padding" ng-cloak="ng-cloak" class="login-form">
+  <md-card flex="flex" flex-gt-sm="50" flex-gt-md="33">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2><span>Registration Form</span></h2>
+      </div>
+    </md-toolbar>
+    <md-card-content>
+      <form name="Form">
+        <md-input-container class="md-block">
+          <label>Login</label>
+          <input type="text" name="email" ng-model="lc.user.username" placeholder="login" required="" />
+          <!-- <div ng-messages="Form.email.$error" role="alert" multiple="">
+                        <div ng-message="required" class="my-message">Please enter your username.</div>
+                    </div> -->
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Password</label>
+          <input type="password" name="password" ng-model="lc.user.password" placeholder="password" required="" md-maxlength="16" />
+          <!-- <div ng-messages="Form.password.$error" role="alert" multiple="">
+                        <div ng-message="required" class="my-message">Please enter your password.</div>
+                        <div ng-message="md-maxlength" class="my-message">Too long.</div>
+                    </div> -->
+        </md-input-container>
+        <md-button ng-click="lc.registerUser();lc.successToast($event)" class="md-raised md-primary" a href="#home">Register</md-button>
+        <md-button ng-click="lc.cancelToast($event)" class="md-raised md-primary" a href="#home">Cancel</a>
+        </md-button>
+      </form>
+    </md-card-content>
+  </md-card>
+</md-content>
