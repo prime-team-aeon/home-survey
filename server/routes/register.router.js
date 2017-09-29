@@ -4,8 +4,7 @@ var path = require('path');
 var pool = require('../modules/pool.js');
 var encryptLib = require('../modules/encryption');
 var randomstring = require('randomstring');
-
-
+var nodemailer = require('nodemailer');
 
 router.get('/verify/:token', function(req,res){
   console.log('verify token hit', req.params.token);
@@ -47,7 +46,30 @@ router.post('/', function (req, res, next) {
             console.log("Error inserting data: ", err);
             res.sendStatus(500);
           } else {
-            res.sendStatus(201);
+            //send verification email with nodemailer
+            var transporter = nodemailer.createTransport({
+              service: 'Gmail',
+              auth: {
+                user:'aeonhomesurvey@gmail.com',
+                pass:'sadhorsenocookie'
+              }
+            })
+            var emailtext = "Hello Adam!";
+            var mailOptions = {
+              from: 'aeonhomesurvey@gmail.com',
+              to: 'abiessener@gmail.com',
+              subject: 'Aeon Register Confirmation',
+              text: emailtext 
+            }
+            transporter.sendMail(mailOptions, function(mailerr, info){
+              if(mailerr){
+                console.log('mailerr', mailerr);
+                res.send(500);
+              }else{
+                console.log('email sent: ' + info.response);
+                res.sendStatus(201);
+              }
+            })
           }
         });
     });
