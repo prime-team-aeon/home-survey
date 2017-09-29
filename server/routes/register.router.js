@@ -18,13 +18,11 @@ router.post('/', function (req, res, next) {
     res.status(400).send('bad email');
   } else {
 
-    
-
     var saveUser = {
       username: req.body.username,
       password: encryptLib.encryptPassword(req.body.password),
-      token: randomstring.generate(16)
-      
+      token: randomstring.generate(16),
+      timestamp: new Date()
     };
 
     console.log('new user:', saveUser);
