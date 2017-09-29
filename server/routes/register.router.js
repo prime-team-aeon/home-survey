@@ -13,31 +13,38 @@ router.get('/', function (req, res, next) {
 // Handles POST request with new user data
 router.post('/', function (req, res, next) {
 
-  var saveUser = {
-    username: req.body.username,
-    password: encryptLib.encryptPassword(req.body.password)
-  };
-  console.log('new user:', saveUser);
+  if (req.body.username.indexOf('aeonmn.org') === -1) {
+    res.status(400).send('bad email');
+  } else {
 
-  pool.connect(function (err, client, done) {
-    if (err) {
-      console.log("Error connecting: ", err);
-      res.sendStatus(500);
-    }
-    client.query("INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id",
-      [saveUser.username, saveUser.password],
-      function (err, result) {
-        client.end();
+    var saveUser = {
+      username: req.body.username,
+      password: encryptLib.encryptPassword(req.body.password)
+    };
 
-        if (err) {
-          console.log("Error inserting data: ", err);
-          res.sendStatus(500);
-        } else {
-          res.sendStatus(201);
-        }
-      });
-  });
 
+
+
+    console.log('new user:', saveUser);
+
+    pool.connect(function (err, client, done) {
+      if (err) {
+        console.log("Error connecting: ", err);
+        res.sendStatus(500);
+      }
+      client.query("INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id", [saveUser.username, saveUser.password],
+        function (err, result) {
+          client.end();
+
+          if (err) {
+            console.log("Error inserting data: ", err);
+            res.sendStatus(500);
+          } else {
+            res.sendStatus(201);
+          }
+        });
+    });
+  }
 });
 
 

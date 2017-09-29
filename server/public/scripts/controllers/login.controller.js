@@ -38,9 +38,19 @@ myApp.controller('LoginController', function ($http, $location, UserService, $md
         $http.post('/register', vm.user).then(function(response) {
           console.log('LoginController -- registerUser -- success');
           $location.path('/home');
+          $mdToast.show(
+            $mdToast.simple()
+              .textContent("Registration Successful! Enter username and password to login.")
+              .position('top right')
+          );//end of $mdToast
         }).catch(function(response) {
           console.log('LoginController -- registerUser -- error');
           vm.message = "Please try again."
+          $mdToast.show(
+            $mdToast.simple()
+              .textContent("Please enter a valid email address.")
+              .position('top right')
+          );//end of $mdToast
         });
       }
     }
