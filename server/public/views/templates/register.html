@@ -28,19 +28,18 @@
         <md-input-container class="md-block">
           <label>Login</label>
           <input type="text" name="email" ng-model="lc.user.username" placeholder="login" required="" />
-          <!-- <div ng-messages="Form.email.$error" role="alert" multiple="">
-                        <div ng-message="required" class="my-message">Please enter your username.</div>
-                    </div> -->
+          <div ng-messages="Form.email.$error" role="alert" multiple="">
+            <div ng-message="required" class="my-message">Please enter a username.</div>
+          </div>
         </md-input-container>
         <md-input-container class="md-block">
           <label>Password</label>
-          <input type="password" name="password" ng-model="lc.user.password" placeholder="password" required="" md-maxlength="16" />
-          <!-- <div ng-messages="Form.password.$error" role="alert" multiple="">
-                        <div ng-message="required" class="my-message">Please enter your password.</div>
-                        <div ng-message="md-maxlength" class="my-message">Too long.</div>
-                    </div> -->
+          <input type="password" name="password" ng-model="lc.user.password" placeholder="password" required="" />
+          <div ng-messages="Form.password.$error" role="alert" multiple="">
+            <div ng-message="required" class="my-message">Please enter a password.</div>
+          </div>
         </md-input-container>
-        <md-button ng-click="lc.registerUser();lc.successToast($event)" class="md-raised md-primary" a href="#home">Register</md-button>
+        <md-button ng-disabled="!Form.$valid" ng-click="lc.registerUser();lc.successToast($event)" class="md-raised md-primary" a href="#home">Register</md-button>
         <md-button ng-click="lc.cancelToast($event)" class="md-raised md-primary" a href="#home">Cancel</a>
         </md-button>
       </form>
