@@ -75,7 +75,12 @@ router.get('/export', function(req,res){
             console.log('query error', err);
           } else {
             // send response data back to client
-            res.send(data);
+
+            // this pushes the header row in, which may not work
+            // data.rows.unshift(data.fields);
+            // res.send(data.rows);
+
+            res.send(data.rows);
           }
         });
       }

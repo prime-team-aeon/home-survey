@@ -22,12 +22,16 @@ myApp.service('CsvService', function($http, $location, $mdToast){
     })
   }
   
-  self.export = function(){
+  self.exportAllResponses = function(){
     $http.get('/csv/export').then(function(response){
-      console.log('exported', response);
+
       // format the data into a csv file
-      
+      var exportCsv = Papa.unparse(response.data);
+      exportCsv = "data:text/csv;charset=utf-8," + exportCsv;
+      exportCsv = encodeURI(exportCsv);      
+
       // tell the browser to download it
+      window.open(exportCsv);
     })
   }
 });
