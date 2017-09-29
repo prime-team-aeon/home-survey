@@ -3,6 +3,7 @@ var router = express.Router();
 var path = require('path');
 var pool = require('../modules/pool.js');
 var encryptLib = require('../modules/encryption');
+var randomstring = require('randomstring');
 
 // Handles request for HTML file
 router.get('/', function (req, res, next) {
@@ -17,13 +18,14 @@ router.post('/', function (req, res, next) {
     res.status(400).send('bad email');
   } else {
 
+    
+
     var saveUser = {
       username: req.body.username,
-      password: encryptLib.encryptPassword(req.body.password)
+      password: encryptLib.encryptPassword(req.body.password),
+      token: randomstring.generate(16)
+      
     };
-
-
-
 
     console.log('new user:', saveUser);
 
