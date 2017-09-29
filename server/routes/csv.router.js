@@ -71,6 +71,7 @@ router.get('/export', function(req,res){
       } else {
         //query
         client.query('SELECT * FROM responses', function(err,data){
+          done();
           if (err){
             console.log('query error', err);
           } else {
