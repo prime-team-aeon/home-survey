@@ -24,11 +24,21 @@ myApp.config(function($routeProvider, $locationProvider, $mdThemingProvider) {
     })
     .when('/survey-intro', {
       templateUrl: '/views/templates/survey-intro.html',
-      controller: 'SurveyController as sc'
+      controller: 'SurveyController as sc',
+      resolve: {
+        getUser: function (UserService) {
+          return UserService.getUser();
+        }
+      }
     })
     .when('/survey-demographics', {
       templateUrl: '/views/templates/survey-demographics.html',
-      controller: 'SurveyController as sc'
+      controller: 'SurveyController as sc',
+      resolve: {
+        getUser: function (UserService) {
+          return UserService.getUser();
+        }
+      }
     })
     .when('/survey-q1', {
       templateUrl: '/views/templates/survey-q1.html',
