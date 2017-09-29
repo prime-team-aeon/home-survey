@@ -5,6 +5,11 @@ var pool = require('../modules/pool.js');
 var encryptLib = require('../modules/encryption');
 var randomstring = require('randomstring');
 
+router.get('/verify/:token', function(req,res){
+  console.log('verify token hit', req.params.token);
+  res.sendStatus(200);
+}); //end verify get route
+
 // Handles request for HTML file
 router.get('/', function (req, res, next) {
   // console.log('get /register route');

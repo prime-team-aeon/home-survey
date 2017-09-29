@@ -9,6 +9,10 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
       templateUrl: '/views/templates/home.html',
       controller: 'LoginController as lc',
     })
+    .when('/verify/:token', {
+      templateUrl: '/views/templates/verify.html',
+      controller: 'VerifyController as vc'
+    })
     .when('/register', {
       templateUrl: '/views/templates/register.html',
       controller: 'LoginController as lc'
