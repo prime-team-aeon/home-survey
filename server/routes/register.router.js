@@ -6,7 +6,7 @@ var encryptLib = require('../modules/encryption');
 var randomstring = require('randomstring');
 var nodemailer = require('nodemailer');
 
-router.get('/verify/:token', function(req,res){
+router.get('/verify/:token', function (req, res) {
   console.log('verify token hit', req.params.token);
   res.sendStatus(200);
 }); //end verify get route
@@ -20,7 +20,8 @@ router.get('/', function (req, res, next) {
 // Handles POST request with new user data
 router.post('/', function (req, res, next) {
 
-  if (req.body.username.indexOf('aeonmn.org') === -1) {
+  // if (req.body.username.indexOf('aeonmn.org') === -1) {
+  if (false) { // DEBUG
     res.status(400).send('bad email');
   } else {
 
@@ -50,22 +51,23 @@ router.post('/', function (req, res, next) {
             var transporter = nodemailer.createTransport({
               service: 'Gmail',
               auth: {
-                user:'aeonhomesurvey@gmail.com',
-                pass:'sadhorsenocookie'
+                user: 'aeonhomesurvey@gmail.com',
+                pass: 'sadhorsenocookie'
               }
             })
-            var emailtext = "Hello Adam!";
+            var emailtext = "Thank you for registering. Please click this link to confirm your email address. An Aeon administrator will approve your access levels.";
+            emailtext += "\n\nhttp://aeonhomesurvey.com/#/register/verify/" + saveUser.token;
             var mailOptions = {
               from: 'aeonhomesurvey@gmail.com',
-              to: 'abiessener@gmail.com',
-              subject: 'Aeon Register Confirmation',
-              text: emailtext 
+              to: saveUser.username,
+              subject: 'Aeon Home Survey Registration Confirmation',
+              text: emailtext
             }
-            transporter.sendMail(mailOptions, function(mailerr, info){
-              if(mailerr){
+            transporter.sendMail(mailOptions, function (mailerr, info) {
+              if (mailerr) {
                 console.log('mailerr', mailerr);
                 res.send(500);
-              }else{
+              } else {
                 console.log('email sent: ' + info.response);
                 res.sendStatus(201);
               }
