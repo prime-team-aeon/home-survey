@@ -13,7 +13,10 @@ CREATE TABLE users
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role VARCHAR(80)
+    role VARCHAR(80),
+    token VARCHAR(16),
+    active BOOLEAN DEFAULT FALSE,
+    timestamp VARCHAR(64)
 );
 CREATE TABLE occupancy
 (
