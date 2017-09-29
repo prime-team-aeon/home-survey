@@ -1,6 +1,11 @@
-myApp.controller('SurveyController', ['SurveyService', function(SurveyService) {
+
+myApp.controller('SurveyController', ['SurveyService', '$location', function (SurveyService,$location) {
   console.log('SurveyController created');
   var self = this;
-  self.surveyObject=SurveyService.surveyObject
-  // self.surveyObjectTwo = SurveyService.surveyObjectTwo
+  self.surveyObject=SurveyService.surveyObject;
+  self.go = function (hash) {
+    $location.path(hash);
+  }
 }]);
+
+

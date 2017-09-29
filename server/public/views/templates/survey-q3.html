@@ -1,41 +1,25 @@
-<h1>Aeon</h1>
-<ul>
-    <li><a href="#/user">User Home</a></li>
-    <li><a href="#/info">Info Page</a></li>
-</ul>
+<div ng-include="'views/partials/nav.html'"></div>
+
 <div id="progressBar">This will be a progress bar</div>
+
     <p ng-repeat="question in sc.surveyObject.three">{{question.question_number}}. {{question.english}}<br><input class="radio" type="radio" name="number" value="1"> 1<br>
         <input class="radio" type="radio" name="number" value="2"> 2<br>
         <input class="radio" type="radio" name="number" value="3"> 3<br>
         <input class="radio" type="radio" name="number" value="4"> 4</p>
-<!-- <h2>14. I have decorated or personalized my apartment unit.<br>
-    <input class="radio" type="radio" name="number" value="1"> 1<br>
-    <input class="radio" type="radio" name="number" value="2"> 2<br>
-    <input class="radio" type="radio" name="number" value="3"> 3<br>
-    <input class="radio" type="radio" name="number" value="4"> 4<br>
-    <input class="radio" type="radio" name="number" value="5"> 5<br></h2>
-<h2>15. I feel proud of my apartment unit.<br>
-    <input class="radio" type="radio" name="number" value="1"> 1<br>
-    <input class="radio" type="radio" name="number" value="2"> 2<br>
-    <input class="radio" type="radio" name="number" value="3"> 3<br>
-    <input class="radio" type="radio" name="number" value="4"> 4<br>
-    <input class="radio" type="radio" name="number" value="5"> 5<br></h2>
-<h2>16. The overall condition of my apartment unit is excellent.<br>
-    <input class="radio" type="radio" name="number" value="1"> 1<br>
-    <input class="radio" type="radio" name="number" value="2"> 2<br>
-    <input class="radio" type="radio" name="number" value="3"> 3<br>
-    <input class="radio" type="radio" name="number" value="4"> 4<br>
-    <input class="radio" type="radio" name="number" value="5"> 5<br></h2>
-<h2>17. Overall professionalism of staff and quality of customer service is excellent.<br>
-    <input class="radio" type="radio" name="number" value="1"> 1<br>
-    <input class="radio" type="radio" name="number" value="2"> 2<br>
-    <input class="radio" type="radio" name="number" value="3"> 3<br>
-    <input class="radio" type="radio" name="number" value="4"> 4<br>
-    <input class="radio" type="radio" name="number" value="5"> 5<br></h2>
-<h2>18. The overall condition of my apartment building is excellent.<br>
-    <input class="radio" type="radio" name="number" value="1"> 1<br>
-    <input class="radio" type="radio" name="number" value="2"> 2<br>
-    <input class="radio" type="radio" name="number" value="3"> 3<br>
-    <input class="radio" type="radio" name="number" value="4"> 4<br>
-    <input class="radio" type="radio" name="number" value="5"> 5<br></h2> -->
-    <button>Previous</button><button>CANCEL</button><button>Next</button>
+
+
+<md-button class="md-raised md-primary" id="instructionsButton">HELP</md-button>
+
+
+<div layout="row" layout-align="space-around">
+    <div>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-language")'>CANCEL</md-button>
+    </div>
+
+    <div>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q2")'>PREV</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q4")'>NEXT</md-button>
+    </div>
+
+</div>
+

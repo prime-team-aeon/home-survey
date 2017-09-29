@@ -22,6 +22,10 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
         }
       }
     })
+    .when('/survey-language', {
+      templateUrl: '/views/templates/survey-language.html',
+      controller: 'SurveyController as sc'
+    })
     .when('/survey-intro', {
       templateUrl: '/views/templates/survey-intro.html',
       controller: 'SurveyController as sc',
@@ -40,46 +44,50 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
         }
       }
     })
-    .when('/survey-q1', {
-      templateUrl: '/views/templates/survey-q1.html',
-      controller: 'SurveyController as sc'
-    })
-    .when('/survey-q2', {
-      templateUrl: '/views/templates/survey-q2.html',
-      controller: 'SurveyController as sc'
-    })
-    .when('/survey-q3', {
-      templateUrl: '/views/templates/survey-q3.html',
-      controller: 'SurveyController as sc'
-    })
-    .when('/survey-q4', {
-      templateUrl: '/views/templates/survey-q4.html',
-      controller: 'SurveyController as sc'
-    })
+
     .when('/survey-review', {
       templateUrl: '/views/templates/survey-review.html',
+    })
+    .when('/survey-language', {
+      templateUrl: '/views/templates/survey-language.html',
       controller: 'SurveyController as sc'
     })
-    .when('/survey-thanks', {
-      templateUrl: '/views/templates/survey-thanks.html',
-      controller: 'SurveyController as sc'
-    })
-    .when('/admin', {
-      templateUrl: '/views/templates/admin.html',
-      controller: 'AdminController as ac',
-      resolve: {
-        getUser: function (UserService) {
-          return UserService.getUser();
+      .when('/survey-q1', {
+        templateUrl: '/views/templates/survey-q1.html',
+        controller: 'SurveyController as sc'
+      })
+      .when('/survey-q2', {
+        templateUrl: '/views/templates/survey-q2.html',
+        controller: 'SurveyController as sc'
+      })
+      .when('/survey-q3', {
+        templateUrl: '/views/templates/survey-q3.html',
+        controller: 'SurveyController as sc'
+      })
+      .when('/survey-q4', {
+        templateUrl: '/views/templates/survey-q4.html',
+        controller: 'SurveyController as sc'
+      })
+      .when('/survey-thanks', {
+        templateUrl: '/views/templates/survey-thanks.html',
+        controller: 'SurveyController as sc'
+      })
+      .when('/admin', {
+        templateUrl: '/views/templates/admin.html',
+        controller: 'AdminController as ac',
+        resolve: {
+          getUser: function (UserService) {
+            return UserService.getUser();
+          }
         }
-      }
-    })
-    .otherwise({
-      redirectTo: 'home'
-    });
+      })
+      .otherwise({
+        redirectTo: 'home'
+      });
 
   $mdThemingProvider.theme('default')
     .primaryPalette('green')
     .accentPalette('light-green')
 
-  
+
 });
