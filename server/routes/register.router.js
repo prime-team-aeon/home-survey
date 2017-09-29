@@ -32,7 +32,7 @@ router.post('/', function (req, res, next) {
         console.log("Error connecting: ", err);
         res.sendStatus(500);
       }
-      client.query("INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id", [saveUser.username, saveUser.password],
+      client.query("INSERT INTO users (username, password, timestamp, token) VALUES ($1, $2, $3, $4) RETURNING id", [saveUser.username, saveUser.password, saveUser.timestamp, saveUser.token],
         function (err, result) {
           client.end();
 
