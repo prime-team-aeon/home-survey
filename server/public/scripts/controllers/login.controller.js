@@ -40,7 +40,7 @@ myApp.controller('LoginController', function ($http, $location, UserService, $md
           $location.path('/home');
           $mdToast.show(
             $mdToast.simple()
-              .textContent("Registration Successful! Enter username and password to login.")
+              .textContent("Registration Successful! Please check your email to verify.")
               .position('top right')
           );//end of $mdToast
         }).catch(function(response) {
