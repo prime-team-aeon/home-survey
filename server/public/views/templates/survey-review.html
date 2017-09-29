@@ -1,7 +1,18 @@
 <div ng-include="'views/partials/nav.html'"></div>
 
 <div id="progressBar">This will be a progress bar</div>
+<md-button class="md-raised md-primary" id="instructionsButton">HELP</md-button>
 
 
 
-<button>Previous</button><button>CANCEL</button><button>SUBMIT</button>
+<div layout="row" layout-align="space-around">
+    <div>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-language")'>CANCEL</md-button>
+    </div>
+
+    <div>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-demographics")'>PREV</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-thanks")'>SUBMIT</md-button>
+    </div>
+
+</div>
