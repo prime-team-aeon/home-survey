@@ -13,7 +13,10 @@ CREATE TABLE users
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role VARCHAR(80)
+    role VARCHAR(80),
+    token VARCHAR(16),
+    active BOOLEAN DEFAULT FALSE,
+    timestamp VARCHAR(64)
 );
 CREATE TABLE occupancy
 (
@@ -28,7 +31,7 @@ CREATE TABLE occupancy
 CREATE TABLE responses
 (
     id SERIAL PRIMARY KEY,
-    date DATE NOT NULL,
+    date TEXT NOT NULL,
     answer TEXT NOT NULL,
     property VARCHAR(255) NOT NULL,
     question_id INT REFERENCES questions
