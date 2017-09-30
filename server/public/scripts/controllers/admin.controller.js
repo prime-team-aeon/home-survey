@@ -1,4 +1,4 @@
-myApp.controller('AdminController', function(CsvService, $scope) {
+myApp.controller('AdminController', ['CsvService', 'UserRolesService', function(CsvService, UserRolesService, $scope) {
   console.log('AdminController created');
   var self = this;
 
@@ -45,4 +45,9 @@ myApp.controller('AdminController', function(CsvService, $scope) {
   self.exportAllResponses = function(){
     CsvService.exportAllResponses();
   }
-});
+
+  // Gets user information and assigns it to self.users
+  self.UserRolesService = UserRolesService;
+  UserRolesService.getUserRoles();
+  self.users = UserRolesService.users;
+}]);

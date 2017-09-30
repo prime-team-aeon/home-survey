@@ -27,7 +27,8 @@ router.post('/', function (req, res, next) {
     client.query("INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id",
       [saveUser.username, saveUser.password],
       function (err, result) {
-        client.end();
+        done();
+        client.end(); // Added done above. Wondering what client.end() does?
         if (err) {
           console.log("Error inserting data: ", err);
           res.sendStatus(500);
