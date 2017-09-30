@@ -57,9 +57,9 @@ router.put('/active', function (req, res) {
         });
     }
 });
+
 // Update user role
 router.put('/role', function (req, res) {
-    console.log('active req.body', req.body);
     
     if (req.isAuthenticated()) {
         pool.connect(function (errDatabase, client, done) {

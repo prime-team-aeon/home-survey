@@ -5,7 +5,8 @@ myApp.service('UserRolesService', ['$http', function ($http) {
 
     self.users = {}
 
-    self.getUsersStatus = function () {
+    // get users username, active, and role status
+    self.getUsers = function () {
         $http({
             method: 'GET',
             url: '/user-roles',
@@ -23,14 +24,12 @@ myApp.service('UserRolesService', ['$http', function ($http) {
             data: user
         }).then(function(response){
             console.log('toggleActive PUT response');
-            self.getUsersStatus();
+            self.getUsers();
         })
     };
 
     // Update the users role PUT request
     self.updateUserRole = function(user, newRole) {
-        console.log('UserServiceRoles updateUserRole user', user);
-        console.log('UserServiceRoles updateUserRole newRole', newRole);
         
         $http({
             method: 'PUT',
@@ -41,7 +40,7 @@ myApp.service('UserRolesService', ['$http', function ($http) {
             }
         }).then(function(response){
             console.log('updateUserRole PUT response');
-            self.getUsersStatus();
+            self.getUsers();
         })
     };
 
