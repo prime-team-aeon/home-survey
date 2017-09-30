@@ -32,8 +32,6 @@ router.get('/', function (req, res) {
 
 // Update user active status
 router.put('/active', function (req, res) {
-    console.log('active req.body', req.body);
-    console.log('active req.user', req.user);
     
     if (req.isAuthenticated()) {
         pool.connect(function (errDatabase, client, done) {
@@ -45,6 +43,34 @@ router.put('/active', function (req, res) {
                     [
                         req.body.active,
                         req.body.username
+                    ],
+                    function (errQuery, data) {
+                        done();
+                        if (errQuery) {
+                            console.log('Error making database query', errQuery);
+                            res.sendStatus(500);
+                        } else {
+                            res.sendStatus(201);
+                        }
+                    });
+            }
+        });
+    }
+});
+// Update user role
+router.put('/role', function (req, res) {
+    console.log('active req.body', req.body);
+    
+    if (req.isAuthenticated()) {
+        pool.connect(function (errDatabase, client, done) {
+            if (errDatabase) {
+                console.log('Error connecting to database', errDatabase);
+                res.sendStatus(500);
+            } else {
+                client.query('UPDATE users SET role=$1 WHERE username=$2;',
+                    [
+                        req.body.role,
+                        req.body.user.username
                     ],
                     function (errQuery, data) {
                         done();

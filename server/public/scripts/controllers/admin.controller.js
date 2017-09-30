@@ -48,7 +48,6 @@ myApp.controller('AdminController', ['CsvService', 'UserRolesService', function(
 
   // Gets user information and assign to self.users
   self.UserRolesService = UserRolesService;
-  UserRolesService.getUserRoles();
+  UserRolesService.getUsersStatus();
   self.users = UserRolesService.users;
-
 }]);
