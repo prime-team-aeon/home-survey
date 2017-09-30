@@ -20,10 +20,28 @@
   <md-button class="md-raised md-accent" ng-click="ac.exportAllResponses()">Export Data</md-button>
 </section>
 
-<md-list>
-  <md-divider></md-divider>
-  <md-subheader class="md-no-sticky">Users</md-subheader>
-  <md-list-item ng-repeat="user in ac.UserRolesService.users" class="noright">
-    <p>{{ user.username }}</p>
-  </md-list-item>
-</md-list>
+<!-- Users Role and Active Status -->
+<section id="users-status-container">
+  <h1>Users</h1>    
+        <md-card ng-repeat="user in ac.UserRolesService.users">
+          <md-card-content>
+            <p>{{ user.username }}</p>
+            <p>User Status: <span ng-if="user.active">Active User</span><span ng-if="!user.active">Inactive User</span></p>
+            <p>User Role: 
+              <span ng-if="user.role == 'site_manager'">Active User</span>
+              <span ng-if="user.role == 'admin'">Inactive User</span>
+              <span ng-if="user.role !== 'admin' && user.role !== 'site_manager'">Not Assigned</span></p>
+            <md-input-container class="md-block">
+               <md-switch md-invert ng-change="ac.UserRolesService.toggleActiveStatus(user)" ng-model="user.active">Toggle Active Status</md-switch>
+            </md-input-container>
+            <md-input-container class="md-block">
+              <label>Update User Role</label>
+              <md-select ng-model="ac.userRole.role">
+                <md-option value="not_assigned">Not Assigned</md-option>
+                <md-option value="site_manager">Site Manager</md-option>
+                <md-option value="admin">Admin</md-option>
+              </md-select>
+            </md-input-container>
+          </md-card-content>
+        </md-card>
+</section>

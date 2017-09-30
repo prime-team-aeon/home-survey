@@ -46,8 +46,9 @@ myApp.controller('AdminController', ['CsvService', 'UserRolesService', function(
     CsvService.exportAllResponses();
   }
 
-  // Gets user information and assigns it to self.users
+  // Gets user information and assign to self.users
   self.UserRolesService = UserRolesService;
   UserRolesService.getUserRoles();
   self.users = UserRolesService.users;
+
 }]);

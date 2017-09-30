@@ -15,4 +15,17 @@ myApp.service('UserRolesService', ['$http', function ($http) {
         });
     };
 
+    self.toggleActiveStatus = function(user) {
+        console.log('UserServiceRoles toggleActiveStatus user', user);
+        
+        $http({
+            method: 'PUT',
+            url: '/user-roles/active',
+            data: user
+        }).then(function(response){
+            console.log('toggleActiveStatus PUT response');
+            self.getUserRoles();
+        })
+    };
+
 }]);
