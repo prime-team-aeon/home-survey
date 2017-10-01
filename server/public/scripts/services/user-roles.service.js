@@ -11,7 +11,6 @@ myApp.service('UserRolesService', ['$http', function ($http) {
             method: 'GET',
             url: '/user-roles',
         }).then(function (response) {
-            console.log('user roles', response.data);
             self.users = response.data;
         });
     };
@@ -23,7 +22,6 @@ myApp.service('UserRolesService', ['$http', function ($http) {
             url: '/user-roles/active',
             data: user
         }).then(function(response){
-            console.log('toggleActive PUT response');
             self.getUsers();
         })
     };
@@ -39,7 +37,6 @@ myApp.service('UserRolesService', ['$http', function ($http) {
                 role: newRole
             }
         }).then(function(response){
-            console.log('updateUserRole PUT response');
             self.getUsers();
         })
     };
