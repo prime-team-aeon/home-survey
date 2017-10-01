@@ -1,5 +1,5 @@
 myApp.service('UserRolesService', ['$http', function ($http) {
-    console.log('UserRoleService loaded');
+    // console.log('UserRoleService loaded');
 
     var self = this;
 
@@ -11,7 +11,6 @@ myApp.service('UserRolesService', ['$http', function ($http) {
             method: 'GET',
             url: '/user-roles',
         }).then(function (response) {
-            console.log('user roles', response.data);
             self.users = response.data;
         });
     };
@@ -51,10 +50,9 @@ myApp.service('UserRolesService', ['$http', function ($http) {
         let thisYear = new Date();
         thisYear = thisYear.getFullYear();
         $http.get('/user-roles/properties/' + thisYear).then(function(response){
-            console.log('getProperties response', response);
+            // console.log('getProperties response', response);
             for (var i = 0; i < response.data.length; i++) {
                 self.propertyList.list.push(response.data[i].property);
-                console.log('self.propertylist.list', self.propertyList.list);
             }
         });
     }

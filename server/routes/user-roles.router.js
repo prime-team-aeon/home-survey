@@ -5,33 +5,27 @@ var path = require('path');
 var pool = require('../modules/pool.js');
 
 router.get('/properties/:year', function (req, res) {
-    console.log('/properties/' + req.params.year);
+    // console.log('/properties/' + req.params.year);
 
     if (req.isAuthenticated()) {
-        console.log('isAuth');
 
         pool.connect(function (err, client, done) {
-            console.log('poo.connect');
 
             if (err) {
                 console.log('error connecting to db', err);
                 res.sendStatus(500);
             } else {
-                console.log('query');
-                let queryString =
-                    //query
-                    client.query('SELECT DISTINCT property FROM occupancy WHERE year=' + req.params.year + ' ORDER BY property;',
-                        function (err, data) {
-                            done();
-                            if (err) {
-                                console.log('query error', err);
-                                res.sendStatus(500);
-                            } else {
-                                console.log('query response', data);
-
-                                res.send(data.rows);
-                            }
-                        });
+                //query
+                client.query('SELECT DISTINCT property FROM occupancy WHERE year=' + req.params.year + ' ORDER BY property;',
+                    function (err, data) {
+                        done();
+                        if (err) {
+                            console.log('query error', err);
+                            res.sendStatus(500);
+                        } else {
+                            res.send(data.rows);
+                        }
+                    });
             }
         })
     } else {
@@ -48,12 +42,56 @@ router.get('/', function (req, res) {
                 res.sendStatus(500);
             } else {
                 //query
-                client.query('SELECT username, active, role FROM users ORDER BY username', function (err, data) {
+                client.query('SELECT id, username, active, role FROM users ORDER BY username', function (err, data) {
                     done();
                     if (err) {
                         console.log('query error', err);
                     } else {
-                        res.send(data.rows);
+                        // now we need to get the users' authorized properties
+                        var userData = data.rows;
+                        client.query('SELECT * FROM occupancy_users', function (err, data) {
+                            done();
+                            if (err) {
+                                console.log('query error', err);
+                                res.sendStatus(500);
+                            } else {
+                                // data is the occupancy_users junction table
+                                // loop through that whole table, pushing authorized properties into user objects
+
+                                for (var i = 0; i < data.rows.length; i++) {
+
+                                    var authorization = data.rows[i];
+
+                                    // loop through user data, assign the property as a string when user_id is found
+                                    for (var j = 0; j < userData.length; j++) {
+
+                                        if (authorization.user_id == userData[j].id) {
+
+                                            if (userData[j].properties == undefined) {
+                                                userData[j].properties = [];
+                                            }
+
+                                            userData[j].properties.push(authorization.occupancy_property);
+                                            continue;
+                                        }
+
+                                    }
+
+                                    // var userDataIndex = userData.indexOf(authorization.user_id);
+                                    // console.log('userDataIndex', userDataIndex);
+
+                                    // if(userDataIndex != -1){
+                                    //     if (userData[userDataIndex].properties == undefined){
+                                    //         userData[userDataIndex].properties = [];                                            
+                                    //     } else {
+                                    //         userData[userDataIndex].properties.push(authorization.occupancy_property);
+                                    //     }
+                                    //     console.log('[userDataIndex].properties',                                             userData[userDataIndex].properties);
+
+                                } // loop done, userData should now have all authorized property data
+                                res.send(userData);
+                            }
+                        })
                     }
                 });
             }
