@@ -25,6 +25,11 @@ myApp.controller('LoginController', function ($http, $location, UserService, $md
         }).catch(function(response){
           console.log('LoginController -- registerUser -- failure: ', response);
           vm.message = "Wrong!!";
+          $mdToast.show(
+            $mdToast.simple()
+              .textContent("Unauthorized - You must be confirmed by an administrator to log in.")
+              .position('top right')
+          );//end of $mdToast
         });
       }
     };

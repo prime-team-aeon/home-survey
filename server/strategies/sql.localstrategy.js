@@ -74,7 +74,14 @@ passport.use('local', new localStrategy({
           if (encryptLib.comparePassword(password, user.password)) {
             // all good!
             // console.log('passwords match');
-            done(null, user);
+            if (user.active){
+              console.log('user is active', user);
+              done(null, user);
+            } else {
+              console.log('user is inactive', user);
+              
+              done(null, false, { message: 'You must be confirmed by an administrator before logging in.' });
+            }
           } else {
             console.log('password does not match');
             done(null, false, { message: 'Incorrect credentials.' });
