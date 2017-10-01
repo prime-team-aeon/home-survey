@@ -13,9 +13,34 @@
     </md-select>
   </md-input-container>
 
-    <md-button ng-show="ac.validInput" class="md-raised md-primary" ng-click="ac.startUpload()">Upload</md-button>
+  <md-button ng-show="ac.validInput" class="md-raised md-primary" ng-click="ac.startUpload()">Upload</md-button>
 </section>
 
 <section id="admin-export-container">
   <md-button class="md-raised md-accent" ng-click="ac.exportAllResponses()">Export Data</md-button>
+</section>
+
+<!-- Users Role and Active Status -->
+<section id="users-status-container">
+  <h1>Users</h1>
+  <md-card ng-repeat="user in ac.UserRolesService.users">
+    <md-card-content>
+      <h3>{{ user.username }} (<span ng-if="user.active">Active</span><span ng-if="!user.active">Inactive</span>)</h3>
+      <p>Role: {{user.role}}</p>
+      <md-input-container>
+        <label>Update User Role</label>
+        <md-select ng-model="ac.user.newRole">
+          <md-option value="Not Assigned">Not Assigned</md-option>
+          <md-option value="Administrator">Administrator</md-option>
+          <md-option value="Site Manager">Site Manager</md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container>
+        <md-button class="md-raised md-accent" ng-click="ac.UserRolesService.updateUserRole(user, ac.user.newRole)">Update Role</md-button>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <md-switch md-invert ng-change="ac.UserRolesService.toggleActive(user)" ng-model="user.active">Toggle Account Status</md-switch>
+      </md-input-container>
+    </md-card-content>
+  </md-card>
 </section>
