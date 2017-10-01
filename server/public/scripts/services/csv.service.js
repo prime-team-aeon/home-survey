@@ -22,16 +22,23 @@ myApp.service('CsvService', function($http, $location, $mdToast){
     })
   }
   
-  self.exportAllResponses = function(){
-    $http.get('/csv/export').then(function(response){
+  self.exportAllResponses = function(year){
+    $http.get('/csv/export/' + year).then(function(response){
 
+      // reformat data into client's preferred structure
+      // each row is a single survey, columns are answers
+
+      console.log('response.data', response.data);
+      
       // format the data into a csv file
       var exportCsv = Papa.unparse(response.data);
       exportCsv = "data:text/csv;charset=utf-8," + exportCsv;
       exportCsv = encodeURI(exportCsv);      
 
       // tell the browser to download it
-      window.open(exportCsv);
+      
+      // DEBUG -- UNCOMMENT NEXT LINE
+      // window.open(exportCsv);
     })
   }
 });

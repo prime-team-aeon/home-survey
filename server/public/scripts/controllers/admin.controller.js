@@ -43,6 +43,6 @@ myApp.controller('AdminController', function(CsvService, $scope) {
   document.getElementById('admin-file-input').addEventListener('change', self.handleFileSelect, false);
 
   self.exportAllResponses = function(){
-    CsvService.exportAllResponses();
+    CsvService.exportAllResponses(self.yearToAdd);
   }
 });
