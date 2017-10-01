@@ -28,10 +28,10 @@ CREATE TABLE occupancy
     occupied VARCHAR(80),
     year INT NOT NULL
 );
-CREATE TABLE responses
+CREATE TABLE responses2017
 (
     id SERIAL PRIMARY KEY,
-    date TEXT NOT NULL,
+    survey INT NOT NULL,
     answer TEXT NOT NULL,
     property VARCHAR(255) NOT NULL,
     question_id INT REFERENCES questions
