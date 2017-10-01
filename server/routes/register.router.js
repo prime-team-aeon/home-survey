@@ -41,7 +41,6 @@ router.get('/verify/:token', function (req, res) {
                     console.log('query error', err);
                     res.sendStatus(500);
                   }else{
-                    console.log('happy path');
                     res.sendStatus(200)
                   }
                 });
@@ -86,7 +85,7 @@ router.post('/', function (req, res, next) {
       timestamp: new Date()
     };
 
-    console.log('new user:', saveUser);
+    // console.log('new user:', saveUser);
 
     pool.connect(function (err, client, done) {
       if (err) {
@@ -122,7 +121,7 @@ router.post('/', function (req, res, next) {
                 console.log('mailerr', mailerr);
                 res.send(500);
               } else {
-                console.log('email sent: ' + info.response);
+                // console.log('email sent: ' + info.response);
                 res.sendStatus(201);
               }
             })
