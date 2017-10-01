@@ -38,9 +38,9 @@ CREATE TABLE responses
 );
 CREATE TABLE occupancy_users
 (
-    occupancy_id INT REFERENCES occupancy,
+    occupancy_property VARCHAR(255) NOT NULL,
     user_id INT REFERENCES users,
-    PRIMARY KEY(occupancy_id, user_id)
+    PRIMARY KEY(occupancy_property, user_id)
 );
 INSERT INTO questions
     (question_number,
