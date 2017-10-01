@@ -44,4 +44,21 @@ myApp.service('UserRolesService', ['$http', function ($http) {
         })
     };
 
+    // get list of properties from db
+    self.propertyList = { list: [] };
+    
+    self.getProperties = function(){
+        let thisYear = new Date();
+        thisYear = thisYear.getFullYear();
+        $http.get('/user-roles/properties/' + thisYear).then(function(response){
+            console.log('getProperties response', response);
+            for (var i = 0; i < response.data.length; i++) {
+                self.propertyList.list.push(response.data[i].property);
+                console.log('self.propertylist.list', self.propertyList.list);
+            }
+        });
+    }
+
+    self.getProperties();
+
 }]);

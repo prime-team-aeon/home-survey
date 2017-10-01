@@ -38,6 +38,12 @@
       <md-input-container>
         <md-button class="md-raised md-accent" ng-click="ac.UserRolesService.updateUserRole(user)">Update Role</md-button>
       </md-input-container>
+      <md-input-container>
+        <label>Manage Property Access</label>
+        <md-select ng-model="user.propertyToEdit">
+          <md-option ng-repeat="property in ac.propertyList.list" ng-value="property">{{property}}</md-option>
+        </md-select>
+      </md-input-container>
       <md-input-container class="md-block">
         <md-switch md-invert ng-change="ac.UserRolesService.toggleActive(user)" ng-model="user.active">Toggle Account Status</md-switch>
       </md-input-container>
