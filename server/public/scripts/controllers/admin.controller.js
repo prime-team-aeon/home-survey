@@ -43,7 +43,7 @@ myApp.controller('AdminController', ['CsvService', 'UserRolesService', function(
   document.getElementById('admin-file-input').addEventListener('change', self.handleFileSelect, false);
 
   self.exportAllResponses = function(){
-    CsvService.exportAllResponses();
+    CsvService.exportAllResponses(self.yearToAdd);
   }
 
   // Gets user information and assign to self.users

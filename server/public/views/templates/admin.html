@@ -17,6 +17,11 @@
 </section>
 
 <section id="admin-export-container">
+  <md-input-container>
+    <md-select ng-model="ac.yearToAdd">
+      <md-option ng-value="year" ng-repeat="year in ac.yearsArray">{{year}}</md-option>
+    </md-select>
+  </md-input-container>
   <md-button class="md-raised md-accent" ng-click="ac.exportAllResponses()">Export Data</md-button>
 </section>
 

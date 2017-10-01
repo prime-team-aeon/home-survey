@@ -60,28 +60,44 @@ router.post('/upload', function (req, res) {
   }
 }); // end POST route
 
-router.get('/export', function(req,res){
-  console.log('/csv/export');
-  if(req.isAuthenticated()){
+router.get('/export/:year', function (req, res) {
+  var tableName = 'responses' + req.params.year;
+  
+  if (req.isAuthenticated()) {
     // query db, get all responses
-    pool.connect(function(err,client,done){
-      if(err){
+    pool.connect(function (err, client, done) {
+      if (err) {
         console.log('error connecting to db', err);
         res.sendStatus(500);
       } else {
-        //query
-        client.query('SELECT * FROM responses', function(err,data){
+        // get table names
+        client.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';", function (err, data) {
           done();
-          if (err){
+          if (err) {
             console.log('query error', err);
           } else {
-            // send response data back to client
+            // check that this table exists
+            var foundTable = data.rows.find(function (table) {              
+              return table.table_name == tableName;
+            });
 
-            // this pushes the header row in, which may not work
-            // data.rows.unshift(data.fields);
-            // res.send(data.rows);
+            // for some reason doing the usual $1 and passing [tablename] gave query errors. magnets, how do they work?
+            var queryString = 'SELECT * FROM ' + tableName + ';';            
 
-            res.send(data.rows);
+            if (foundTable != undefined) {
+              // run the actual query
+              client.query(queryString, function (err, data) {
+                done();
+                if (err) {
+                  console.log('query error', err);
+                } else {
+                  // send response data back to client
+                  res.send(data.rows);
+                }
+              });
+            } else {
+              res.status(400).send('no data for year ' + req.params.year);
+            }
           }
         });
       }
@@ -91,7 +107,7 @@ router.get('/export', function(req,res){
     // not authenticated
     res.sendStatus(403);
   }
-  
+
 }); // end GET route
 
 module.exports = router;
