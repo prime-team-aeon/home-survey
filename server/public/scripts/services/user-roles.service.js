@@ -29,14 +29,14 @@ myApp.service('UserRolesService', ['$http', function ($http) {
     };
 
     // Update the users role PUT request
-    self.updateUserRole = function(user, newRole) {
+    self.updateUserRole = function(user) {
         
         $http({
             method: 'PUT',
             url: '/user-roles/role',
             data: {
                 user: user,
-                role: newRole
+                role: user.newRole
             }
         }).then(function(response){
             console.log('updateUserRole PUT response');
