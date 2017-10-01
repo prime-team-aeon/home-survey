@@ -39,6 +39,12 @@
         <md-button class="md-raised md-accent" ng-click="ac.UserRolesService.updateUserRole(user)">Update Role</md-button>
       </md-input-container>
       <md-input-container ng-if="user.role == 'Site Manager'">
+        <div ng-repeat="property in user.properties">
+          <span>{{property}}</span>
+          <md-button ng-click="ac.deauthorizeProperty(user, property)">Deauthorize</md-button>
+        </div>
+      </md-input-container>
+      <md-input-container ng-if="user.role == 'Site Manager'">
         <label>Authorize Property</label>
         <md-select ng-model="user.propertyToEdit">
           <md-option ng-repeat="property in ac.propertyList.list" ng-value="property">{{property}}</md-option>

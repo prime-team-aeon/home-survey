@@ -52,4 +52,8 @@ myApp.controller('AdminController', ['CsvService', 'UserRolesService', '$scope',
   self.UserRolesService = UserRolesService;
   UserRolesService.getUsers();
   self.users = UserRolesService.users;
+
+  self.deauthorizeProperty = function(user, property){
+    UserRolesService.deauthorizeProperty(user.id, property)
+  }
 }]);

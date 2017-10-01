@@ -34,6 +34,31 @@ router.get('/properties/:year', function (req, res) {
     }
 });
 
+router.put('/properties/deauth', function (req, res) {
+    if (req.isAuthenticated()) {
+        pool.connect(function(err,client,done){
+            if(err){
+                console.log('error connecting to db', err);
+                res.sendStatus(500);
+            } else {
+                // query like DELETE FROM occupancy_users WHERE occupancy_property='chicago' AND user_id=2; 
+                client.query('DELETE FROM occupancy_users WHERE occupancy_property=$1 AND user_id=$2;', [req.body.property, req.body.id], function(err,data){
+                    done();
+                    if(err){
+                        console.log('query error', err);
+                        res.sendStatus(500);
+                    } else {
+                        res.sendStatus(200);
+                    }
+                });
+            }
+        });
+    } else {
+        // not authorized
+        res.sendStatus(403);
+    }
+});
+
 router.get('/', function (req, res) {
     if (req.isAuthenticated()) {
         pool.connect(function (err, client, done) {
