@@ -41,7 +41,7 @@
       <md-input-container ng-if="user.role == 'Site Manager'">
         <div ng-repeat="property in user.properties">
           <span>{{property}}</span>
-          <md-button ng-click="ac.deauthorizeProperty(user, property)">Deauthorize</md-button>
+          <md-button ng-click="ac.manageAuth(user, property, 'deauth')">Deauthorize</md-button>
         </div>
       </md-input-container>
       <md-input-container ng-if="user.role == 'Site Manager'">
@@ -49,6 +49,7 @@
         <md-select ng-model="user.propertyToEdit">
           <md-option ng-repeat="property in ac.propertyList.list" ng-value="property">{{property}}</md-option>
         </md-select>
+        <md-button class="md-raised md-accent" ng-click="ac.manageAuth(user, user.propertyToEdit, 'auth')">Add Authorization</md-button>        
       </md-input-container>
       <md-input-container class="md-block">
         <md-switch md-invert ng-change="ac.UserRolesService.toggleActive(user)" ng-model="user.active">Toggle Account Status</md-switch>

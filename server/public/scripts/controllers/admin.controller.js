@@ -53,7 +53,8 @@ myApp.controller('AdminController', ['CsvService', 'UserRolesService', '$scope',
   UserRolesService.getUsers();
   self.users = UserRolesService.users;
 
-  self.deauthorizeProperty = function(user, property){
-    UserRolesService.deauthorizeProperty(user.id, property)
+  self.manageAuth = function(user, property, route){
+    UserRolesService.manageAuth(user.id, property, route);
   }
+
 }]);

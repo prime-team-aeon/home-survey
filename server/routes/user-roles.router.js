@@ -59,6 +59,33 @@ router.put('/properties/deauth', function (req, res) {
     }
 });
 
+router.put('/properties/auth', function (req, res) {
+    console.log('/properties/auth', req.body.property, req.body.id);
+    
+    if (req.isAuthenticated()) {
+        pool.connect(function(err,client,done){
+            if(err){
+                console.log('error connecting to db', err);
+                res.sendStatus(500);
+            } else {
+                // query like INSERT INTO occupancy_users (occupancy_property, user_id) VALUES ('columbus', 2); 
+                client.query('INSERT INTO occupancy_users (occupancy_property, user_id) VALUES ($1, $2);', [req.body.property, req.body.id], function(err,data){
+                    done();
+                    if(err){
+                        console.log('query error', err);
+                        res.sendStatus(500);
+                    } else {
+                        res.sendStatus(201);
+                    }
+                });
+            }
+        });
+    } else {
+        // not authorized
+        res.sendStatus(403);
+    }
+});
+
 router.get('/', function (req, res) {
     if (req.isAuthenticated()) {
         pool.connect(function (err, client, done) {

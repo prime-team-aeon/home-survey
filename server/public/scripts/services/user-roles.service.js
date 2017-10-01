@@ -59,16 +59,15 @@ myApp.service('UserRolesService', ['$http', function ($http) {
 
     self.getProperties();
 
-    self.deauthorizeProperty = function(userId, property){
-        var deauthorizeInfo = {
+    self.manageAuth = function(userId, property, route){
+        var authInfo = {
             id: userId,
             property: property
         }
-        console.log('deauthorizeInfo', deauthorizeInfo);
         
-        $http.put('/user-roles/properties/deauth', deauthorizeInfo).then(function(response){
-            console.log('deauth response', response);
+        $http.put('/user-roles/properties/' + route, authInfo).then(function(response){
             self.getUsers();
         });
     }
+
 }]);
