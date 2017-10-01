@@ -1,5 +1,5 @@
 myApp.service('UserRolesService', ['$http', function ($http) {
-    console.log('UserRoleService loaded');
+    // console.log('UserRoleService loaded');
 
     var self = this;
 
@@ -11,7 +11,6 @@ myApp.service('UserRolesService', ['$http', function ($http) {
             method: 'GET',
             url: '/user-roles',
         }).then(function (response) {
-            console.log('user roles', response.data);
             self.users = response.data;
         });
     };
@@ -29,19 +28,46 @@ myApp.service('UserRolesService', ['$http', function ($http) {
     };
 
     // Update the users role PUT request
-    self.updateUserRole = function(user, newRole) {
+    self.updateUserRole = function(user) {
         
         $http({
             method: 'PUT',
             url: '/user-roles/role',
             data: {
                 user: user,
-                role: newRole
+                role: user.newRole
             }
         }).then(function(response){
             console.log('updateUserRole PUT response');
             self.getUsers();
         })
     };
+
+    // get list of properties from db
+    self.propertyList = { list: [] };
+    
+    self.getProperties = function(){
+        let thisYear = new Date();
+        thisYear = thisYear.getFullYear();
+        $http.get('/user-roles/properties/' + thisYear).then(function(response){
+            // console.log('getProperties response', response);
+            for (var i = 0; i < response.data.length; i++) {
+                self.propertyList.list.push(response.data[i].property);
+            }
+        });
+    }
+
+    self.getProperties();
+
+    self.manageAuth = function(userId, property, route){
+        var authInfo = {
+            id: userId,
+            property: property
+        }
+        
+        $http.put('/user-roles/properties/' + route, authInfo).then(function(response){
+            self.getUsers();
+        });
+    }
 
 }]);
