@@ -29,14 +29,14 @@
       <p>Role: {{user.role}}</p>
       <md-input-container>
         <label>Update User Role</label>
-        <md-select ng-model="ac.user.newRole">
+        <md-select ng-model="user.newRole">
           <md-option value="Not Assigned">Not Assigned</md-option>
           <md-option value="Administrator">Administrator</md-option>
           <md-option value="Site Manager">Site Manager</md-option>
         </md-select>
       </md-input-container>
       <md-input-container>
-        <md-button class="md-raised md-accent" ng-click="ac.UserRolesService.updateUserRole(user, ac.user.newRole)">Update Role</md-button>
+        <md-button class="md-raised md-accent" ng-click="ac.UserRolesService.updateUserRole(user, user.newRole)">Update Role</md-button>
       </md-input-container>
       <md-input-container class="md-block">
         <md-switch md-invert ng-change="ac.UserRolesService.toggleActive(user)" ng-model="user.active">Toggle Account Status</md-switch>
