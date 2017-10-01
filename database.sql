@@ -34,7 +34,7 @@ CREATE TABLE responses2017
     survey INT NOT NULL,
     answer TEXT NOT NULL,
     property VARCHAR(255) NOT NULL,
-    question_id INT REFERENCES questions
+    question_number INT
 );
 CREATE TABLE occupancy_users
 (
