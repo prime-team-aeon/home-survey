@@ -33,9 +33,34 @@ CREATE TABLE responses2017
 (
     id SERIAL PRIMARY KEY,
     survey INT NOT NULL,
-    answer TEXT NOT NULL,
     property VARCHAR(255) NOT NULL,
-    question_number INT
+    answer1 TEXT NOT NULL,
+    answer2 TEXT NOT NULL,
+    answer3 TEXT NOT NULL,
+    answer4 TEXT NOT NULL,
+    answer5 TEXT NOT NULL,
+    answer6 TEXT NOT NULL,
+    answer7 TEXT NOT NULL,
+    answer8 TEXT NOT NULL,
+    answer9 TEXT NOT NULL,
+    answer10 TEXT NOT NULL,
+    answer11 TEXT NOT NULL,
+    answer12 TEXT NOT NULL,
+    answer13 TEXT NOT NULL,
+    answer14 TEXT NOT NULL,
+    answer15 TEXT NOT NULL,
+    answer16 TEXT NOT NULL,
+    answer17 TEXT NOT NULL,
+    answer18 TEXT NOT NULL,
+    answer19 TEXT NOT NULL,
+    answer20 TEXT NOT NULL,
+    answer21 TEXT NOT NULL,
+    answer22 TEXT NOT NULL,
+    answer23 TEXT NOT NULL,
+    answer24 TEXT NOT NULL,
+    answer25 TEXT NOT NULL,
+    answer26 TEXT NOT NULL,
+    answer27 TEXT NOT NULL
 );
 CREATE TABLE occupancy_users
 (
