@@ -6,14 +6,14 @@ BE SURE TO ADD - Link to the live version of the app if it's hosted on Heroku.
 
 ## Built With
 
-Node
-Express
-AngularJS
-AngularJS Material
-PostreSQL
-Heroku
-PapaParse
-Nodemailer
+- Node
+- Express
+- AngularJS
+- AngularJS Material
+- PostreSQL
+- Heroku
+- PapaParse
+- Nodemailer
 
 ## Getting Started
 
@@ -56,7 +56,6 @@ Include one or two screen shots of your project here (optional). Remove if unuse
 ## Documentation
 
 TO BE TESTED  - Link to a read-only version of your scope document or other relevant documentation here (optional). Remove if unused.
-https://docs.google.com/document/d/1RbA1NG00EMVxdA0cuhWev87FDm_RWN1_-wKHfirjC5c/edit?usp=sharing
 
 ### Completed Features
 
