@@ -6,9 +6,7 @@ router.get('/:role?', function (req, res) {
   console.log('get /user route', req.params.role);
   // check if logged in
   if (req.isAuthenticated()) {
-    // if we want 'any' role, we don't actually need to send the role 
-    console.log('auth');
-    
+    // if we want 'any' role, we don't actually need to send the role     
     if ((req.params.role == 'any') || (req.params.role == undefined))  {
       var userInfo = {
         username: req.user.username
