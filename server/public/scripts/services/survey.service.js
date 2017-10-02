@@ -40,13 +40,6 @@ myApp.service('SurveyService', function ($http, $location) {
             console.log('survey get4', response);
             self.surveyObject.four = response.data;
         });
-        // $http({
-        //     method: 'GET',
-        //     url: '/survey/fourInput',
-        // }).then(function (response) {
-        //     console.log('survey get4input', response);
-        //     self.surveyObject.fourInput = response.data;
-        // });
         $http({
             method: 'GET',
             url: '/survey/demographics',

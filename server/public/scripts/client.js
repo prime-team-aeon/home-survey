@@ -132,8 +132,8 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
         getUser: function (UserService) {
           return UserService.getUser('Aeon');
         }
-<<<<<<< HEAD
-      })
+      }
+    })
     .when('/logout', {
       resolve: {
         logout: function (UserService) {
@@ -141,19 +141,12 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
         }
       }
     })
-      .otherwise({
-        redirectTo: 'home'
-      });
-=======
-      }
-    })    
     .otherwise({
       redirectTo: 'home'
     });
->>>>>>> master
 
   $mdThemingProvider.theme('default')
     .primaryPalette('green')
     .accentPalette('light-green')
-    
+
 });

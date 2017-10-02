@@ -6,15 +6,6 @@ myApp.controller('SurveyController', ['SurveyService', '$location', function (Su
   self.go = function (hash) {
     $location.path(hash);
   }
-
-  // self.addResponses = function (response) {
-  //   console.log('controller function ran');
-  //   ResponsesService.addResponses(response);
-
-  // };
-  // self.surveyObject = SurveyService.surveyObject;
-  // self.responsesObject = ResponsesService.responsesObject;
-  // console.log(ResponsesService.responsesObject);
   
 
 }]);
