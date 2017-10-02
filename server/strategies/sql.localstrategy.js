@@ -28,12 +28,16 @@ passport.deserializeUser(function (id, done) {
         release();
       }
 
-      user = result.rows[0];
-      release();
-
+      if (result != undefined) {
+        user = result.rows[0];
+        release();
+      }
+      
       if (!user) {
         // user not found
-        return done(null, false, { message: 'Incorrect credentials.' });
+        return done(null, false, {
+          message: 'Incorrect credentials.'
+        });
       } else {
         // user found
         // console.log('User row ', user);
@@ -74,17 +78,21 @@ passport.use('local', new localStrategy({
           if (encryptLib.comparePassword(password, user.password)) {
             // all good!
             // console.log('passwords match');
-            if (user.active){
+            if (user.active) {
               console.log('user is active', user);
               done(null, user);
             } else {
               console.log('user is inactive', user);
-              
-              done(null, false, { message: 'You must be confirmed by an administrator before logging in.' });
+
+              done(null, false, {
+                message: 'You must be confirmed by an administrator before logging in.'
+              });
             }
           } else {
             console.log('password does not match');
-            done(null, false, { message: 'Incorrect credentials.' });
+            done(null, false, {
+              message: 'Incorrect credentials.'
+            });
           }
         } else {
           console.log('no user');
@@ -93,7 +101,6 @@ passport.use('local', new localStrategy({
 
       });
   });
-}
-));
+}));
 
 module.exports = passport;
