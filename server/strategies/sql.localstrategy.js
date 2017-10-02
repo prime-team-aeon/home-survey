@@ -79,7 +79,7 @@ passport.use('local', new localStrategy({
             // all good!
             // console.log('passwords match');
             if (user.active) {
-              console.log('user is active', user);
+              // console.log('user is active', user);
               done(null, user);
             } else {
               console.log('user is inactive', user);

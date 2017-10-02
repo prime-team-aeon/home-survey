@@ -134,6 +134,13 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
         }
       }
     })
+    .when('/logout', {
+      resolve: {
+        logout: function (UserService) {
+          return UserService.logout();
+        }
+      }
+    })
     .otherwise({
       redirectTo: 'home'
     });
