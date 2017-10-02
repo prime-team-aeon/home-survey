@@ -9,10 +9,15 @@ myApp.service('SiteManagerService', ['$http', function ($http) {
     self.getUserProperties = function () {
         $http({
             method: 'GET',
-            url: '/site-manager',
+            url: '/site-manager/getProperties',
         }).then(function (response) {
             self.properties.list = response.data;
-            console.log('self.properties.list', self.properties.list);
+            self.selectProperties = self.properties.list.map(function (property){
+                return property.property
+            });
+            self.selectProperties = self.selectProperties.filter(function(v,i){
+                return self.selectProperties.indexOf(v) == i;
+            });
         });
     };
 
