@@ -158,6 +158,7 @@ router.get('/four', function (req, res) {
         res.sendStatus(403);
     }
 });
+
 router.get('/demographics', function (req, res) {
     console.log('surveydem');
     if (req.isAuthenticated()) {
@@ -177,10 +178,6 @@ router.get('/demographics', function (req, res) {
                         } else {
                             console.log('else')
                             // send response data back to client
-
-
-
-
                             res.send(data.rows);
                         }
                     });

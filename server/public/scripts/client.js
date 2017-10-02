@@ -133,7 +133,14 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
           return UserService.getUser('Aeon');
         }
       }
-    })    
+    })
+    .when('/logout', {
+      resolve: {
+        logout: function (UserService) {
+          return UserService.logout();
+        }
+      }
+    })
     .otherwise({
       redirectTo: 'home'
     });
@@ -141,5 +148,5 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('green')
     .accentPalette('light-green')
-    
+
 });
