@@ -85,6 +85,15 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
           }
         }
       })
+      .when('/site-manager', {
+        templateUrl: '/views/templates/site-manager.html',
+        controller: 'SiteManagerController as sm',
+        resolve: {
+          getUser: function(UserService) {
+            return UserService.getUser();
+          }
+        }
+      })
       .otherwise({
         redirectTo: 'home'
       });

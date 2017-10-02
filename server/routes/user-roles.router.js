@@ -129,17 +129,6 @@ router.get('/', function (req, res) {
 
                                     }
 
-                                    // var userDataIndex = userData.indexOf(authorization.user_id);
-                                    // console.log('userDataIndex', userDataIndex);
-
-                                    // if(userDataIndex != -1){
-                                    //     if (userData[userDataIndex].properties == undefined){
-                                    //         userData[userDataIndex].properties = [];                                            
-                                    //     } else {
-                                    //         userData[userDataIndex].properties.push(authorization.occupancy_property);
-                                    //     }
-                                    //     console.log('[userDataIndex].properties',                                             userData[userDataIndex].properties);
-
                                 } // loop done, userData should now have all authorized property data
                                 res.send(userData);
                             }

@@ -1,0 +1,18 @@
+<h1>Site Manager Admin</h1>
+
+<div ng-repeat="property in sm.SiteManagerService.properties.list">
+    <div>
+        <h3>{{property.property}}</h3>
+        <p>Unit: {{property.unit}}</p>
+        <md-checkbox ng-model="property.responded" aria-label="Responded">
+             Responded {{property.responded}}
+        </md-checkbox>
+        <md-checkbox ng-model="property.paid" aria-label="paid">
+             Paid {{property.paid}}
+        </md-checkbox>
+        <md-checkbox ng-model="property.occupied" aria-label="occupied">
+             Occupied {{property.occupied}}
+        </md-checkbox>
+        <md-divider></md-divider>
+    </div>
+</div>
