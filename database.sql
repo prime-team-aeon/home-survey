@@ -77,6 +77,13 @@ CREATE TABLE occupancy_users
     user_id INT REFERENCES users,
     PRIMARY KEY(occupancy_property, user_id)
 );
+INSERT INTO translations (type, english, spanish, somali, hmong) VALUES
+('hello', 'helloEnglish', 'helloSpanish', 'helloSomali', 'helloHmong'),
+('goBack', 'go backEnglish', 'go backSpanish', 'go backSomali', 'go backHmong'),
+('cancel', 'cancelEnglish', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
+('confirm', 'confirmEnglish', 'confirmSpanish', 'confirmSomali', 'confirmHmong'),
+('submit', 'submitEnglish', 'submitSpanish', 'submitSomali', 'submitHmong');
+
 INSERT INTO questions
     (question_number,
     english,
