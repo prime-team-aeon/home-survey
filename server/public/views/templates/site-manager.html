@@ -1,12 +1,13 @@
 <h1>Site Manager Admin</h1>
 <h2>Your Properties Information</h2>
-<div ng-repeat="property in sm.SiteManagerService.properties.list">
+
+<div ng-repeat="property in smc.SiteManagerService.properties.list">
     <div>
         <h3>{{property.property}}</h3>
         <p>Unit: {{property.unit}}</p>
         <p>Responded: <span ng-if="property.responded">{{property.responded}}</span><span ng-if="!property.responded">No Response</span></p>
         <p>Property Occupied: <span ng-if="property.occupied">Yes</span><span ng-if="!property.occupied">No</span></p>
-        <md-checkbox ng-model="property.paid" aria-label="paid">
+        <md-checkbox ng-model="property.paid" ng-change="smc.SiteManagerService.updatePaid(property)" aria-label="paid">
              Paid {{property.paid}}
         </md-checkbox>
         <md-divider></md-divider>

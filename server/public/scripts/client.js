@@ -127,7 +127,7 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
     })
     .when('/site-manager', {
       templateUrl: '/views/templates/site-manager.html',
-      controller: 'SiteManagerController as ac',
+      controller: 'SiteManagerController as smc',
       resolve: {
         getUser: function (UserService) {
           return UserService.getUser('Aeon');
