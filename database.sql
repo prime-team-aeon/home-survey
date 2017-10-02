@@ -2,38 +2,47 @@ CREATE TABLE questions
 (
     id SERIAL PRIMARY KEY,
     question_number INT,
-    english VARCHAR(255) NOT NULL,
-    somali VARCHAR(255) NOT NULL,
-    spanish VARCHAR(255) NOT NULL,
-    hmong VARCHAR(255) NOT NULL,
-    theme VARCHAR(80),
+    english TEXT NOT NULL,
+    somali TEXT NOT NULL,
+    spanish TEXT NOT NULL,
+    hmong TEXT NOT NULL,
+    theme TEXT,
     year INT
+);
+CREATE TABLE translations
+(
+    id SERIAL PRIMARY KEY,
+    type TEXT NOT NULL,
+    english TEXT NOT NULL,
+    somali TEXT NOT NULL,
+    spanish TEXT NOT NULL,
+    hmong TEXT NOT NULL
 );
 CREATE TABLE users
 (
     id SERIAL PRIMARY KEY,
-    username VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role VARCHAR(80),
-    token VARCHAR(16),
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    role TEXT,
+    token TEXT,
     active BOOLEAN DEFAULT FALSE,
-    timestamp VARCHAR(64)
+    timestamp TEXT
 );
 CREATE TABLE occupancy
 (
     id SERIAL PRIMARY KEY,
-    property VARCHAR(255) NOT NULL,
+    property TEXT NOT NULL,
     unit INT,
-    responded VARCHAR(80),
-    paid VARCHAR(80),
-    occupied VARCHAR(80),
+    responded TEXT,
+    paid TEXT,
+    occupied TEXT,
     year INT NOT NULL
 );
 CREATE TABLE responses2017
 (
     id SERIAL PRIMARY KEY,
     survey INT NOT NULL,
-    property VARCHAR(255) NOT NULL,
+    property TEXT NOT NULL,
     answer1 TEXT NOT NULL,
     answer2 TEXT NOT NULL,
     answer3 TEXT NOT NULL,
@@ -64,10 +73,17 @@ CREATE TABLE responses2017
 );
 CREATE TABLE occupancy_users
 (
-    occupancy_property VARCHAR(255) NOT NULL,
+    occupancy_property TEXT NOT NULL,
     user_id INT REFERENCES users,
     PRIMARY KEY(occupancy_property, user_id)
 );
+INSERT INTO translations (type, english, spanish, somali, hmong) VALUES
+('hello', 'helloEnglish', 'helloSpanish', 'helloSomali', 'helloHmong'),
+('goBack', 'go backEnglish', 'go backSpanish', 'go backSomali', 'go backHmong'),
+('cancel', 'cancelEnglish', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
+('confirm', 'confirmEnglish', 'confirmSpanish', 'confirmSomali', 'confirmHmong'),
+('submit', 'submitEnglish', 'submitSpanish', 'submitSomali', 'submitHmong');
+
 INSERT INTO questions
     (question_number,
     english,
