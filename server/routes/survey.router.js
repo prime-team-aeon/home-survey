@@ -108,7 +108,7 @@ router.get('/four', function (req, res) {
                 res.sendStatus(500);
             } else {
                 //query
-                client.query('SELECT question_number,english,theme FROM questions WHERE question_number BETWEEN 19 AND 22', function (err, data) {
+                client.query('SELECT question_number,english,theme FROM questions WHERE question_number BETWEEN 19 AND 20', function (err, data) {
                     done();
                     if (err) {
                         console.log('query error', err);
@@ -127,6 +127,36 @@ router.get('/four', function (req, res) {
 
     }
 });
+
+// router.get('/fourInput', function (req, res) {
+//     console.log('survey4');
+//     if (req.isAuthenticated()) {
+//         // query db, get all responses
+//         pool.connect(function (err, client, done) {
+//             if (err) {
+//                 console.log('error connecting to db', err);
+//                 res.sendStatus(500);
+//             } else {
+//                 //query
+//                 client.query('SELECT question_number,english,theme FROM questions WHERE question_number BETWEEN 21 AND 22', function (err, data) {
+//                     done();
+//                     if (err) {
+//                         console.log('query error', err);
+//                     } else {
+//                         console.log('else')
+//                         // send response data back to client
+
+
+
+
+//                         res.send(data.rows);
+//                     }
+//                 });
+//             }
+//         });
+
+//     }
+// });
 router.get('/demographics', function (req, res) {
     console.log('surveydem');
     if (req.isAuthenticated()) {

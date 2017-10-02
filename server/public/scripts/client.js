@@ -51,6 +51,7 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
 
     .when('/survey-review', {
       templateUrl: '/views/templates/survey-review.html',
+      controller: 'SurveyController as sc'
     })
     .when('/survey-language', {
       templateUrl: '/views/templates/survey-language.html',
@@ -85,6 +86,13 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
           }
         }
       })
+    .when('/logout', {
+      resolve: {
+        logout: function (UserService) {
+          return UserService.logout();
+        }
+      }
+    })
       .otherwise({
         redirectTo: 'home'
       });
