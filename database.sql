@@ -9,6 +9,15 @@ CREATE TABLE questions
     theme TEXT,
     year INT
 );
+CREATE TABLE translations
+(
+    id SERIAL PRIMARY KEY,
+    type TEXT NOT NULL,
+    english TEXT NOT NULL,
+    somali TEXT NOT NULL,
+    spanish TEXT NOT NULL,
+    hmong TEXT NOT NULL
+);
 CREATE TABLE users
 (
     id SERIAL PRIMARY KEY,
