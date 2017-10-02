@@ -16,7 +16,7 @@ router.get('/', function (req, res) {
                 res.sendStatus(500);
             } else {
                 //query
-                client.query('SELECT * FROM occupancy', function (err, data) {
+                client.query('SELECT * FROM occupancy JOIN occupancy_users ON occupancy.property = occupancy_users.occupancy_property WHERE user_id=$1;', [req.user.id], function (err, data) {
                     done();
                     if (err) {
                         console.log('query error', err);

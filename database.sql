@@ -25,7 +25,7 @@ CREATE TABLE occupancy
     property VARCHAR(255) NOT NULL,
     unit INT,
     responded VARCHAR(80),
-    paid VARCHAR(80),
+    paid BOOLEAN,
     occupied VARCHAR(80),
     year INT NOT NULL
 );
