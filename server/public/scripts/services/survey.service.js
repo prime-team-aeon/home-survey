@@ -50,6 +50,6 @@ myApp.service('SurveyService', function ($http, $location) {
         
     };
 
-
     self.getSurvey();
+
 });

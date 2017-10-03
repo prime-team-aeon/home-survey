@@ -35,4 +35,19 @@ myApp.service('CsvService', function ($http, $location, $mdToast) {
       window.open(exportCsv);
     })
   }
+
+  self.questions = {};
+  self.getQuestions = function (year) {
+    console.log('getQuestions', year);
+    
+    $http.get('/survey/questions/' + year).then(function (response) {
+      console.log('response', response);
+
+      self.questions.list = response.data;
+      console.log('questions', self.questions);
+
+      $location.path('/admin-questions');
+    });
+  }
+
 });

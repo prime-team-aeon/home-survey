@@ -194,4 +194,38 @@ router.get('/demographics', function (req, res) {
     }
 });
 
+router.get('/questions/:year?', function (req, res) {
+    console.log('GET /questions');
+    if (req.isAuthenticated()) {
+        if (req.user.role == 'Administrator') {
+            var thisYear = new Date();
+            thisYear = thisYear.getFullYear();
+            var year = req.params.id || thisYear;
+            
+            pool.connect(function(err,client,done){
+                if(err){
+                    console.log('db connection error', err);
+                    res.sendStatus(500);
+                } else {
+                    client.query('SELECT * FROM questions WHERE year <= $1', [year], function(err,data){
+                        if(err){
+                            console.log('db query error', err);
+                            res.sendStatus(500);
+                        } else {
+                            res.send(data.rows);
+                        }
+                    })
+                }
+            })
+
+        } else {
+            //not resident role
+            res.sendStatus(403);
+        }
+    } else {
+        // not authenticated
+        res.sendStatus(403);
+    }
+});
+
 module.exports = router;

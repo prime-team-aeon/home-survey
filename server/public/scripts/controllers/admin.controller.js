@@ -72,4 +72,10 @@ myApp.controller('AdminController', ['CsvService', 'UserRolesService', '$scope',
       UserRolesService.deleteUser(user.username);
     }, function () {});
   }
+  
+  self.questions = CsvService.questions;
+  
+  self.goToUpdateQuestions = function(year = self.thisYear){
+    CsvService.getQuestions(year);
+  }
 }]);
