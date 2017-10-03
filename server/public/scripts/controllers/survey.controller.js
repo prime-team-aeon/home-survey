@@ -11,6 +11,8 @@ myApp.controller('SurveyController', function (SurveyService, $location, $window
     console.log('controller function ran with : ', language);
     SurveyService.getSurvey(language);
   }
+  
+  self.surveyLanguage = SurveyService.surveyLanguage;
 
   self.respond = function (question_id, answer) {
     SurveyService.surveyAnswers.list[question_id-1].answer = answer;

@@ -38,10 +38,10 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
     }; //end of self.getSurvey
 
     self.submitSurvey = function () {
-        console.log('submitSurvey', self.surveyAnswers);
+        // console.log('submitSurvey', self.surveyAnswers);
         
         $http.post('/survey/' + self.surveyLanguage.language, self.surveyAnswers).then(function (response) {
-            console.log('submitSurvey response', response);
+            // console.log('submitSurvey response', response);
             if (response.status == 201) {
                 $location.path('#/survey-thanks');
             } else {

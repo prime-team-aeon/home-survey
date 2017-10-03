@@ -152,7 +152,7 @@ router.post('/questions/:year?', function (req, res) {
 });
 
 router.post('/:language', function (req, res) {
-    console.log('POST /survey/' + req.params.language, req.body);
+    // console.log('POST /survey/' + req.params.language, req.body);
     if (req.isAuthenticated()) {
         if (req.user.role == 'Resident') {
             var thisYear = new Date();
@@ -172,7 +172,7 @@ router.post('/:language', function (req, res) {
 
             queryString = queryString.slice(0, -3) + ");";
 
-            console.log('queryString:', queryString);
+            // console.log('queryString:', queryString);
 
             pool.connect(function (err, client, done) {
                 if (err) {
