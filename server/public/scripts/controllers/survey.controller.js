@@ -11,6 +11,7 @@ myApp.controller('SurveyController', function (SurveyService, $location) {
     SurveyService.getSurvey(language);
   }
   
+  self.surveyLanguage = SurveyService.surveyLanguage;
 
 });
 
