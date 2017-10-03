@@ -1,9 +1,10 @@
-myApp.controller('SurveyController', function (SurveyService, $location) {
+myApp.controller('SurveyController', function (SurveyService, $location, $window, $mdDialog) {
   console.log('SurveyController created');
   var self = this;
   // self.surveyObject = SurveyService.surveyObject;
   self.go = function (hash) {
     $location.path(hash);
+    $window.scrollTo(0,0);
   }
   self.surveyObject=SurveyService.surveyObject;
 
@@ -16,7 +17,27 @@ myApp.controller('SurveyController', function (SurveyService, $location) {
     SurveyService.getSurvey(language);
   }
   
+  self.surveyLanguage = SurveyService.surveyLanguage;
+
+  self.respond = function (question_id, answer) {
+    SurveyService.surveyAnswers.list[question_id-1].answer = answer;
+  }
+
+  self.surveyAnswers = SurveyService.surveyAnswers;
+
+  self.submitSurvey = function(){
+    var confirm = $mdDialog.confirm()
+    .title('Confirm Survey Submission')
+    .textContent('Do you want to submit your survey? This cannot be undone!')
+    .ariaLabel('confirm survey dialog')
+    .targetEvent(event)
+    .ok('Confirm')
+    .cancel('Cancel');
+
+  $mdDialog.show(confirm).then(function () {
+    SurveyService.submitSurvey();
+  }, function () {});
+
+  }
 
 });
-
-

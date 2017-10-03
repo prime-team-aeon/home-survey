@@ -2,17 +2,25 @@
 
 <div id="progressBar">This will be a progress bar</div>
 
-<p ng-repeat="question in sc.surveyObject.four">{{question.question_number}}. {{question.english}}<br>
-    <md-button class="md-raised md-primary" ng-click="response.answer1='1'">Strongly Agree</md-button>
-    <md-button class="md-raised md-primary" ng-click="response.answer1='2'">Agree</md-button>
-    <md-button class="md-raised md-primary" ng-click="response.answer1='3'">Disagree</md-button>
-    <md-button class="md-raised md-primary" ng-click="response.answer1='4'">Strongly Disagree</md-button>
-</p>
-
-
-
 <md-button class="md-raised md-primary" id="instructionsButton">HELP</md-button>
 
+<section>
+    <p>QUESTION TWENTY-ONE ANSWERS</p>
+
+    <md-input-container>
+        <label>[...]</label>
+        <input id="question-21-input" type="text" ng-model="sc.surveyAnswers.list[20].answer" >
+    </md-input-container>
+</section>
+
+<section>
+        <p>QUESTION TWENTY-TWO ANSWERS</p>
+        
+            <md-input-container>
+                <label>[...]</label>
+                <input id="question-22-input" type="text" ng-model="sc.surveyAnswers.list[21].answer" >
+            </md-input-container>
+        </section>
 
 <div layout="row" layout-align="space-around">
     <div>

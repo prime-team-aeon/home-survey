@@ -2,13 +2,13 @@
 
 <div layout="row" layout-align="space-around">
     <div layout="column">
-        <md-button class=" md-raised md-primary" ng-click='sc.getSurvey("english")'>English</md-button>
-        <md-button class=" md-raised md-primary" ng-click='sc.getSurvey("hmong")'>Hmoob</md-button>
+        <md-button class=" md-raised md-primary" ng-class="{'md-accent':sc.surveyLanguage.language=='english'}" ng-click='sc.getSurvey("english")'>English</md-button>
+        <md-button class=" md-raised md-primary" ng-class="{'md-accent':sc.surveyLanguage.language=='hmong'}" ng-click='sc.getSurvey("hmong")'>Hmoob</md-button>
     </div>
 
     <div layout="column">
-        <md-button class=" md-raised md-primary" ng-click='sc.getSurvey("somali")'>Somali</md-button>
-        <md-button class=" md-raised md-primary" ng-click='sc.getSurvey("spanish")'>Espanol</md-button>
+        <md-button class=" md-raised md-primary" ng-class="{'md-accent':sc.surveyLanguage.language=='somali'}" ng-click='sc.getSurvey("somali")'>Somali</md-button>
+        <md-button class=" md-raised md-primary" ng-class="{'md-accent':sc.surveyLanguage.language=='spanish'}" ng-click='sc.getSurvey("spanish")'>Espanol</md-button>
     </div>
 </div>
 
