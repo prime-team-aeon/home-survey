@@ -130,6 +130,7 @@ router.post('/questions/:year?', function (req, res) {
                     res.sendStatus(500);
                 }else {
                     client.query(queryString, [questionToAdd.english, questionToAdd.somali, questionToAdd.spanish, questionToAdd.hmong, questionToAdd.theme, questionToAdd.id], function(err,data){
+                        done();
                         if(err){
                             console.log('db query error', err);
                             res.sendStatus(500);
@@ -157,8 +158,36 @@ router.post('/:language', function (req, res) {
             var thisYear = new Date();
             thisYear = thisYear.getFullYear();
 
-            res.sendStatus(200);
+            var DEBUG_PROPERTY="chicago";
 
+            queryString = "INSERT INTO responses" + thisYear + " (property, language, answer1, answer2, answer3, answer4, answer5, answer6, answer7, answer8, answer9, answer10, answer11, answer12, answer13, answer14, answer15, answer16, answer17, answer18, answer19, answer20, answer21, answer22, answer23, answer24, answer25, answer26, answer27) VALUES ('"
+
+            queryString += DEBUG_PROPERTY + "', '" + req.params.language + "', '";
+            
+            for (var i = 0; i < req.body.list.length; i++){
+                queryString += req.body.list[i].answer + "', '";
+            }
+
+            queryString = queryString.slice(0,-3) + ");";
+
+            console.log('queryString:', queryString);
+
+            pool.connect(function(err,client,done){
+                if(err){
+                    console.log('error connecting to db', err);
+                    res.sendStatus(500);
+                } else {
+                    client.query(queryString, function(err, data){
+                        done();
+                        if (err){
+                            console.log('query error', err);
+                            res.sendStatus(500);
+                        } else {
+                            res.sendStatus(201);
+                        }
+                    });
+                }
+            });
         } else {
             //not resident role
             res.sendStatus(403);

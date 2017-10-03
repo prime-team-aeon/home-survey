@@ -1,4 +1,4 @@
-myApp.service('SurveyService', function ($http, $location) {
+myApp.service('SurveyService', function ($http, $location, $mdDialog) {
     console.log('SurveyService Loaded');
 
     const NUM_SURVEY_QUESTIONS = 27;
@@ -42,7 +42,7 @@ myApp.service('SurveyService', function ($http, $location) {
         
         $http.post('/survey/' + self.surveyLanguage.language, self.surveyAnswers).then(function (response) {
             console.log('submitSurvey response', response);
-            if (response.status == 200) {
+            if (response.status == 201) {
                 $location.path('#/survey-thanks');
             } else {
                 $mdDialog.show(
