@@ -11,6 +11,9 @@ router.get('/:role?', function (req, res) {
       var userInfo = {
         username: req.user.username
       }
+      if(req.user.role){
+        userInfo.role=req.user.role
+      }
       res.send(userInfo);
     } else if ((req.params.role == 'Aeon') && ((req.user.role == 'Administrator') || (req.user.role == 'Site Manager'))){
       // admins and site managers can both see the site manager view
