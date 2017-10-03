@@ -8,7 +8,7 @@ router.get('/properties/:year', function (req, res) {
     // console.log('/properties/' + req.params.year);
 
     if (req.isAuthenticated()) {
-        if (req.user.role == 'Administrator') {
+        if ((req.user.role == 'Administrator') || (req.user.role == 'Resident')) {
             pool.connect(function (err, client, done) {
 
                 if (err) {

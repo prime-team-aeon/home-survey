@@ -60,4 +60,47 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
         })
     }
 
+    self.beginSurvey = function(property, unit){
+        // is the property/unit combo legit?
+        $http.get('/survey/begin',{
+            params: {
+                'property': property,
+                'unit': unit
+            }
+        }).then(function(response){
+            console.log('response', response);
+            
+            if (response.data == "authorized"){
+                // actually begin the survey
+                self.surveyAnswers = {
+                    list: []
+                };
+                $location.path('/survey-intro')
+            } else if (response.data == 'responded'){
+                $mdDialog.show(
+                    $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#survey-begin-container')))
+                    .clickOutsideToClose(true)
+                    .title('Already Responded')
+                    .textContent('This unit has already responded. Please try again.')
+                    .ariaLabel('Survey Begin Error Alert')
+                    .ok('OK')
+                );
+            } else if (response.data == 'unit not found'){
+                $mdDialog.show(
+                    $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#survey-begin-container')))
+                    .clickOutsideToClose(true)
+                    .title('Unit Not Found')
+                    .textContent('This is not a valid unit. Please try again.')
+                    .ariaLabel('Error Unit Not Found')
+                    .ok('OK')
+                );
+            }
+        });
+            // legit: clear the survey object and go to /survey-q1
+
+            // not legit: pop a toast
+    }
+
 }); //end of myApp.service

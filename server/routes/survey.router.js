@@ -4,9 +4,50 @@ var passport = require('passport');
 var path = require('path');
 var pool = require('../modules/pool.js');
 
+router.get('/begin', function(req, res) {
+    if (req.isAuthenticated()) {
+        if (req.user.role == 'Resident') {
+            // is this property/unit combo legit?
+            console.log('req.query.property', req.query.property);
+            console.log('req.query.unit', req.query.unit);
+
+            pool.connect(function(err,client,done){
+                if(err){
+                    console.log('db connect error', err);
+                    res.sendStatus(500);
+                } else {
+                    client.query('SELECT * FROM occupancy WHERE property=$1 AND unit=$2', [req.query.property, req.query.unit], function(err,data){
+                        if(err){
+                            console.log('query error', err);
+                            res.sendStatus(500);
+                        } else {
+                            if (data.rows[0]){
+                                if(data.rows[0].responded){
+                                    // responded == true
+                                    res.send('responded');                                    
+                                } else {
+                                    res.send('authorized');
+                                }
+                            } else {
+                                // unit not found
+                                res.send('unit not found');
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            //not resident role
+            res.sendStatus(403);
+        }
+    } else {
+        // not authenticated
+        res.sendStatus(403);
+    }
+
+});
 
 router.get('/language', function (req, res) {
-    console.log(req.query.language);
     var language = req.query.language;
     var translation;
     switch (language) {

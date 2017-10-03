@@ -64,7 +64,7 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
     })
     .when('/survey-language', {
       templateUrl: '/views/templates/survey-language.html',
-      controller: 'SurveyController as sc',
+      controller: 'SurveyLangController as slc',
       resolve: {
         getUser: function (UserService) {
           return UserService.getUser('Resident');
@@ -133,7 +133,8 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
           return UserService.getUser('Administrator');
         }
       }
-    })    .when('/site-manager', {
+    })    
+    .when('/site-manager', {
       templateUrl: '/views/templates/site-manager.html',
       controller: 'SiteManagerController as smc',
       resolve: {
