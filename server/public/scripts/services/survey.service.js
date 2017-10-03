@@ -10,6 +10,8 @@ myApp.service('SurveyService', function ($http, $location) {
         four:[],
         demographics:[]
      };
+
+    self.surveyAnswers = [];
     
     self.getSurvey = function (language) {
         console.log('Service function ran with : ', language);
