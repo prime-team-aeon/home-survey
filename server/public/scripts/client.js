@@ -127,13 +127,20 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
     })
     .when('/site-manager', {
       templateUrl: '/views/templates/site-manager.html',
-      controller: 'SiteManagerController as ac',
+      controller: 'SiteManagerController as smc',
       resolve: {
         getUser: function (UserService) {
           return UserService.getUser('Aeon');
         }
       }
-    })    
+    })
+    .when('/logout', {
+      resolve: {
+        logout: function (UserService) {
+          return UserService.logout();
+        }
+      }
+    })
     .otherwise({
       redirectTo: 'home'
     });
@@ -141,5 +148,5 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('green')
     .accentPalette('light-green')
-    
+
 });

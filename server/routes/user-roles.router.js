@@ -8,7 +8,7 @@ router.get('/properties/:year', function (req, res) {
     // console.log('/properties/' + req.params.year);
 
     if (req.isAuthenticated()) {
-        if (req.user.role = 'Administrator') {
+        if (req.user.role == 'Administrator') {
             pool.connect(function (err, client, done) {
 
                 if (err) {
@@ -40,7 +40,7 @@ router.get('/properties/:year', function (req, res) {
 
 router.put('/properties/deauth', function (req, res) {
     if (req.isAuthenticated()) {
-        if (req.user.role = 'Administrator') {
+        if (req.user.role == 'Administrator') {
             pool.connect(function (err, client, done) {
                 if (err) {
                     console.log('error connecting to db', err);
@@ -72,7 +72,7 @@ router.put('/properties/auth', function (req, res) {
     console.log('/properties/auth', req.body.property, req.body.id);
 
     if (req.isAuthenticated()) {
-        if (req.user.role = 'Administrator') {
+        if (req.user.role == 'Administrator') {
             pool.connect(function (err, client, done) {
                 if (err) {
                     console.log('error connecting to db', err);
@@ -102,7 +102,7 @@ router.put('/properties/auth', function (req, res) {
 
 router.get('/', function (req, res) {
     if (req.isAuthenticated()) {
-        if (req.user.role = 'Administrator') {
+        if (req.user.role == 'Administrator') {
             pool.connect(function (err, client, done) {
                 if (err) {
                     console.log('error connecting to db', err);
@@ -164,7 +164,7 @@ router.get('/', function (req, res) {
 router.put('/active', function (req, res) {
 
     if (req.isAuthenticated()) {
-        if (req.user.role = 'Administrator') {
+        if (req.user.role == 'Administrator') {
             pool.connect(function (errDatabase, client, done) {
                 if (errDatabase) {
                     console.log('Error connecting to database', errDatabase);
@@ -199,7 +199,7 @@ router.put('/active', function (req, res) {
 router.put('/role', function (req, res) {
 
     if (req.isAuthenticated()) {
-        if (req.user.role = 'Administrator') {
+        if (req.user.role == 'Administrator') {
             pool.connect(function (errDatabase, client, done) {
                 if (errDatabase) {
                     console.log('Error connecting to database', errDatabase);
@@ -228,6 +228,36 @@ router.put('/role', function (req, res) {
         //not authorized
         res.sendStatus(403);
     }
+});
+
+router.delete('/:username', function(req,res){
+    // console.log('user-roles/delete/' + req.params.username);
+    if (req.isAuthenticated()) {
+        if (req.user.role == 'Administrator') {
+            pool.connect(function(err,client,done){
+                if(err){
+                    console.log('db connect error', err);
+                    res.sendStatus(500);
+                } else {
+                    client.query('DELETE FROM users WHERE username=$1', [req.params.username], function(err, data){
+                        if (err){
+                            console.log('query error', err);
+                            res.sendStatus(500);
+                        } else {
+                            res.sendStatus(200);
+                        }
+                    });
+                }
+            });
+        } else {
+            //not admin
+            res.sendStatus(403);
+        }
+    } else {
+        //not logged in
+        res.sendStatus(403);
+    }
+
 });
 
 module.exports = router;
