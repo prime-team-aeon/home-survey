@@ -13,9 +13,13 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
         language: "english"
     };
 
-    for (var i = 0; i < NUM_SURVEY_QUESTIONS; i++) {
-        self.surveyAnswers.list.push({});
+    self.wipeSurveyClean = function(){
+        for (var i = 0; i < NUM_SURVEY_QUESTIONS; i++) {
+            self.surveyAnswers.list.push({});
+        }
     }
+
+    self.wipeSurveyClean();
 
     self.surveyObject = { };
     
@@ -72,9 +76,7 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
             
             if (response.data == "authorized"){
                 // actually begin the survey
-                self.surveyAnswers = {
-                    list: []
-                };
+                self.wipeSurveyClean();
                 $location.path('/survey-intro')
             } else if (response.data == 'responded'){
                 $mdDialog.show(

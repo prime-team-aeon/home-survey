@@ -64,7 +64,7 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
     })
     .when('/survey-language', {
       templateUrl: '/views/templates/survey-language.html',
-      controller: 'SurveyLangController as slc',
+      controller: 'SurveyController as sc',
       resolve: {
         getUser: function (UserService) {
           return UserService.getUser('Resident');
