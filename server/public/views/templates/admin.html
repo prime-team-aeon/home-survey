@@ -32,6 +32,7 @@
     <md-card-content>
       <h3>{{ user.username }} (<span ng-if="user.active">Active</span><span ng-if="!user.active">Inactive</span>)</h3>
       <p>Role: {{user.role}}</p>
+
       <md-input-container>
         <label>Update User Role</label>
         <md-select ng-model="user.newRole">
@@ -41,24 +42,32 @@
           <md-option value="Resident">Resident</md-option>
         </md-select>
       </md-input-container>
+
       <md-input-container>
         <md-button class="md-raised md-accent" ng-click="ac.UserRolesService.updateUserRole(user)">Update Role</md-button>
       </md-input-container>
+
       <md-input-container ng-if="user.role == 'Site Manager'">
         <div ng-repeat="property in user.properties">
           <span>{{property}}</span>
           <md-button ng-click="ac.manageAuth(user, property, 'deauth')">Deauthorize</md-button>
         </div>
       </md-input-container>
+
       <md-input-container ng-if="user.role == 'Site Manager'">
         <label>Authorize Property</label>
         <md-select ng-model="user.propertyToEdit">
           <md-option ng-repeat="property in ac.propertyList.list" ng-value="property">{{property}}</md-option>
         </md-select>
-        <md-button class="md-raised md-accent" ng-click="ac.manageAuth(user, user.propertyToEdit, 'auth')">Add Authorization</md-button>        
+        <md-button class="md-raised md-accent" ng-click="ac.manageAuth(user, user.propertyToEdit, 'auth')">Add Authorization</md-button>
       </md-input-container>
+
       <md-input-container class="md-block">
         <md-switch md-invert ng-change="ac.UserRolesService.toggleActive(user)" ng-model="user.active">Toggle Account Status</md-switch>
+      </md-input-container>
+
+      <md-input-container>
+        <md-button class="md-raised md-warn" ng-click="ac.deleteUser(user)">Delete User</md-button>
       </md-input-container>
     </md-card-content>
   </md-card>

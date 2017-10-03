@@ -3,13 +3,16 @@ var router = express.Router();
 
 // Handles Ajax request for user information if user is authenticated
 router.get('/:role?', function (req, res) {
-  console.log('get /user route', req.params.role);
+  // console.log('get /user route', req.params.role);
   // check if logged in
   if (req.isAuthenticated()) {
     // if we want 'any' role, we don't actually need to send the role     
     if ((req.params.role == 'any') || (req.params.role == undefined))  {
       var userInfo = {
         username: req.user.username
+      }
+      if(req.user.role){
+        userInfo.role=req.user.role
       }
       res.send(userInfo);
     } else if ((req.params.role == 'Aeon') && ((req.user.role == 'Administrator') || (req.user.role == 'Site Manager'))){
