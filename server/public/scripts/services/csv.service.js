@@ -38,16 +38,26 @@ myApp.service('CsvService', function ($http, $location, $mdToast) {
 
   self.questions = {};
   self.getQuestions = function (year) {
-    console.log('getQuestions', year);
+    // console.log('getQuestions', year);
     
     $http.get('/survey/questions/' + year).then(function (response) {
-      console.log('response', response);
+      // console.log('response', response);
 
       self.questions.list = response.data;
-      console.log('questions', self.questions);
+      // console.log('questions', self.questions);
 
       $location.path('/admin-questions');
     });
+  }
+
+  self.updateQuestion = function(question, year){
+    // console.log('updateQuestion', question, year);
+
+    $http.post('/survey/questions/' + year, question).then(function (response) {
+      // console.log('response', response);
+      $location.path('/admin-questions');
+    });
+    
   }
 
 });

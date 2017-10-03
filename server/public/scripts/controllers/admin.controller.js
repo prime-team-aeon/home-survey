@@ -72,10 +72,24 @@ myApp.controller('AdminController', ['CsvService', 'UserRolesService', '$scope',
       UserRolesService.deleteUser(user.username);
     }, function () {});
   }
-  
+
   self.questions = CsvService.questions;
-  
-  self.goToUpdateQuestions = function(year = self.thisYear){
+
+  self.goToUpdateQuestions = function (year = self.thisYear) {
     CsvService.getQuestions(year);
+  }
+
+  self.updateQuestion = function (question, year = self.thisYear) {
+    var confirm = $mdDialog.confirm()
+      .title('Confirm Update')
+      .textContent('Do you really want to update this question? This will affect every survey from now on!')
+      .ariaLabel('update confirm dialog')
+      .targetEvent(event)
+      .ok('Update')
+      .cancel('Cancel');
+
+    $mdDialog.show(confirm).then(function () {
+      CsvService.updateQuestion(question, year);
+    }, function () {});
   }
 }]);
