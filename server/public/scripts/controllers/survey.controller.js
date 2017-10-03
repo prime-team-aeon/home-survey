@@ -6,7 +6,12 @@ myApp.controller('SurveyController', function (SurveyService, $location, $window
     $location.path(hash);
     $window.scrollTo(0,0);
   }
+  self.surveyObject=SurveyService.surveyObject;
 
+  console.log(self.introOne);
+
+
+// self.surveyObject=SurveyService.surveyObject;
   self.getSurvey = function (language) {
     console.log('controller function ran with : ', language);
     SurveyService.getSurvey(language);
