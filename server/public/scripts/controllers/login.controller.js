@@ -26,7 +26,7 @@ myApp.controller('LoginController', function ($http, $location, UserService, $md
           } else if (vm.user.role == 'Site Manager') {
             $location.path('/site-manager'); // http://localhost:5000/#/site-manager
           } else if (vm.user.role === 'Resident') {
-            $location.path('/survey-intro'); // http://localhost:5000/#/survey-intro
+            $location.path('/survey-language'); // http://localhost:5000/#/survey-language
           } else {
             console.log('LoginController failure: ', response);
             vm.message = "Wrong!!";
