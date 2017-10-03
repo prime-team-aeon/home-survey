@@ -150,5 +150,23 @@ router.post('/questions/:year?', function (req, res) {
     }
 });
    
+router.post('/:language', function (req, res) {
+    console.log('POST /survey/' + req.params.language, req.body);
+    if (req.isAuthenticated()) {
+        if (req.user.role == 'Resident') {
+            var thisYear = new Date();
+            thisYear = thisYear.getFullYear();
+
+            res.sendStatus(200);
+
+        } else {
+            //not resident role
+            res.sendStatus(403);
+        }
+    } else {
+        // not authenticated
+        res.sendStatus(403);
+    }
+});
 
 module.exports = router;

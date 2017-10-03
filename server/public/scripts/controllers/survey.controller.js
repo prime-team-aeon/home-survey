@@ -1,4 +1,4 @@
-myApp.controller('SurveyController', function (SurveyService, $location, $window) {
+myApp.controller('SurveyController', function (SurveyService, $location, $window, $mdDialog) {
   console.log('SurveyController created');
   var self = this;
   // self.surveyObject = SurveyService.surveyObject;
@@ -17,5 +17,20 @@ myApp.controller('SurveyController', function (SurveyService, $location, $window
   }
 
   self.surveyAnswers = SurveyService.surveyAnswers;
+
+  self.submitSurvey = function(){
+    var confirm = $mdDialog.confirm()
+    .title('Confirm Survey Submission')
+    .textContent('Do you want to submit your survey? This cannot be undone!')
+    .ariaLabel('confirm survey dialog')
+    .targetEvent(event)
+    .ok('Confirm')
+    .cancel('Cancel');
+
+  $mdDialog.show(confirm).then(function () {
+    SurveyService.submitSurvey();
+  }, function () {});
+
+  }
 
 });
