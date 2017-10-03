@@ -2,13 +2,70 @@
 
 <div id="progressBar">This will be a progress bar</div>
 
-<p ng-repeat="question in sc.surveyObject.two">{{question.question_number}}. {{question.english}}<br>
-    <md-button class="md-raised md-primary" ng-click="response.answer1='1'">Strongly Agree</md-button>
-    <md-button class="md-raised md-primary" ng-click="response.answer1='2'">Agree</md-button>
-    <md-button class="md-raised md-primary" ng-click="response.answer1='3'">Disagree</md-button>
-    <md-button class="md-raised md-primary" ng-click="response.answer1='4'">Strongly Disagree</md-button>
-</p>
+<md-button class="md-raised md-primary" id="instructionsButton">HELP</md-button>
 
+<section>
+    <p>QUESTION SIX ANSWERS</p>
+
+    <md-button class="md-raised" ng-click="sc.respond(6,1)" ng-class="{ 'md-accent': sc.surveyAnswers.list[5].answer == 1}">Strongly Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(6,2)" ng-class="{ 'md-accent': sc.surveyAnswers.list[5].answer == 2}">Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(6,3)" ng-class="{ 'md-accent': sc.surveyAnswers.list[5].answer == 3}">Disagree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(6,4)" ng-class="{ 'md-accent': sc.surveyAnswers.list[5].answer == 4}">Strongly Disagree</md-button>
+</section>
+
+<section>
+    <p>QUESTION SEVEN ANSWERS</p>
+
+    <md-button class="md-raised" ng-click="sc.respond(7,1)" ng-class="{ 'md-accent': sc.surveyAnswers.list[6].answer == 1}">Strongly Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(7,2)" ng-class="{ 'md-accent': sc.surveyAnswers.list[6].answer == 2}">Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(7,3)" ng-class="{ 'md-accent': sc.surveyAnswers.list[6].answer == 3}">Disagree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(7,4)" ng-class="{ 'md-accent': sc.surveyAnswers.list[6].answer == 4}">Strongly Disagree</md-button>
+</section>
+
+<section>
+    <p>QUESTION EIGHT ANSWERS</p>
+
+    <md-button class="md-raised" ng-click="sc.respond(8,1)" ng-class="{ 'md-accent': sc.surveyAnswers.list[7].answer == 1}">Strongly Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(8,2)" ng-class="{ 'md-accent': sc.surveyAnswers.list[7].answer == 2}">Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(8,3)" ng-class="{ 'md-accent': sc.surveyAnswers.list[7].answer == 3}">Disagree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(8,4)" ng-class="{ 'md-accent': sc.surveyAnswers.list[7].answer == 4}">Strongly Disagree</md-button>
+</section>
+
+<section>
+    <p>QUESTION NINE ANSWERS</p>
+
+    <md-button class="md-raised" ng-click="sc.respond(9,1)" ng-class="{ 'md-accent': sc.surveyAnswers.list[8].answer == 1}">Strongly Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(9,2)" ng-class="{ 'md-accent': sc.surveyAnswers.list[8].answer == 2}">Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(9,3)" ng-class="{ 'md-accent': sc.surveyAnswers.list[8].answer == 3}">Disagree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(9,4)" ng-class="{ 'md-accent': sc.surveyAnswers.list[8].answer == 4}">Strongly Disagree</md-button>
+</section>
+
+<section>
+    <p>QUESTION TEN ANSWERS</p>
+
+    <md-button class="md-raised" ng-click="sc.respond(10,1)" ng-class="{ 'md-accent': sc.surveyAnswers.list[9].answer == 1}">Strongly Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(10,2)" ng-class="{ 'md-accent': sc.surveyAnswers.list[9].answer == 2}">Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(10,3)" ng-class="{ 'md-accent': sc.surveyAnswers.list[9].answer == 3}">Disagree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(10,4)" ng-class="{ 'md-accent': sc.surveyAnswers.list[9].answer == 4}">Strongly Disagree</md-button>
+</section>
+
+<section>
+    <p>QUESTION ELEVEN ANSWERS</p>
+
+    <md-button class="md-raised" ng-click="sc.respond(11,1)" ng-class="{ 'md-accent': sc.surveyAnswers.list[10].answer == 1}">Strongly Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(11,2)" ng-class="{ 'md-accent': sc.surveyAnswers.list[10].answer == 2}">Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(11,3)" ng-class="{ 'md-accent': sc.surveyAnswers.list[10].answer == 3}">Disagree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(11,4)" ng-class="{ 'md-accent': sc.surveyAnswers.list[10].answer == 4}">Strongly Disagree</md-button>
+</section>
+
+<section>
+    <p>QUESTION TWELVE ANSWERS</p>
+
+    <md-button class="md-raised" ng-click="sc.respond(12,1)" ng-class="{ 'md-accent': sc.surveyAnswers.list[11].answer == 1}">Strongly Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(12,2)" ng-class="{ 'md-accent': sc.surveyAnswers.list[11].answer == 2}">Agree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(12,3)" ng-class="{ 'md-accent': sc.surveyAnswers.list[11].answer == 3}">Disagree</md-button>
+    <md-button class="md-raised" ng-click="sc.respond(12,4)" ng-class="{ 'md-accent': sc.surveyAnswers.list[11].answer == 4}">Strongly Disagree</md-button>
+</section>
 
 <div layout="row" layout-align="space-around">
     <div>
