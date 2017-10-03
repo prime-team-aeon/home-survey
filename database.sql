@@ -41,8 +41,8 @@ CREATE TABLE occupancy
 CREATE TABLE responses2017
 (
     id SERIAL PRIMARY KEY,
-    survey INT NOT NULL,
     property TEXT NOT NULL,
+    language TEXT NOT NULL,
     answer1 TEXT NOT NULL,
     answer2 TEXT NOT NULL,
     answer3 TEXT NOT NULL,
