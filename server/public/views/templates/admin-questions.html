@@ -1,0 +1,33 @@
+<div ng-include="'views/partials/nav.loggedin.html'"></div>
+
+<h1>Admin: Edit Questions Page</h1>
+
+<md-button class="md-primary" ng-click="ac.goToUpdateQuestions()">Refresh Data</md-button>
+<md-button type="button" ng-href="#/admin">Go Back</md-button>
+
+<section id="admin-questions-container">
+  <div ng-repeat="question in ac.questions.list">
+    <span>{{question.question_number}}</span>
+    <md-button type="button" class="md-primary md-raised" ng-click="ac.updateQuestion(question)">Update #{{question.question_number}}</md-button>
+    <md-input-container>
+      <label>English</label>
+      <input ng-model="question.english">
+    </md-input-container>
+    <md-input-container>
+      <label>Spanish</label>
+      <input ng-model="question.spanish">
+    </md-input-container>
+    <md-input-container>
+      <label>Somali</label>
+      <input ng-model="question.somali">
+    </md-input-container>
+    <md-input-container>
+      <label>Hmong</label>
+      <input ng-model="question.hmong">
+    </md-input-container>
+    <md-input-container>
+      <label>Theme</label>
+      <input ng-model="question.theme">
+    </md-input-container>
+  </div>
+</section>
