@@ -52,7 +52,7 @@ myApp.service('UserRolesService', ['$http', '$mdToast', function ($http, $mdToas
         let thisYear = new Date();
         thisYear = thisYear.getFullYear();
         $http.get('/user-roles/properties/' + thisYear).then(function (response) {
-            // console.log('getProperties response', response);
+            console.log('getProperties response', response);
             for (var i = 0; i < response.data.length; i++) {
                 self.propertyList.list.push(response.data[i].property);
             }

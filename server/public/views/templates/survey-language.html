@@ -13,11 +13,16 @@
 </div>
 
 <div  layout="row" layout-align="center center">
-    <md-button class=" md-raised md-primary">Property</md-button>
-    <md-button class=" md-raised md-primary">Unit #</md-button>
+    <md-select ng-model="sc.propertyChosen">
+        <md-option ng-repeat="property in sc.propertyList.list" ng-value="property">{{property}}</md-option>
+    </md-select>
+    <md-input-container>
+        <label>Unit #</label>
+        <input ng-model="sc.unitChosen" type="number">
+    </md-input-container>
 </div>
 
-<div layout="row" layout-align="center center">
-    <md-button class=" md-raised md-primary" ng-click='sc.go("/survey-intro")'>Begin Survey</md-button>
+<div layout="row" layout-align="center center" id="survey-begin-container">
+    <md-button class=" md-raised md-primary" ng-click='sc.beginSurvey(sc.propertyChosen, sc.unitChosen)'>Begin Survey</md-button>
 
 </div>
