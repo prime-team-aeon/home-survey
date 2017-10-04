@@ -13,7 +13,8 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
         language: "english"
     };
 
-    self.wipeSurveyClean = function(){
+    self.wipeSurveyClean = function () {
+        self.surveyAnswers.list = [];
         for (var i = 0; i < NUM_SURVEY_QUESTIONS; i++) {
             self.surveyAnswers.list.push({});
         }
@@ -21,8 +22,8 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
 
     self.wipeSurveyClean();
 
-    self.surveyObject = { };
-    
+    self.surveyObject = {};
+
     self.getSurvey = function (language) {
         console.log('Service function ran with : ', language);
         self.surveyLanguage.language = language;
@@ -39,16 +40,33 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
                 self.surveyObject[response.data.translations[i].type] = response.data.translations[i][language];
             }
             console.log(self.surveyObject)
-        
-        })//end http.get
-    };//end of self.getSurvey
-        
+
+        }) //end http.get
+    }; //end of self.getSurvey
+
     self.submitSurvey = function () {
         // console.log('submitSurvey', self.surveyAnswers);
-        $http.post('/survey/' + self.surveyLanguage.language, self.surveyAnswers).then(function (response) {
+        $http.post('/survey', self.surveyAnswers, {
+            params: {
+                'language': self.surveyLanguage.language,
+                'property': self.surveyProperty,
+                'unit': self.surveyUnit
+            }
+        }).then(function (response) {
             // console.log('submitSurvey response', response);
             if (response.status == 201) {
-                $location.path('#/survey-thanks');
+                $location.path('/survey-thanks');
+            } else if (response.data == 'responded') {
+                $mdDialog.show(
+                    $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#survey-begin-container')))
+                    .clickOutsideToClose(true)
+                    .title('Already Responded')
+                    .textContent('This unit has already responded. Please try again.')
+                    .ariaLabel('Survey Begin Error Alert')
+                    .ok('OK')
+                );
+
             } else {
                 $mdDialog.show(
                     $mdDialog.alert()
@@ -64,21 +82,26 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
         })
     }
 
-    self.beginSurvey = function(property, unit){
+    self.surveyProperty = "";
+    self.surveyUnit = "";
+
+    self.beginSurvey = function (property, unit) {
         // is the property/unit combo legit?
-        $http.get('/survey/begin',{
+        $http.get('/survey/begin', {
             params: {
                 'property': property,
                 'unit': unit
             }
-        }).then(function(response){
+        }).then(function (response) {
             console.log('response', response);
-            
-            if (response.data == "authorized"){
+
+            if (response.data == "authorized") {
                 // actually begin the survey
                 self.wipeSurveyClean();
+                self.surveyProperty = property;
+                self.surveyUnit = unit;
                 $location.path('/survey-intro')
-            } else if (response.data == 'responded'){
+            } else if (response.data == 'responded') {
                 $mdDialog.show(
                     $mdDialog.alert()
                     .parent(angular.element(document.querySelector('#survey-begin-container')))
@@ -88,7 +111,7 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
                     .ariaLabel('Survey Begin Error Alert')
                     .ok('OK')
                 );
-            } else if (response.data == 'unit not found'){
+            } else if (response.data == 'unit not found') {
                 $mdDialog.show(
                     $mdDialog.alert()
                     .parent(angular.element(document.querySelector('#survey-begin-container')))
@@ -100,9 +123,9 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
                 );
             }
         });
-            // legit: clear the survey object and go to /survey-q1
+        // legit: clear the survey object and go to /survey-q1
 
-            // not legit: pop a toast
+        // not legit: pop a toast
     }
 
 }); //end of myApp.service
