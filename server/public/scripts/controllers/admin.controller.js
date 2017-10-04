@@ -93,11 +93,4 @@ myApp.controller('AdminController', ['CsvService', 'UserRolesService', '$scope',
     }, function () { });
   }
 
-
-  self.allProperties = UserRolesService.allProperties;
-  self.uniqueProperties = UserRolesService.uniqueProperties;
-  self.goToUpdateProperties = function () {
-    UserRolesService.getAllProperties();
-  }
-
 }]);

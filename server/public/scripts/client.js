@@ -136,7 +136,7 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
     })    
     .when('/admin-properties', {
       templateUrl: '/views/templates/admin-properties.html',
-      controller: 'AdminController as ac',
+      controller: 'AdminPropertiesController as apc',
       resolve: {
         getUser: function (UserService) {
           return UserService.getUser('Administrator');

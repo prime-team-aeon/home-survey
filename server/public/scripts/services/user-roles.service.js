@@ -117,11 +117,41 @@ myApp.service('UserRolesService', ['$http', '$mdToast', '$location', function ($
                 self.uniqueProperties = self.uniqueProperties.filter(function (property, index) {
                     return self.uniqueProperties.indexOf(property) == index;
                 });
-                
+
             });
 
-            self.allProperties = response.data
+            self.allProperties = response.data;
             $location.path('/admin-properties');
         });
+    }
+
+    self.newProperty = {};
+
+    self.addNewProperty = function (property, unit) {
+
+        if (property && unit) {
+            $http({
+                method: 'POST',
+                url: '/admin/new-property',
+                data: {
+                    property: property,
+                    unit: unit
+                }
+            }).then(function (response) {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('Property has been added.')
+                    .hideDelay(2000)
+                );
+                self.newProperty = {};
+                self.getAllProperties();
+            });
+        } else {
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Please make sure to enter in both a property name and unit number')
+                    .hideDelay(2000)
+            );
+        }
     }
 }]);
