@@ -7,12 +7,12 @@
 
 <div layout="row" layout-align="space-around">
     <div>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-language")'>CANCEL</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-language")'>{{sc.surveyObject.cancel}}</md-button>
     </div>
 
     <div id="survey-review-button-container">
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-demographics")'>PREV</md-button>
-        <md-button class="md-raised md-primary" ng-click="sc.submitSurvey()">SUBMIT</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-demographics")'>{{sc.surveyObject.previous}}</md-button>
+        <md-button class="md-raised md-primary" ng-click="sc.submitSurvey()">{{sc.surveyObject.submit}}</md-button>
     </div>
 
 </div>

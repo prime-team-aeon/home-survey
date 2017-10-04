@@ -133,7 +133,8 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
           return UserService.getUser('Administrator');
         }
       }
-    })    .when('/site-manager', {
+    })    
+    .when('/site-manager', {
       templateUrl: '/views/templates/site-manager.html',
       controller: 'SiteManagerController as smc',
       resolve: {

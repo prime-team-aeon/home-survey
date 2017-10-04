@@ -8,7 +8,7 @@ router.get('/properties/:year', function (req, res) {
     // console.log('/properties/' + req.params.year);
 
     if (req.isAuthenticated()) {
-        if (req.user.role == 'Administrator') {
+        if ((req.user.role == 'Administrator') || (req.user.role == 'Resident')) {
             pool.connect(function (err, client, done) {
 
                 if (err) {
@@ -240,6 +240,7 @@ router.delete('/:username', function(req,res){
                     res.sendStatus(500);
                 } else {
                     client.query('DELETE FROM users WHERE username=$1', [req.params.username], function(err, data){
+                        done();
                         if (err){
                             console.log('query error', err);
                             res.sendStatus(500);
