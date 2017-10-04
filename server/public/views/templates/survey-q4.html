@@ -9,22 +9,22 @@
 
     <md-input-container>
         <label>[...]</label>
-        <input id="question-21-input" type="text" ng-model="sc.surveyAnswers.list[20].answer" >
+        <input id="question-21-input" type="text" ng-model="sc.surveyAnswers.list[20].answer">
     </md-input-container>
 </section>
 
 <section>
-        <p>22. {{sc.surveyObject[22]}}</p>
-        
-            <md-input-container>
-                <label>[...]</label>
-                <input id="question-22-input" type="text" ng-model="sc.surveyAnswers.list[21].answer" >
-            </md-input-container>
-        </section>
+    <p>22. {{sc.surveyObject[22]}}</p>
+
+    <md-input-container>
+        <label>[...]</label>
+        <input id="question-22-input" type="text" ng-model="sc.surveyAnswers.list[21].answer">
+    </md-input-container>
+</section>
 
 <div layout="row" layout-align="space-around">
     <div>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-language")'>{{sc.surveyObject.cancel}}</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.cancelSurvey()'>{{sc.surveyObject.cancel}}</md-button>
     </div>
 
     <div>

@@ -30,7 +30,7 @@ router.get('/:role?', function (req, res) {
       };
       res.send(userInfo);
     } else {
-      console.log('cascade failure');
+      console.log('cascade failure in user auth - likely you requested a page that your current role is not authorized for');
       res.send(false);
     }
     // send back user object from database
