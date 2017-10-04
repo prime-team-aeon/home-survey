@@ -1,6 +1,5 @@
 <div ng-include="'views/partials/nav.html'"></div>
 
-
 <h1>Admin Page</h1>
 
 <section id="admin-upload-container">
@@ -26,7 +25,11 @@
 </section>
 
 <section id="admin-questions-container">
-  <md-button ng-click="ac.goToUpdateQuestions()">Update Survey Questions</md-button>
+  <md-button ng-click="ac.goToUpdateQuestions()" class="md-raised">Update Survey Questions</md-button>
+</section>
+
+<section id="admin-properties-container">
+  <md-button ng-href="#/admin-properties" class="md-raised">Update Properties</md-button>
 </section>
 
 <!-- Users Role and Active Status -->

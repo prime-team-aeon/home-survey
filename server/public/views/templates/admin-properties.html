@@ -1,0 +1,32 @@
+<div ng-include="'views/partials/nav.html'"></div>
+
+<h1>Admin: Edit Properties Page</h1>
+
+<md-button type="button" ng-href="#/admin" class="md-raised">Go Back</md-button>
+
+<h1>Add a Property</h1>
+<md-input-container>
+    <label>Property Name</label>
+    <input ng-model="ac.newProperty.name" type="text">
+</md-input-container>
+<md-input-container>
+    <label>Unit Number</label>
+    <input ng-model="ac.newProperty.unit" type="number">
+</md-input-container>
+<md-button class="md-primary md-raised" ng-click="ac.addNewProperty()">Add Property</md-button>
+
+<h1>Edit Current Property</h1>
+<md-button class="md-primary md-raised" ng-click="ac.editingProperty = !ac.editingProperty">Edit a Property</md-button>
+<div ng-if="ac.editingProperty">
+    <p>Here's where we update a property</p>
+</div>
+
+<section id="admin-properties-container">
+    <div ng-repeat="property in ac.uniqueProperties">
+        {{property}}
+        <div ng-repeat="property in ac.allProperties">
+            <p>{{property.unit}}</p>
+
+        </div>
+    </div>
+</section>

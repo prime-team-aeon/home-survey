@@ -1,4 +1,4 @@
-myApp.service('UserRolesService', ['$http', '$mdToast', function ($http, $mdToast) {
+myApp.service('UserRolesService', ['$http', '$mdToast', '$location', function ($http, $mdToast, $location) {
     // console.log('UserRoleService loaded');
 
     var self = this;
@@ -74,27 +74,54 @@ myApp.service('UserRolesService', ['$http', '$mdToast', function ($http, $mdToas
 
     self.deleteUser = function (username) {
         // console.log('/user-roles/' + username);
-        
+
         $http.delete('/user-roles/' + username).then(function (response) {
             // console.log('delete response', response);
-            
+
             if (response.status == 200) {
                 console.log('response ok');
-                
+
                 $mdToast.show(
                     $mdToast.simple()
-                    .textContent('User deleted.')
-                    .hideDelay(2000)
+                        .textContent('User deleted.')
+                        .hideDelay(2000)
                 );
             } else {
                 console.log('response bad');
                 $mdToast.show(
                     $mdToast.simple()
-                    .textContent('Deletion unsuccessful.')
-                    .hideDelay(2000)
+                        .textContent('Deletion unsuccessful.')
+                        .hideDelay(2000)
                 );
             }
             self.getUsers();
+        });
+    }
+
+    // get list of all properties from db
+    self.allProperties = {};
+    self.allUnits = {};
+
+    self.getAllProperties = function () {
+        $http.get('/user-roles/allProperties/').then(function (response) {
+
+            // get the properties
+            self.uniqueProperties = [];
+            response.data.forEach(function (occupancy) {
+                self.allProperties = response.data;
+
+                self.uniqueProperties = response.data.map(function (occupancy) {
+                    return occupancy.property
+                });
+
+                self.uniqueProperties = self.uniqueProperties.filter(function (property, index) {
+                    return self.uniqueProperties.indexOf(property) == index;
+                });
+                
+            });
+
+            self.allProperties = response.data
+            $location.path('/admin-properties');
         });
     }
 }]);

@@ -261,4 +261,37 @@ router.delete('/:username', function(req,res){
 
 });
 
+
+// GET list of all properties and unit numbers
+router.get('/allProperties', function (req, res) {
+
+    if (req.isAuthenticated()) {
+        if (req.user.role == 'Administrator') {
+            pool.connect(function (err, client, done) {
+                if (err) {
+                    console.log('error connecting to db', err);
+                    res.sendStatus(500);
+                } else {
+                    //query
+                    client.query('SELECT * FROM occupancy ORDER BY occupancy.property;', function (err, data) {
+                        done();
+                        if (err) {
+                            console.log('query error', err);
+                        } else {
+                            res.send(data.rows);
+                        }
+                    });
+                }
+            });
+        } else {
+            //not admin role
+            res.sendStatus(403);
+        }
+    } else {
+        //not authorized
+        res.sendStatus(403);
+    }
+
+});
+
 module.exports = router;

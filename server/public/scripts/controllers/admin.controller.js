@@ -70,7 +70,7 @@ myApp.controller('AdminController', ['CsvService', 'UserRolesService', '$scope',
 
     $mdDialog.show(confirm).then(function () {
       UserRolesService.deleteUser(user.username);
-    }, function () {});
+    }, function () { });
   }
 
   self.questions = CsvService.questions;
@@ -90,6 +90,14 @@ myApp.controller('AdminController', ['CsvService', 'UserRolesService', '$scope',
 
     $mdDialog.show(confirm).then(function () {
       CsvService.updateQuestion(question, year);
-    }, function () {});
+    }, function () { });
   }
+
+
+  self.allProperties = UserRolesService.allProperties;
+  self.uniqueProperties = UserRolesService.uniqueProperties;
+  self.goToUpdateProperties = function () {
+    UserRolesService.getAllProperties();
+  }
+
 }]);
