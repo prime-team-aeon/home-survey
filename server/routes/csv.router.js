@@ -77,8 +77,8 @@ router.get('/export/:year', function (req, res) {
         } else {
           // get table names
           client.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';", function (err, data) {
-            done();
             if (err) {
+              done();
               console.log('query error', err);
             } else {
               // check that this table exists
@@ -101,6 +101,7 @@ router.get('/export/:year', function (req, res) {
                   }
                 });
               } else {
+                done();
                 res.status(400).send('no data for year ' + req.params.year);
               }
             }
