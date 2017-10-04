@@ -17,6 +17,7 @@ router.get('/verify/:token', function (req, res) {
       //SELECT id, timestamp FROM users WHERE token = 'sAhlEMrt0rL1f3St';
       client.query('SELECT id, timestamp FROM users WHERE token = $1;', [req.params.token], 
       function (err, results) {
+        done();
         if (err) {
           console.log("query error ", err);
           res.sendStatus(500);
@@ -37,6 +38,7 @@ router.get('/verify/:token', function (req, res) {
                 //UPDATE user SET active=true, token=null WHERE id=1;
                 client.query('UPDATE users SET active=true, token=null WHERE id=$1;',[userId],
                 function(err,results){
+                  done()
                   if(err){
                     console.log('query error', err);
                     res.sendStatus(500);
