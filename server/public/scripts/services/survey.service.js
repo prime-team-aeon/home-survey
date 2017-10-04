@@ -44,6 +44,9 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
         }) //end http.get
     }; //end of self.getSurvey
 
+    // Load english as language on load
+    self.getSurvey('english');
+
     self.submitSurvey = function () {
         // console.log('submitSurvey', self.surveyAnswers);
         $http.post('/survey', self.surveyAnswers, {
