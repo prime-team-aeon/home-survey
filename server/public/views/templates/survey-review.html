@@ -1,18 +1,49 @@
 <div ng-include="'views/partials/nav.html'"></div>
 
 <div id="progressBar">This will be a progress bar</div>
-<md-button class="md-raised md-primary" id="instructionsButton" ng-click="sc.help()">HELP</md-button>
+<md-button class="md-raised md-primary" id="instructionsButton" ng-click="sc.help()">{{sc.surveyObject.instructions}}</md-button>
+<h2>{{sc.surveyObject.review}}</h2>
+<h5>{{sc.surveyAnswers.list[0].answer}}</h5>
+<!-- <p>{{sc.surveyObject.answer{{sc.surveyAnswers.list[0].answer}}}}</p> -->
+<h2>1. {{sc.surveyObject[1]}}</h2>
+<h2>2. {{sc.surveyObject[2]}}</h2>
+<h2>3. {{sc.surveyObject[3]}}</h2>
+<h2>4. {{sc.surveyObject[4]}}</h2>
+<h2>5. {{sc.surveyObject[5]}}</h2>
+<h2>6. {{sc.surveyObject[6]}}</h2>
+<h2>7. {{sc.surveyObject[7]}}</h2>
+<h2>8. {{sc.surveyObject[8]}}</h2>
+<h2>9. {{sc.surveyObject[9]}}</h2>
+<h2>10. {{sc.surveyObject[10]}}</h2>
+<h2>11. {{sc.surveyObject[11]}}</h2>
+<h2>12. {{sc.surveyObject[12]}}</h2>
+<h2>13. {{sc.surveyObject[13]}}</h2>
+<h2>14. {{sc.surveyObject[14]}}</h2>
+<h2>15. {{sc.surveyObject[15]}}</h2>
+<h2>16. {{sc.surveyObject[16]}}</h2>
+<h2>17. {{sc.surveyObject[17]}}</h2>
+<h2>18. {{sc.surveyObject[18]}}</h2>
+<h2>19. {{sc.surveyObject[19]}}</h2>
+<h2>20. {{sc.surveyObject[20]}}</h2>
+<h2>21. {{sc.surveyObject[21]}}</h2>
+<h2>22. {{sc.surveyObject[22]}}</h2>
+<h2>23. {{sc.surveyObject[23]}}</h2>
+<h2>24. {{sc.surveyObject[24]}}</h2>
+<h2>25. {{sc.surveyObject[25]}}</h2>
+<h2>26. {{sc.surveyObject[26]}}</h2>
+<h2>27. {{sc.surveyObject[27]}}</h2>
+
 
 
 
 <div layout="row" layout-align="space-around">
     <div>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-language")'>{{sc.surveyObject.cancel}}</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.cancelSurvey()'>{{sc.surveyObject.cancel}}</md-button>
     </div>
 
     <div id="survey-review-button-container">
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-demographics")'>{{sc.surveyObject.previous}}</md-button>
-        <md-button class="md-raised md-primary" ng-click="sc.submitSurvey()">{{sc.surveyObject.submit}}</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-demographics")'>{{sc.surveyObject.goback}}</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.submitSurvey(); sc.go("/survey-thanks")'>{{sc.surveyObject.submit}}</md-button>
     </div>
 
 </div>

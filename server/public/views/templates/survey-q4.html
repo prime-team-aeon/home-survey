@@ -2,33 +2,33 @@
 
 <div id="progressBar">This will be a progress bar</div>
 
-<md-button class="md-raised md-primary" id="instructionsButton" ng-click="sc.help()">HELP</md-button>
+<md-button class="md-raised md-primary" id="instructionsButton" ng-click="sc.help()">{{sc.surveyObject.instructions}}</md-button>
 
 <section>
     <p>21. {{sc.surveyObject[21]}}</p>
 
     <md-input-container>
         <label>[...]</label>
-        <input id="question-21-input" type="text" ng-model="sc.surveyAnswers.list[20].answer" >
+        <input id="question-21-input" type="text" ng-model="sc.surveyAnswers.list[20].answer">
     </md-input-container>
 </section>
 
 <section>
-        <p>22. {{sc.surveyObject[22]}}</p>
-        
-            <md-input-container>
-                <label>[...]</label>
-                <input id="question-22-input" type="text" ng-model="sc.surveyAnswers.list[21].answer" >
-            </md-input-container>
-        </section>
+    <p>22. {{sc.surveyObject[22]}}</p>
+
+    <md-input-container>
+        <label>[...]</label>
+        <input id="question-22-input" type="text" ng-model="sc.surveyAnswers.list[21].answer">
+    </md-input-container>
+</section>
 
 <div layout="row" layout-align="space-around">
     <div>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-language")'>{{sc.surveyObject.cancel}}</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.cancelSurvey()'>{{sc.surveyObject.cancel}}</md-button>
     </div>
 
     <div>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q3")'>{{sc.surveyObject.previous}}</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q3")'>{{sc.surveyObject.goback}}</md-button>
         <md-button class="md-raised md-primary" ng-click='sc.go("/survey-demographics")'>{{sc.surveyObject.next}}</md-button>
     </div>
 

@@ -4,7 +4,7 @@
         
 <div id="progressBar">This will be a progress bar</div>
 
-<md-button class="md-raised md-primary" id="instructionsButton" ng-click="sc.help()">HELP</md-button>
+<md-button class="md-raised md-primary" id="instructionsButton" ng-click="sc.help()">{{sc.surveyObject.instructions}}</md-button>
 
 <section>
     <p>13. {{sc.surveyObject[13]}}</p>
@@ -73,11 +73,11 @@
 
 <div layout="row" layout-align="space-around">
     <div>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-language")'>{{sc.surveyObject.cancel}}</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.cancelSurvey()'>{{sc.surveyObject.cancel}}</md-button>
     </div>
 
     <div>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q2")'>{{sc.surveyObject.previous}}</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q2")'>{{sc.surveyObject.goback}}</md-button>
         <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q4")'>{{sc.surveyObject.next}}</md-button>
     </div>
 
