@@ -240,6 +240,7 @@ router.delete('/:username', function(req,res){
                     res.sendStatus(500);
                 } else {
                     client.query('DELETE FROM users WHERE username=$1', [req.params.username], function(err, data){
+                        done();
                         if (err){
                             console.log('query error', err);
                             res.sendStatus(500);

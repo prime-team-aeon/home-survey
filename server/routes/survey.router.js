@@ -17,6 +17,7 @@ router.get('/begin', function(req, res) {
                     res.sendStatus(500);
                 } else {
                     client.query('SELECT * FROM occupancy WHERE property=$1 AND unit=$2', [req.query.property, req.query.unit], function(err,data){
+                        done();
                         if(err){
                             console.log('query error', err);
                             res.sendStatus(500);
@@ -125,6 +126,7 @@ router.get('/questions/:year?', function (req, res) {
                     res.sendStatus(500);
                 } else {
                     client.query('SELECT * FROM questions ORDER BY question_number', function (err, data) {
+                        done();
                         if (err) {
                             console.log('db query error', err);
                             res.sendStatus(500);
@@ -234,6 +236,7 @@ router.post('/:language', function (req, res) {
                             if(!foundTable){
                                 console.log('notfound');
                                 client.query("CREATE TABLE " + tableName + "(id SERIAL PRIMARY KEY, property TEXT NOT NULL, language TEXT NOT NULL, answer1 TEXT NOT NULL, answer2 TEXT NOT NULL, answer3 TEXT NOT NULL, answer4 TEXT NOT NULL, answer5 TEXT NOT NULL, answer6 TEXT NOT NULL, answer7 TEXT NOT NULL, answer8 TEXT NOT NULL, answer9 TEXT NOT NULL, answer10 TEXT NOT NULL, answer11 TEXT NOT NULL, answer12 TEXT NOT NULL, answer13 TEXT NOT NULL, answer14 TEXT NOT NULL, answer15 TEXT NOT NULL, answer16 TEXT NOT NULL, answer17 TEXT NOT NULL, answer18 TEXT NOT NULL, answer19 TEXT NOT NULL, answer20 TEXT NOT NULL, answer21 TEXT NOT NULL, answer22 TEXT NOT NULL, answer23 TEXT NOT NULL, answer24 TEXT NOT NULL, answer25 TEXT NOT NULL, answer26 TEXT NOT NULL, answer27 TEXT NOT NULL);", function(err,createData){
+                                    done();
                                     if(err){
                                         console.log('query error');
                                         res.sendStatus(500);
