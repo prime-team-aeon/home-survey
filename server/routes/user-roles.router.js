@@ -10,7 +10,6 @@ router.get('/properties/:year', function (req, res) {
     if (req.isAuthenticated()) {
         if ((req.user.role == 'Administrator') || (req.user.role == 'Resident')) {
             pool.connect(function (err, client, done) {
-
                 if (err) {
                     console.log('error connecting to db', err);
                     res.sendStatus(500);
@@ -39,6 +38,7 @@ router.get('/properties/:year', function (req, res) {
 });
 
 router.put('/properties/deauth', function (req, res) {
+    console.log('/properties/deauth', req.body.property, req.body.id);
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator') {
             pool.connect(function (err, client, done) {
@@ -47,13 +47,21 @@ router.put('/properties/deauth', function (req, res) {
                     res.sendStatus(500);
                 } else {
                     // query like DELETE FROM occupancy_users WHERE occupancy_property='chicago' AND user_id=2; 
-                    client.query('DELETE FROM occupancy_users WHERE occupancy_property=$1 AND user_id=$2;', [req.body.property, req.body.id], function (err, data) {
-                        done();
+                    console.log('deauth query');
+                    pool.connect(function (err, client, done) {
                         if (err) {
-                            console.log('query error', err);
+                            console.log('connection err', err);
                             res.sendStatus(500);
                         } else {
-                            res.sendStatus(200);
+                            client.query('DELETE FROM occupancy_users WHERE occupancy_property=$1 AND user_id=$2;', [req.body.property, req.body.id], function (err, data) {
+                                done();
+                                if (err) {
+                                    console.log('deauth query error', err);
+                                    res.sendStatus(500);
+                                } else {
+                                    res.sendStatus(200);
+                                }
+                            });
                         }
                     });
                 }
@@ -68,7 +76,7 @@ router.put('/properties/deauth', function (req, res) {
     }
 });
 
-router.put('/properties/auth', function (req, res) {
+router.put('/properties/:auth', function (req, res) {
     console.log('/properties/auth', req.body.property, req.body.id);
 
     if (req.isAuthenticated()) {
@@ -83,7 +91,7 @@ router.put('/properties/auth', function (req, res) {
                         client.query('INSERT INTO occupancy_users (occupancy_property, user_id) VALUES ($1, $2);', [req.body.property, req.body.id], function (err, data) {
                             done();
                             if (err) {
-                                console.log('query error', err);
+                                console.log('auth query error', err);
                                 res.sendStatus(500);
                             } else {
                                 res.sendStatus(201);
@@ -118,40 +126,55 @@ router.get('/', function (req, res) {
                     client.query('SELECT id, username, active, role FROM users ORDER BY username', function (err, data) {
                         done();
                         if (err) {
-                            console.log('query error', err);
+                            console.log('get / query error', err);
                         } else {
                             // now we need to get the users' authorized properties
-                            var userData = data.rows;
-                            client.query('SELECT * FROM occupancy_users', function (err, data) {
-                                done();
+                            pool.connect(function (err, client, done) {
                                 if (err) {
-                                    console.log('query error', err);
+                                    console.log('get / connect2 err', err);
                                     res.sendStatus(500);
                                 } else {
-                                    // data is the occupancy_users junction table
-                                    // loop through that whole table, pushing authorized properties into user objects
+                                    var userData = data.rows;
+                                    pool.connect(function (err, client, done) {
+                                        if (err) {
+                                            console.log('connection err', err);
+                                            res.sendStatus(500);
+                                        } else {
+                                            client.query('SELECT * FROM occupancy_users', function (err, data) {
+                                                done();
+                                                if (err) {
+                                                    console.log('user-roles.router get / query error', err);
+                                                    res.sendStatus(500);
+                                                } else {
+                                                    // data is the occupancy_users junction table
+                                                    // loop through that whole table, pushing authorized properties into user objects
 
-                                    for (var i = 0; i < data.rows.length; i++) {
+                                                    for (var i = 0; i < data.rows.length; i++) {
 
-                                        var authorization = data.rows[i];
+                                                        var authorization = data.rows[i];
 
-                                        // loop through user data, assign the property as a string when user_id is found
-                                        for (var j = 0; j < userData.length; j++) {
+                                                        // loop through user data, assign the property as a string when user_id is found
+                                                        for (var j = 0; j < userData.length; j++) {
 
-                                            if (authorization.user_id == userData[j].id) {
+                                                            if (authorization.user_id == userData[j].id) {
 
-                                                if (userData[j].properties == undefined) {
-                                                    userData[j].properties = [];
+                                                                if (userData[j].properties == undefined) {
+                                                                    userData[j].properties = [];
+                                                                }
+
+                                                                userData[j].properties.push(authorization.occupancy_property);
+                                                                continue;
+                                                            }
+                                                        }
+                                                    } // loop done, userData should now have all authorized property data
+                                                    res.send(userData);
                                                 }
-
-                                                userData[j].properties.push(authorization.occupancy_property);
-                                                continue;
-                                            }
+                                            });
                                         }
-                                    } // loop done, userData should now have all authorized property data
-                                    res.send(userData);
+                                    });
                                 }
-                            })
+                            });
+
                         }
                     });
                 }
