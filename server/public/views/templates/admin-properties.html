@@ -1,31 +1,41 @@
 <div ng-include="'views/partials/nav.html'"></div>
+<div layout="row" layout-padding layout-margin>
+    <div flex>
+        <h1>Admin: Edit Properties Page</h1>
 
-<h1>Admin: Edit Properties Page</h1>
+        <md-button href="#/admin" class="md-raised">Go Back</md-button>
 
-<md-button href="#/admin" class="md-raised">Go Back</md-button>
+        <h1>Add a Property</h1>
+        <md-input-container>
+            <label>Property Name</label>
+            <input ng-model="apc.UserRolesService.newProperty.name" type="text">
+        </md-input-container>
+        <md-input-container>
+            <label>Unit Number</label>
+            <input ng-model="apc.UserRolesService.newProperty.unit" type="number">
+        </md-input-container>
+        <md-button class="md-primary md-raised" ng-click="apc.addNewProperty()">Add Property</md-button>
 
-<h1>Add a Property and Unit</h1>
-<md-input-container>
-    <label>Property Name</label>
-    <input ng-model="apc.UserRolesService.newProperty.name" type="text">
-</md-input-container>
-<md-input-container>
-    <label>Unit Number</label>
-    <input ng-model="apc.UserRolesService.newProperty.unit" type="number">
-</md-input-container>
-<md-button class="md-primary md-raised" ng-click="apc.addNewProperty()">Add Property</md-button>
-
-<h1>Edit Current Property</h1>
-<md-button class="md-primary md-raised" ng-click="apc.editingProperty = !apc.editingProperty">Edit a Property</md-button>
-<div ng-if="apc.editingProperty">
-    <p>Here's where we update a property</p>
-</div>
-
-<section id="admin-properties-container">
-    <div ng-repeat="property in apc.uniqueProperties">
-        <h1>{{property}}</h1>
-        <div ng-repeat="property in apc.allProperties">
-            <p>{{property.unit}}</p>
+        <h1>Edit Unit</h1>
+        <md-input-container>
+            <label>Select a Property</label>
+            <md-select ng-model="apc.UserRolesService.selectedProperty" placeholder="Select a Property">
+                <md-option ng-value="property" ng-repeat="property in apc.UserRolesService.uniqueProperties">{{ property }}</md-option>
+            </md-select>
+        </md-input-container>
+        <div layout="column" ng-if="apc.UserRolesService.selectedProperty">
+            <h3>{{apc.UserRolesService.selectedProperty}}</h3>
+            <div layout="row" layout-align="center center" ng-repeat="property in apc.UserRolesService.allProperties | filter: apc.UserRolesService.selectedProperty : true">
+                <div flex>
+                    <div class="md-subhead">Unit # {{property.unit}}</div>
+                </div>
+                <div flex>
+                    <md-checkbox ng-model="property.occupied" ng-change="apc.UserRolesService.updateProperty(property)" aria-label="Occupied">Occupied?</md-checkbox>
+                </div>
+                <div flex>
+                    <md-button class="md-raised md-warn" ng-click="apc.UserRolesService.deleteUnit(property.id)">Delete Unit</md-button>
+                </div>
+            </div>
         </div>
     </div>
-</section>
+</div>

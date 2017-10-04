@@ -125,6 +125,7 @@ myApp.service('UserRolesService', ['$http', '$mdToast', '$location', function ($
         });
     }
 
+    // add a new property and unit to the database
     self.newProperty = {};
 
     self.addNewProperty = function (property, unit) {
@@ -149,9 +150,27 @@ myApp.service('UserRolesService', ['$http', '$mdToast', '$location', function ($
         } else {
             $mdToast.show(
                 $mdToast.simple()
-                    .textContent('Please make sure to enter in both a property name and unit number')
+                    .textContent('Please enter in both a property name and unit number')
                     .hideDelay(2000)
             );
         }
+    }
+
+    self.deleteUnit = function(occupancyId) {
+        
+        $http({
+            method: 'DELETE',
+            url: '/admin/delete-unit',
+            params: {
+                occupancyId: occupancyId
+            }
+        }).then(function (response) {
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Unit has been deleted.')
+                    .hideDelay(2000)
+            );
+            self.getAllProperties();
+        });
     }
 }]);
