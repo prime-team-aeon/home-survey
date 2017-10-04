@@ -38,6 +38,10 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
         
         })//end http.get
     };//end of self.getSurvey
+
+
+
+    
         
     self.submitSurvey = function () {
         // console.log('submitSurvey', self.surveyAnswers);

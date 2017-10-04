@@ -17,6 +17,7 @@ myApp.controller('SurveyController', function (SurveyService, $location, $window
     SurveyService.getSurvey(language);
   }
   
+  
   self.surveyLanguage = SurveyService.surveyLanguage;
 
   self.respond = function (question_id, answer) {
@@ -24,6 +25,22 @@ myApp.controller('SurveyController', function (SurveyService, $location, $window
   }
 
   self.surveyAnswers = SurveyService.surveyAnswers;
+  self.help = function () {
+    var confirm = $mdDialog.confirm()
+      .title(self.surveyObject.instructions)
+      .textContent(self.surveyObject.directions1)
+      .ariaLabel(self.surveyObject.instructions)
+      .targetEvent(event)
+      .ok(self.surveyObject.continue);
+      
+
+    $mdDialog.show(confirm).then(function () {
+      SurveyService.help();
+    }, function () { });
+
+  }
+
+
 
   self.submitSurvey = function(){
     var confirm = $mdDialog.confirm()
