@@ -1,1 +1,39 @@
+#survey-language-top-spacer{
+  height: 8vh;
+  width: 100vw;
+}
 
+.survey-language-langbtn-container{
+  /* margin-top: 15vw;
+  margin-bottom: 15vw; */
+  height: 50vh;
+  width: 35vw;
+}
+
+.survey-language-langbtn-container > .md-raised{
+  background-color: #c8e6c9;
+}  
+
+.survey-language-button{
+  width: 95%;
+  height: 25%;
+  font-size: 2.1em;
+}
+
+#survey-language-unit-prop-container{
+  height: 15vh;
+}
+
+#survey-language-unit-prop-container > * {
+  height: 40%;
+  width: 45%;
+  font-size: 1.4em;
+}
+
+#survey-language-property-select{
+  width: 90%;
+}
+
+/* #survey-language-property-select > * {
+  width: 90%;
+} */
