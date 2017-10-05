@@ -22,7 +22,6 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             url: '/user-roles/active',
             data: user
         }).then(function (response) {
-            console.log('toggleActive PUT response');
             self.getUsers();
         })
     };
@@ -38,7 +37,6 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 role: user.newRole
             }
         }).then(function (response) {
-            console.log('updateUserRole PUT response');
             self.getUsers();
         })
     };
@@ -73,10 +71,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     }
 
     self.deleteUser = function (username) {
-        // console.log('/user-roles/' + username);
 
         $http.delete('/user-roles/' + username).then(function (response) {
-            // console.log('delete response', response);
 
             if (response.status == 200) {
                 console.log('response ok');
@@ -155,6 +151,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         }
     }
 
+    // Delete a properties unit request sent to the server
     self.deleteUnit = function(occupancyId) {
         
         $http({
@@ -171,5 +168,17 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             );
             self.getAllProperties();
         });
+    }
+
+    // Send an unit occupied status update to the admin service
+    self.updateOccupied = function (property) {
+        console.log('updateOccupied service property', property);
+        $http({
+            method: 'PUT',
+            url: '/admin/updateOccupied',
+            data: property
+        }).then(function (response) {
+            self.getAllProperties();
+        })
     }
 }]);

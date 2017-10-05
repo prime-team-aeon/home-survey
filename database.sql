@@ -35,7 +35,7 @@ CREATE TABLE occupancy
     unit TEXT NOT NULL,
     responded TEXT,
     paid BOOLEAN,
-    occupied TEXT,
+    occupied BOOLEAN,
     year INT NOT NULL
 );
 CREATE TABLE responses2017

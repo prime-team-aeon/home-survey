@@ -323,4 +323,6 @@ router.get('/allProperties', function (req, res) {
 
 });
 
+
+
 module.exports = router;
