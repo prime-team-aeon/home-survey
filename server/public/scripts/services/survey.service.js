@@ -89,14 +89,14 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
     self.surveyUnit = "";
 
     self.beginSurvey = function (property, unit) {
-        // is the property/unit combo legit?
+        // is the property/unit combo legit?        
         $http.get('/survey/begin', {
             params: {
                 'property': property,
                 'unit': unit
             }
         }).then(function (response) {
-            console.log('response', response);
+            // console.log('response', response);
 
             if (response.data == "authorized") {
                 // actually begin the survey
@@ -107,7 +107,6 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
             } else if (response.data == 'responded') {
                 $mdDialog.show(
                     $mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#survey-begin-container')))
                     .clickOutsideToClose(true)
                     .title('Already Responded')
                     .textContent('This unit has already responded. Please try again.')
@@ -117,7 +116,6 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
             } else if (response.data == 'unit not found') {
                 $mdDialog.show(
                     $mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#survey-begin-container')))
                     .clickOutsideToClose(true)
                     .title('Unit Not Found')
                     .textContent('This is not a valid unit. Please try again.')
