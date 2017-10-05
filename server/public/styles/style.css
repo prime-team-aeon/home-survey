@@ -47,3 +47,7 @@
 .cancelbtn-container > .md-raised{
     background-color: #c8e6c9
 }
+
+#logout-button {
+    float: right;
+}
