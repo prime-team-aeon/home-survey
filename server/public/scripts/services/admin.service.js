@@ -1,5 +1,5 @@
-myApp.service('UserRolesService', ['$http', '$mdToast', '$location', function ($http, $mdToast, $location) {
-    // console.log('UserRoleService loaded');
+myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http, $mdToast, $location) {
+    // console.log('AdminService loaded');
 
     var self = this;
 

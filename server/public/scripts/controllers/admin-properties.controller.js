@@ -1,18 +1,18 @@
-myApp.controller('AdminPropertiesController', ['UserRolesService', '$mdDialog', function (UserRolesService, $mdDialog) {
+myApp.controller('AdminPropertiesController', ['AdminService', '$mdDialog', function (AdminService, $mdDialog) {
     var self = this;
 
-    self.UserRolesService = UserRolesService;
-    UserRolesService.getAllProperties();
+    self.AdminService = AdminService;
+    AdminService.getAllProperties();
 
-    self.allProperties = UserRolesService.allProperties;
-    self.uniqueProperties = UserRolesService.uniqueProperties;
+    self.allProperties = AdminService.allProperties;
+    self.uniqueProperties = AdminService.uniqueProperties;
 
     self.goToUpdateProperties = function () {
-        UserRolesService.getAllProperties();
+        AdminService.getAllProperties();
     }
 
     self.addNewProperty = function () {
-        UserRolesService.addNewProperty(UserRolesService.newProperty.name, UserRolesService.newProperty.unit);
+        AdminService.addNewProperty(AdminService.newProperty.name, AdminService.newProperty.unit);
     }
     
 }]);

@@ -1,4 +1,4 @@
-myApp.controller('AdminController', ['CsvService', 'UserRolesService', '$scope', '$mdDialog', function (CsvService, UserRolesService, $scope, $mdDialog) {
+myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$mdDialog', function (CsvService, AdminService, $scope, $mdDialog) {
   console.log('AdminController created');
   var self = this;
 
@@ -46,15 +46,15 @@ myApp.controller('AdminController', ['CsvService', 'UserRolesService', '$scope',
     CsvService.exportAllResponses(self.yearToAdd);
   }
 
-  self.propertyList = UserRolesService.propertyList;
+  self.propertyList = AdminService.propertyList;
 
   // Gets user information and assign to self.users
-  self.UserRolesService = UserRolesService;
-  UserRolesService.getUsers();
-  self.users = UserRolesService.users;
+  self.AdminService = AdminService;
+  AdminService.getUsers();
+  self.users = AdminService.users;
 
   self.manageAuth = function (user, property, route) {
-    UserRolesService.manageAuth(user.id, property, route);
+    AdminService.manageAuth(user.id, property, route);
   }
 
   // deletes a user out of the db
@@ -69,7 +69,7 @@ myApp.controller('AdminController', ['CsvService', 'UserRolesService', '$scope',
       .cancel('Cancel');
 
     $mdDialog.show(confirm).then(function () {
-      UserRolesService.deleteUser(user.username);
+      AdminService.deleteUser(user.username);
     }, function () { });
   }
 
