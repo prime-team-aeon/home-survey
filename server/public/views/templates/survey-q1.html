@@ -6,7 +6,7 @@
 
 <md-button class="md-raised md-primary" id="instructionsButton" ng-click="sc.help()">{{sc.surveyObject.instructions}}</md-button>
 
-<section>
+<section class="survey-question">
     <p>1. {{sc.surveyObject[1]}}</p>
     <md-button class="md-raised" ng-click="sc.respond(1,1)" ng-class="{ 'md-accent': sc.surveyAnswers.list[0].answer == 1}">{{sc.surveyObject.answer1}}</md-button>
     <md-button class="md-raised" ng-click="sc.respond(1,2)" ng-class="{ 'md-accent': sc.surveyAnswers.list[0].answer == 2}">{{sc.surveyObject.answer2}}</md-button>
@@ -14,7 +14,7 @@
     <md-button class="md-raised" ng-click="sc.respond(1,4)" ng-class="{ 'md-accent': sc.surveyAnswers.list[0].answer == 4}">{{sc.surveyObject.answer4}}</md-button>
 </section>
 
-<section>
+<section class="survey-question">
     <p>2. {{sc.surveyObject[2]}}</p>
     <md-button class="md-raised" ng-click="sc.respond(2,1)" ng-class="{ 'md-accent': sc.surveyAnswers.list[1].answer == 1}">{{sc.surveyObject.answer1}}</md-button>
     <md-button class="md-raised" ng-click="sc.respond(2,2)" ng-class="{ 'md-accent': sc.surveyAnswers.list[1].answer == 2}">{{sc.surveyObject.answer2}}</md-button>
@@ -22,7 +22,7 @@
     <md-button class="md-raised" ng-click="sc.respond(2,4)" ng-class="{ 'md-accent': sc.surveyAnswers.list[1].answer == 4}">{{sc.surveyObject.answer4}}</md-button>
 </section>
 
-<section>
+<section class="survey-question">
     <p>3. {{sc.surveyObject[3]}}</p>
     <md-button class="md-raised" ng-click="sc.respond(3,1)" ng-class="{ 'md-accent': sc.surveyAnswers.list[2].answer == 1}">{{sc.surveyObject.answer1}}</md-button>
     <md-button class="md-raised" ng-click="sc.respond(3,2)" ng-class="{ 'md-accent': sc.surveyAnswers.list[2].answer == 2}">{{sc.surveyObject.answer2}}</md-button>
@@ -30,7 +30,7 @@
     <md-button class="md-raised" ng-click="sc.respond(3,4)" ng-class="{ 'md-accent': sc.surveyAnswers.list[2].answer == 4}">{{sc.surveyObject.answer4}}</md-button>
 </section>
 
-<section>
+<section class="survey-question">
     <p>4. {{sc.surveyObject[4]}}</p>
     <md-button class="md-raised" ng-click="sc.respond(4,1)" ng-class="{ 'md-accent': sc.surveyAnswers.list[3].answer == 1}">{{sc.surveyObject.answer1}}</md-button>
     <md-button class="md-raised" ng-click="sc.respond(4,2)" ng-class="{ 'md-accent': sc.surveyAnswers.list[3].answer == 2}">{{sc.surveyObject.answer2}}</md-button>
@@ -38,7 +38,7 @@
     <md-button class="md-raised" ng-click="sc.respond(4,4)" ng-class="{ 'md-accent': sc.surveyAnswers.list[3].answer == 4}">{{sc.surveyObject.answer4}}</md-button>
 </section>
 
-<section>
+<section class="survey-question">
     <p>5. {{sc.surveyObject[5]}}</p>
     <md-button class="md-raised" ng-click="sc.respond(5,1)" ng-class="{ 'md-accent': sc.surveyAnswers.list[4].answer == 1}">{{sc.surveyObject.answer1}}</md-button>
     <md-button class="md-raised" ng-click="sc.respond(5,2)" ng-class="{ 'md-accent': sc.surveyAnswers.list[4].answer == 2}">{{sc.surveyObject.answer2}}</md-button>
@@ -49,7 +49,7 @@
 
 <div layout="row" layout-align="space-around">
     <div>
-        <md-button class="md-raised md-primary" ng-click='sc.cancelSurvey()'>{{sc.surveyObject.cancel}}</md-button>
+        <md-button class="cancelbtn md-raised" ng-click='sc.cancelSurvey()'>{{sc.surveyObject.cancel}}</md-button>
     </div>
 
     <div>

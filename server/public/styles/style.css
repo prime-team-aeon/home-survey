@@ -1,3 +1,4 @@
+
 #survey-language-top-spacer{
   height: 8vh;
   width: 100vw;
@@ -37,3 +38,11 @@
 /* #survey-language-property-select > * {
   width: 90%;
 } */
+
+.survey-question {
+    width: 80vw
+};
+
+.cancelbtn {
+    background-color: #C0C03E 
+};

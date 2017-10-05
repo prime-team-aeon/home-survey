@@ -1,10 +1,12 @@
 <div ng-include="'views/partials/nav.html'"></div>
 
 <div id="progressBar">This will be a progress bar</div>
+<div layout="column" layout-align="center center">
+        
 <h1>{{sc.surveyObject.survey}}</h1>
-<h2>{{sc.surveyObject.intro1}}
-</h2>
+<h2>{{sc.surveyObject.intro1}}</h2>
 <h2>{{sc.surveyObject.intro2}}</h2>
+</div>
 
 <div layout="row" layout-align="center center">
 <md-button class=" md-raised md-primary" ng-click='sc.go("/survey-q1")'>{{sc.surveyObject.begin}}</md-button>
