@@ -1,4 +1,4 @@
-myApp.controller('SurveyController', function (UserRolesService, SurveyService, $location, $window, $mdDialog) {
+myApp.controller('SurveyController', function (AdminService, SurveyService, $location, $window, $mdDialog) {
   console.log('SurveyController created');
   var self = this;
   // self.surveyObject = SurveyService.surveyObject;
@@ -7,9 +7,6 @@ myApp.controller('SurveyController', function (UserRolesService, SurveyService, 
     $window.scrollTo(0, 0);
   }
   self.surveyObject = SurveyService.surveyObject;
-
-  console.log(self.introOne);
-
 
   // self.surveyObject=SurveyService.surveyObject;
   self.getSurvey = function (language) {
@@ -57,7 +54,7 @@ myApp.controller('SurveyController', function (UserRolesService, SurveyService, 
 
   }
 
-  self.propertyList = UserRolesService.propertyList;
+  self.propertyList = AdminService.propertyList;
 
   self.propertyChosen = "";
 

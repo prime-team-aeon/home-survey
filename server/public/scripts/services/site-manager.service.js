@@ -15,8 +15,8 @@ myApp.service('SiteManagerService', ['$http', function ($http) {
             self.selectProperties = self.properties.list.map(function (property){
                 return property.property
             });
-            self.selectProperties = self.selectProperties.filter(function(v,i){
-                return self.selectProperties.indexOf(v) == i;
+            self.selectProperties = self.selectProperties.filter(function(property, index){                
+                return self.selectProperties.indexOf(property) == index;
             });
         });
     };
