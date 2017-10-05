@@ -8,9 +8,6 @@ router.get('/begin', function (req, res) {
     if (req.isAuthenticated()) {
         if (req.user.role == 'Resident') {
             // is this property/unit combo legit?
-            // console.log('req.query.property', req.query.property);
-            // console.log('req.query.unit', req.query.unit);
-
             pool.connect(function (err, client, done) {
                 if (err) {
                     console.log('db connect error', err);
@@ -51,6 +48,7 @@ router.get('/begin', function (req, res) {
 router.get('/language', function (req, res) {
     var language = req.query.language;
     var translation;
+
     switch (language) {
         case 'english':
             language = "SELECT question_number, english FROM questions WHERE question_number BETWEEN 1 AND 27;";
@@ -93,7 +91,6 @@ router.get('/language', function (req, res) {
                                 } else {
                                     client.query(translation, function (err, data) {
                                         done();
-                                        // console.log('query result', data.rows)
                                         if (err) {
                                             console.log('query error', err);
                                         } else {
@@ -104,7 +101,6 @@ router.get('/language', function (req, res) {
                                     });
                                 }
                             });
-                            // send response data back to client
                         }
                     });
                 }
@@ -119,8 +115,8 @@ router.get('/language', function (req, res) {
     }
 });
 
+// fetches list of questions out of the db. 'year' param defaults to this year if not specified, which it generally shouldn't be
 router.get('/questions/:year?', function (req, res) {
-    // console.log('GET /questions');
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator') {
             var thisYear = new Date();
@@ -140,10 +136,9 @@ router.get('/questions/:year?', function (req, res) {
                         } else {
                             res.send(data.rows);
                         }
-                    })
+                    });
                 }
-            })
-
+            });
         } else {
             //not resident role
             res.sendStatus(403);
@@ -154,8 +149,8 @@ router.get('/questions/:year?', function (req, res) {
     }
 });
 
+// updates the posted question in the db. 'year' defaults to this year if not specified, which it really shouldn't be.
 router.post('/questions/:year?', function (req, res) {
-    // console.log('POST /questions', req.body);
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator') {
             var thisYear = new Date();
@@ -190,7 +185,6 @@ router.post('/questions/:year?', function (req, res) {
                     });
                 }
             });
-
         } else {
             //not resident role
             res.sendStatus(403);
@@ -201,6 +195,7 @@ router.post('/questions/:year?', function (req, res) {
     }
 });
 
+// takes a completed survey and posts it to the database. also updates the unit to having responded in the `occupancy` table.
 router.post('/', function (req, res) {
     console.log('POST /survey', req.query, req.body);
     if (req.isAuthenticated()) {
@@ -254,10 +249,8 @@ router.post('/', function (req, res) {
                                                     var foundTable = tableNames.rows.find(function (table) {
                                                         return table.table_name == tableName;
                                                     });
-                                                    console.log('foundTable', foundTable);
                                                     // make a new table for this year if one doesn't already exist
                                                     if (!foundTable) {
-                                                        console.log('notfound');
                                                         pool.connect(function (err, client, done) {
                                                             if (err) {
                                                                 console.log('connection err', err);
@@ -304,7 +297,6 @@ router.post('/', function (req, res) {
                                                                 });
                                                             }
                                                         });
-
                                                     } else {
                                                         // table was found, so we don't need to create it
                                                         pool.connect(function (err, client, done) {
@@ -343,8 +335,7 @@ router.post('/', function (req, res) {
                                                 }
                                             });
                                         }
-                                    })
-
+                                    });
                                 }
                             } else {
                                 // unit not found
@@ -363,8 +354,5 @@ router.post('/', function (req, res) {
     }
 });
 
-function addSurveyData(client, done, queryString, property, unit) {
-
-}
 
 module.exports = router;
