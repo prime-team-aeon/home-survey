@@ -8,9 +8,6 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, $loc
   }
   self.surveyObject = SurveyService.surveyObject;
 
-  console.log(self.introOne);
-
-
   // self.surveyObject=SurveyService.surveyObject;
   self.getSurvey = function (language) {
     console.log('controller function ran with : ', language);
