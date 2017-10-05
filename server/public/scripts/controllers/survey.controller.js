@@ -1,4 +1,10 @@
 myApp.controller('SurveyController', function (AdminService, SurveyService, $location, $window, $mdDialog) {
+
+  //--------------------------------------
+  //-------------VARIABLES----------------
+  //--------------------------------------
+
+
   var self = this;
 
   self.propertyChosen = ""; // the user-selected property
@@ -8,10 +14,22 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, $loc
   self.surveyObject = SurveyService.surveyObject; // holds the translated questions for display
   
 
+  
+  //--------------------------------------
+  //-------------RUNTIME CODE-------------
+  //--------------------------------------
+
+
   // passes the user-selected property and unit to the service to be checked against the db for whether or not it's a valid property and unit that has not yet responded to the survey
   self.beginSurvey = function (property, unit) {
     SurveyService.beginSurvey(property, unit);
   }
+
+
+
+  //--------------------------------------
+  //-------------FUNCTIONS----------------
+  //--------------------------------------
 
 
   // displays a confirmation dialog for the user, and if confirmed clears the surveyAnswers object and sends the user back to the language-select page
