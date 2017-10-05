@@ -1,128 +1,28 @@
 myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http, $mdToast, $location) {
-    // console.log('AdminService loaded');
+
+    //--------------------------------------
+    //-------------VARIABLES----------------
+    //--------------------------------------
 
     var self = this;
 
-    self.users = {}
+    self.allProperties = {}; // holds all unit/property combos    
+    self.newProperty = {};
+    self.users = {};
 
-    // get users username, active, and role status
-    self.getUsers = function () {
-        $http({
-            method: 'GET',
-            url: '/user-roles',
-        }).then(function (response) {
-            self.users = response.data;
-        });
-    };
-
-    // Update the users active status PUT request
-    self.toggleActive = function (user) {
-        $http({
-            method: 'PUT',
-            url: '/user-roles/active',
-            data: user
-        }).then(function (response) {
-            self.getUsers();
-        })
-    };
-
-    // Update the users role PUT request
-    self.updateUserRole = function (user) {
-
-        $http({
-            method: 'PUT',
-            url: '/user-roles/role',
-            data: {
-                user: user,
-                role: user.newRole
-            }
-        }).then(function (response) {
-            self.getUsers();
-        })
-    };
-
-    // get list of properties from db
+    // stores list of properties from the database
+    // one entry per property. for building selectors
     self.propertyList = {
         list: []
     };
 
-    self.getProperties = function () {
-        let thisYear = new Date();
-        thisYear = thisYear.getFullYear();
-        $http.get('/user-roles/properties/' + thisYear).then(function (response) {
-            console.log('getProperties response', response);
-            for (var i = 0; i < response.data.length; i++) {
-                self.propertyList.list.push(response.data[i].property);
-            }
-        });
-    }
 
-    self.getProperties();
+    //--------------------------------------
+    //-------------FUNCTIONS----------------
+    //--------------------------------------
 
-    self.manageAuth = function (userId, property, route) {
-        var authInfo = {
-            id: userId,
-            property: property
-        }
-
-        $http.put('/user-roles/properties/' + route, authInfo).then(function (response) {
-            self.getUsers();
-        });
-    }
-
-    self.deleteUser = function (username) {
-
-        $http.delete('/user-roles/' + username).then(function (response) {
-
-            if (response.status == 200) {
-                console.log('response ok');
-
-                $mdToast.show(
-                    $mdToast.simple()
-                        .textContent('User deleted.')
-                        .hideDelay(2000)
-                );
-            } else {
-                console.log('response bad');
-                $mdToast.show(
-                    $mdToast.simple()
-                        .textContent('Deletion unsuccessful.')
-                        .hideDelay(2000)
-                );
-            }
-            self.getUsers();
-        });
-    }
-
-    // get list of all properties from db
-    self.allProperties = {};
-    self.allUnits = {};
-
-    self.getAllProperties = function () {
-        $http.get('/user-roles/allProperties/').then(function (response) {
-
-            // get the properties
-            self.uniqueProperties = [];
-            response.data.forEach(function (occupancy) {
-
-                self.uniqueProperties = response.data.map(function (occupancy) {
-                    return occupancy.property
-                });
-
-                self.uniqueProperties = self.uniqueProperties.filter(function (property, index) {
-                    return self.uniqueProperties.indexOf(property) == index;
-                });
-
-            });
-
-            self.allProperties = response.data;
-            $location.path('/admin-properties');
-        });
-    }
 
     // add a new property and unit to the database
-    self.newProperty = {};
-
     self.addNewProperty = function (property, unit) {
 
         if (property && unit) {
@@ -145,15 +45,16 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         } else {
             $mdToast.show(
                 $mdToast.simple()
-                    .textContent('Please enter in both a property name and unit number')
-                    .hideDelay(2000)
+                .textContent('Please enter in both a property name and unit number')
+                .hideDelay(2000)
             );
         }
     }
 
+
     // Delete a properties unit request sent to the server
-    self.deleteUnit = function(occupancyId) {
-        
+    self.deleteUnit = function (occupancyId) {
+
         $http({
             method: 'DELETE',
             url: '/admin/delete-unit',
@@ -163,12 +64,108 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         }).then(function (response) {
             $mdToast.show(
                 $mdToast.simple()
-                    .textContent('Unit has been deleted.')
-                    .hideDelay(2000)
+                .textContent('Unit has been deleted.')
+                .hideDelay(2000)
             );
             self.getAllProperties();
         });
     }
+
+
+    // delete a user from the database
+    self.deleteUser = function (username) {
+
+        $http.delete('/user-roles/' + username).then(function (response) {
+            if (response.status == 200) {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('User deleted.')
+                    .hideDelay(2000)
+                );
+            } else {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('Deletion unsuccessful.')
+                    .hideDelay(2000)
+                );
+            }
+            self.getUsers();
+        });
+    }
+
+
+    // get list of all property/unit combos from db
+    self.getAllProperties = function () {
+        $http.get('/user-roles/allProperties/').then(function (response) {
+
+            // get the properties
+            self.uniqueProperties = [];
+            response.data.forEach(function (occupancy) {
+
+                self.uniqueProperties = response.data.map(function (occupancy) {
+                    return occupancy.property
+                });
+
+                self.uniqueProperties = self.uniqueProperties.filter(function (property, index) {
+                    return self.uniqueProperties.indexOf(property) == index;
+                });
+
+            });
+
+            self.allProperties = response.data;
+            $location.path('/admin-properties');
+        });
+    }
+
+
+    // get list of properties from db
+    self.getProperties = function () {
+        let thisYear = new Date();
+        thisYear = thisYear.getFullYear();
+        $http.get('/user-roles/properties/' + thisYear).then(function (response) {
+            console.log('getProperties response', response);
+            for (var i = 0; i < response.data.length; i++) {
+                self.propertyList.list.push(response.data[i].property);
+            }
+        });
+    }
+
+    
+    // get users username, active, and role status
+    self.getUsers = function () {
+        $http({
+            method: 'GET',
+            url: '/user-roles',
+        }).then(function (response) {
+            self.users = response.data;
+        });
+    };
+
+
+    // authorize or deauthorize a site manager for a property
+    self.manageAuth = function (userId, property, route) {
+        var authInfo = {
+            id: userId,
+            property: property
+        }
+
+        $http.put('/user-roles/properties/' + route, authInfo).then(function (response) {
+            self.getUsers();
+        });
+    }
+
+
+    // Update the users active status PUT request
+    self.toggleActive = function (user) {
+        $http({
+            method: 'PUT',
+            url: '/user-roles/active',
+            data: user
+        }).then(function (response) {
+            self.getUsers();
+        });
+    };
+
 
     // Send an unit occupied status update to the admin service
     self.updateOccupied = function (property) {
@@ -181,4 +178,31 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             self.getAllProperties();
         })
     }
+
+
+    // Update the user's role PUT request
+    self.updateUserRole = function (user) {
+        $http({
+            method: 'PUT',
+            url: '/user-roles/role',
+            data: {
+                user: user,
+                role: user.newRole
+            }
+        }).then(function (response) {
+            self.getUsers();
+        });
+    };
+
+
+
+    //--------------------------------------
+    //-------------RUNTIME CODE-------------
+    //--------------------------------------
+
+    self.getProperties(); // build propertyList immediately
+
+
+    
 }]);
+    

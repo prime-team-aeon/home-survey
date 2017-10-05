@@ -3,7 +3,6 @@ var router = express.Router();
 
 // Handles Ajax request for user information if user is authenticated
 router.get('/:role?', function (req, res) {
-  // console.log('get /user route', req.params.role);
   // check if logged in
   if (req.isAuthenticated()) {
     // if we want 'any' role, we don't actually need to send the role     
@@ -30,11 +29,10 @@ router.get('/:role?', function (req, res) {
       };
       res.send(userInfo);
     } else {
-      console.log('cascade failure in user auth - likely you requested a page that your current role is not authorized for');
+      console.log('user auth failure - likely you requested a page that your current role is not authorized for');
       res.send(false);
     }
     // send back user object from database
-    // console.log('logged in', req.user);
   } else {
     // failure best handled on the server. do redirect here.
     console.log('user route not logged in');
@@ -46,7 +44,6 @@ router.get('/:role?', function (req, res) {
 // clear all server session information about this user
 router.get('/logout', function (req, res) {
   // Use passport's built-in method to log out the user
-  // console.log('Logged out');
   req.logOut();
   res.sendStatus(200);
 });

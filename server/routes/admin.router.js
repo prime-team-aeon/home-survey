@@ -4,7 +4,7 @@ var passport = require('passport');
 var path = require('path');
 var pool = require('../modules/pool.js');
 
-// Add a new property
+// Add a new property. called from admin-properties view
 router.post('/new-property', function (req, res) {    
     
     var thisYear = new Date();
@@ -43,7 +43,7 @@ router.post('/new-property', function (req, res) {
     }
 });
 
-// Delete a property unit
+// Delete a property unit. called from admin-properties view
 router.delete('/delete-unit', function (req, res) {
     var occupancyId = req.query.occupancyId;
     if (req.isAuthenticated()) {
@@ -75,10 +75,8 @@ router.delete('/delete-unit', function (req, res) {
 
 });
 
-// Update unit occupied status
+// Update unit occupied status. called from admin-properties view
 router.put('/updateOccupied', function (req, res) {
-    console.log('updateOccupied req.body', req.body);
-
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator') {
             pool.connect(function (errDatabase, client, done) {
