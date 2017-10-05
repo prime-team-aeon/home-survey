@@ -6,63 +6,71 @@ var encryptLib = require('../modules/encryption');
 var randomstring = require('randomstring');
 var nodemailer = require('nodemailer');
 
+// searches for the token and flips associated user to active if found
+// only ever hit the links sent out via nodemailer during registration process
 router.get('/verify/:token', function (req, res) {
-  console.log('verify token hit', req.params.token);
   //look for the token in db
   pool.connect(function (err, client, done) {
     if (err) {
       console.log("Error connecting: ", err);
       res.sendStatus(500);
-    }else{
-      //SELECT id, timestamp FROM users WHERE token = 'sAhlEMrt0rL1f3St';
-      client.query('SELECT id, timestamp FROM users WHERE token = $1;', [req.params.token], 
-      function (err, results) {
-        done();
-        if (err) {
-          console.log("query error ", err);
-          res.sendStatus(500);
-        }else{
-          if(results.rows.length == 0){
-            //we didn't find the token
-            console.log('token not found');
-            res.sendStatus(400);
-          }else{
-            //compare the timestamp against current time
-            var userId = results.rows[0].id;
-            var then = new Date(results.rows[0].timestamp);
-            var now = new Date();
-            var timeDiff = now.getTime() - then.getTime();
-              if(timeDiff < (24*60*60*1000)){
+    } else {
+      // query like: SELECT id, timestamp FROM users WHERE token = 'sAhlEMrt0rL1f3St';
+      client.query('SELECT id, timestamp FROM users WHERE token = $1;', [req.params.token],
+        function (err, results) {
+          done();
+          if (err) {
+            console.log("query error ", err);
+            res.sendStatus(500);
+          } else {
+            if (results.rows.length == 0) {
+              //we didn't find the token
+              console.log('token not found');
+              res.sendStatus(400);
+            } else {
+              //compare the timestamp against current time
+              var userId = results.rows[0].id;
+              var then = new Date(results.rows[0].timestamp);
+              var now = new Date();
+              var timeDiff = now.getTime() - then.getTime();
+              if (timeDiff < (24 * 60 * 60 * 1000)) {
                 //less than 24 hrs difference erase token
                 //client.query to remove token and update to true(active)
                 //UPDATE user SET active=true, token=null WHERE id=1;
-                client.query('UPDATE users SET active=true, token=null WHERE id=$1;',[userId],
-                function(err,results){
-                  done()
-                  if(err){
-                    console.log('query error', err);
+                pool.connect(function (err, client, done) {
+                  if (err) {
+                    console.log("Error connecting: ", err);
                     res.sendStatus(500);
-                  }else{
-                    res.sendStatus(200)
+                  } else {
+                    client.query('UPDATE users SET active=true, token=null WHERE id=$1;', [userId],
+                      function (err, results) {
+                        done()
+                        if (err) {
+                          console.log('query error', err);
+                          res.sendStatus(500);
+                        } else {
+                          res.sendStatus(200)
+                        }
+                      }
+                    );
                   }
                 });
-                
-              }else{
+              } else {
                 console.log('expired token');
                 res.status(400).send('expired')
-              } 
+              }
+            }
           }
-        }
-      })
+        })
 
 
     }
   });
-      //if we find the token, we need to check the timestamp, needs to be within 24 hrs
-        //if not within 24 hours return 400
-        //if we find the token and it's within time frame
-          //make them active and erase token from DB
-          //send back 200
+  //if we find the token, we need to check the timestamp, needs to be within 24 hrs
+  //if not within 24 hours return 400
+  //if we find the token and it's within time frame
+  //make them active and erase token from DB
+  //send back 200
   //if we don't find the token, we return a 400
 }); //end verify get route
 
@@ -87,8 +95,6 @@ router.post('/', function (req, res, next) {
       timestamp: new Date()
     };
 
-    // console.log('new user:', saveUser);
-
     pool.connect(function (err, client, done) {
       if (err) {
         console.log("Error connecting: ", err);
@@ -96,7 +102,7 @@ router.post('/', function (req, res, next) {
       }
       client.query("INSERT INTO users (username, password, timestamp, token) VALUES ($1, $2, $3, $4) RETURNING id", [saveUser.username, saveUser.password, saveUser.timestamp, saveUser.token],
         function (err, result) {
-          client.end();
+          done();
 
           if (err) {
             console.log("Error inserting data: ", err);
@@ -109,15 +115,18 @@ router.post('/', function (req, res, next) {
                 user: 'aeonhomesurvey@gmail.com',
                 pass: 'sadhorsenocookie'
               }
-            })
+            });
+
             var emailtext = "Thank you for registering. Please click this link to confirm your email address. An Aeon administrator will approve your access levels.";
             emailtext += "\n\nhttp://aeonhomesurvey.com/#/register/verify/" + saveUser.token;
+
             var mailOptions = {
               from: 'aeonhomesurvey@gmail.com',
               to: saveUser.username,
               subject: 'Aeon Home Survey Registration Confirmation',
               text: emailtext
             }
+
             transporter.sendMail(mailOptions, function (mailerr, info) {
               if (mailerr) {
                 console.log('mailerr', mailerr);
@@ -126,7 +135,7 @@ router.post('/', function (req, res, next) {
                 // console.log('email sent: ' + info.response);
                 res.sendStatus(201);
               }
-            })
+            });
           }
         });
     });

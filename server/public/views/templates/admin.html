@@ -1,6 +1,5 @@
 <div ng-include="'views/partials/nav.html'"></div>
 
-
 <h1>Admin Page</h1>
 
 <section id="admin-upload-container">
@@ -26,13 +25,17 @@
 </section>
 
 <section id="admin-questions-container">
-  <md-button ng-click="ac.goToUpdateQuestions()">Update Survey Questions</md-button>
+  <md-button ng-click="ac.goToUpdateQuestions()" class="md-raised">Update Survey Questions</md-button>
+</section>
+
+<section id="admin-properties-container">
+  <md-button ng-href="#/admin-properties" class="md-raised">Update Properties</md-button>
 </section>
 
 <!-- Users Role and Active Status -->
 <section id="users-status-container">
   <h1>Users</h1>
-  <md-card ng-repeat="user in ac.UserRolesService.users">
+  <md-card ng-repeat="user in ac.AdminService.users">
     <md-card-content>
       <h3>{{ user.username }} (<span ng-if="user.active">Active</span><span ng-if="!user.active">Inactive</span>)</h3>
       <p>Role: {{user.role}}</p>
@@ -48,7 +51,7 @@
       </md-input-container>
 
       <md-input-container>
-        <md-button class="md-raised md-accent" ng-click="ac.UserRolesService.updateUserRole(user)">Update Role</md-button>
+        <md-button class="md-raised md-accent" ng-click="ac.AdminService.updateUserRole(user)">Update Role</md-button>
       </md-input-container>
 
       <md-input-container ng-if="user.role == 'Site Manager'">
@@ -67,7 +70,7 @@
       </md-input-container>
 
       <md-input-container class="md-block">
-        <md-switch md-invert ng-change="ac.UserRolesService.toggleActive(user)" ng-model="user.active">Toggle Account Status</md-switch>
+        <md-switch md-invert ng-change="ac.AdminService.toggleActive(user)" ng-model="user.active">Toggle Account Status</md-switch>
       </md-input-container>
 
       <md-input-container>

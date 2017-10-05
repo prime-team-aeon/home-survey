@@ -13,6 +13,7 @@ var csvRouter = require('./routes/csv.router');
 var surveyRouter = require('./routes/survey.router');
 var userRolesRouter = require('./routes/user-roles.router');
 var siteManagerRouter = require('./routes/site-manager.router');
+var adminRouter = require('./routes/admin.router');
 
 
 var port = process.env.PORT || 5000;
@@ -38,6 +39,7 @@ app.use('/csv', csvRouter);
 app.use('/survey', surveyRouter);
 app.use('/user-roles', userRolesRouter);
 app.use('/site-manager', siteManagerRouter);
+app.use('/admin', adminRouter);
 
 
 // Catch all bucket, must be last!

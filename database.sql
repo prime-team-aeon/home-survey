@@ -35,7 +35,7 @@ CREATE TABLE occupancy
     unit TEXT NOT NULL,
     responded TEXT,
     paid BOOLEAN,
-    occupied TEXT,
+    occupied BOOLEAN,
     year INT NOT NULL
 );
 CREATE TABLE responses2017
@@ -77,67 +77,72 @@ CREATE TABLE occupancy_users
     user_id INT REFERENCES users,
     PRIMARY KEY(occupancy_property, user_id)
 );
-INSERT INTO translations
-    (type, english, spanish, somali, hmong)
-VALUES
-    ('directions1', 'For each question, touch the button that best describes your experience during the last 12 months. Touch NEXT to go to the next page. Touch GO BACK to go back a page. Press CANCEL to cancel the survey', 'helloSpanish', 'helloSomali', 'helloHmong'),
-    ('directions2', 'Please enter your answers to each question in the box.', 'directions2 Spanish', 'directions2 Somali', 'directions2 Hmong'),
-    ('begin', 'Begin Survey', 'Begin Survey Spanish', 'Begin Survey Somali', 'Begin Survey Hmong'),
-    ('property', 'Property', 'Property Spanish', 'Property Somali', 'Property Hmong'),
-    ('unit', 'Unit Number', 'Unit Number Spanish', 'Unit Number Somali', 'Unit Number Hmong'),
-    ('progress', 'Survey Progress', 'Survey Progress Spanish', 'Survey Progress Somali', 'Survey Progress Hmong'),
-    ('continue', 'Continue', 'Continue Spanish', 'Continue Somali', 'Continue Hmong'),
-    ('instructions', 'Instructions', 'instructions Spanish', 'instructions Somali', 'instructions Hmong'),
-    ('next', 'Next', 'Next Spanish', 'Next Somali', 'Next Hmong'),
-    ('previous', 'Previous', 'PreviousSpanish', 'PreviousSomali', 'PreviousHmong'),
-    ('cancel', 'Cancel', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
-    ('review', 'Review Your Answers', 'Review Spanish', 'Review Somali', 'Review Hmong'),
-    ('touchToGoBack', 'Touch any question to go back and change your answer.', 'touchToGoBack Spanish', 'touchToGoBack Somali', 'touchToGoBack Hmong'),
-    ('submit', 'Submit', 'Submit Spanish', 'Submit Somali', 'Submit Hmong'),
-    ('howlong1', '1 to 3 months', '1 a 3 meses', '1 illaa 3 bilood', '1 txog 3 hlis'),
-    ('howlong2', '4 to 11 months', '4 a 11 meses', '4 illaa 11 bilood', '4 txog 11 hlis'),
-    ('howlong3', '1 to 3 years', '1 a 3 años', '1 illaa 3 sano', '1 txog 3 xyoos'),
-    ('howlong4', '3 to 5 years', '3 a 5 años', '3 illaa 5 sano', '3 txog 5 xyoos'),
-    ('howlong5', '5+ years', '5+ años', '5+ Sano', '5 xyoos rov sauv'),
-    ('ethnicity1', 'American Indian', 'American Indian', 'Hindi Maraykan', 'Neeg Khab'),
-    ('ethnicity2', 'African Immigrant (Somali, Nigerian, Eritrean, other)', 'Inmigrante de Africa (Somali, Nigerian, Eritrean, otro)', 'Immigrant Afrika (Soomaaliya, Nigeria, Eritrean, kale)', 'Neeg Dub (Tuaj lwm teb chaws tuaj, xws li Xas Mas Lias)'),
-    ('ethnicity3', 'Asian / Pacific Islander', 'Asian / Pacific Islander', 'Aasiyaan / Jasiidlay Baasifik ', 'Neeg Es Xias'),
-    ('ethnicity4', 'Black / African American', 'Negro / African American', 'Madow / Afrikaan Ameerikaan', 'Kheej Dub'),
-    ('ethnicity5', 'Caucasian / White', 'Anglo / Blanco', 'Kookeeshiyaan / Caddaan', 'Neeg Dawb'),
-    ('ethnicity6', 'Hispanic / Latino', 'Hispanic / Latino', 'Hisbaanik / Laatino', 'Neeg Mev'),
-    ('ethnicity7', 'Other', 'Otro', 'Kuwo kale', 'Lwm Yam'),
-    ('gender1', 'Female', 'Mujer', 'Dheddig', 'Poj niam'),
-    ('gender2', 'Male', 'Hombre', 'Lab', 'txiv neej'),
-    ('gender3', 'Self Identify', 'Autoproclamarse', 'Isku aqoonsi', 'Koj xaiv (lwm yam)'),
-    ('age1', 'Under 18', 'Bajo 18', 'Ka yar 18', 'Qis dua 18'),
-    ('age2', '18-25', '18-25', '18-25', '18-25'),
-    ('age3', '26-35', '26-35', '26-35', '26-35'),
-    ('age4', '36-45', '36-45', '36-45', '36-45'),
-    ('age5', '46-55', '46-55', '46-55', '46-55'),
-    ('age6', 'Over 55', 'Más de 55', 'Ka wayn 55', 'tshaj 55'),
-    ('income1', 'Less than $800/mo. (Less than $9,600/yr.)', 'Bajo de $800/mes. (Bajo de $9,600/año.)', 'In ka yar $800/bish. (In ka yar $9,600/san.)', 'Ib hlis tsawg dua $800 (ib xyoos tsawg dua $9,600)'),
-    ('income2', '$801- 1,300/mo. ($9601 - 15,600/yr.)', '$801-1,300/mes. ($9601 - 15,600/año.)', '$801-1,300/bish. ($9601 - 15,600/san.)', 'Ib hlis $801 - $1,300 (ib xyoos $$9,601 - $15,600)'),
-    ('income3', '$1,301-1,800/mo. ($15,601 -21,600/yr.)', '$1,301-1,800/mes. ($15,601 - 21,600/año.)', '$1,301-1,800/bish. ($15,601 - 21,600/san.', 'Ib hlis $1,301 - $1,800 (ib xyoos $15,601 - $$21,600)'),
-    ('income4', '$1,801-2,300/mo. ($21,601-27,600/yr.)', '$1,801-2,300/mes. ($21,601- 27,600/año.)', '$1,801-2,300/bish. ($21,601- 27,600/san.)', 'Ib hlis $1,801 - $2,300 (ib xyoos $21,601 - $27,600)'),
-    ('income5', '$2,301-2,800/mo. ($27,601-33,600/yr.)', '$2,301-2,800/mes. ($27,601-33,600/año.)', '$2,301-2,800/bish. ($27,601-33,600/san.)', 'Ib hlis $2,301 - $2,800 (ib xyoos $27,601 - $33,600)'),
-    ('income6', '$2,801-3,300/mo. ($33,601-39,600/yr.)', '$2,801-3,300/mes. ($33,601- 39,600/año.)', '$2,801-3,300/bish. ($33,601- 39,600/san.)', 'Ib hlis $2,801 - $3,300 (ib xyoos $33,601 - $39,600)'),
-    ('income7', '$3,301-3,800/mo. ($39,601-45,600/yr.)', '$3,301-3,800/mes. ($39,601- 45,600/año.)', '$3,301-3,800/bish. ($39,601- 45,600/san.)', 'Ib hlis $3,301 - $3,800 (ib xyoos $39,601 - $45,600)'),
-    ('income8', 'More than $3,800/mo. (More than 45,600/yr.)', 'Más de $3,800/mes. (Má de 45,600/año.)', 'In ka badan $ 3,800/mo. (In ka badan 45,600/san.)', 'Ib hlis ntau dua $3,800 (ib xyoos ntau dua $45,600)'),
-    ('thanks', 'Thank you – your feedback is very important to us!', 'Gracias.  ¡Nos importa mucho su opinión!', 'Waad mahadsan tahay – jawaabaha aan kaa helno aad bay muhiim noogu yihiin!', 'Ua tsaug - koj cov lus teb no tseem ceeb heev rau peb.'),
-    ('requestresults', 'Summarized results of this confidential survey will be available from Aeon after September 1, upon your request. To request results, call us at 612-746-0520.', 'Los resultados resumidos de este formulario confidencial estarán disponible a partir de Aeon con una petición. Para solicitar los resultados llámenos al 612-746-0520.', 'Natiijada la soo koobay ee ra''yi-ururintan asturnaanta kalsoonida leh ayaa laga heli doonaa Aeon marka alaga codsato. Si aad u codsato natiijada, naga soo wac 612-746-0520.', 'Cov lus uas nej sawv daws teb rau cov lus nug no Aeon yuav muab sau kom tiav log rau hnub 9/1/2017 no.  Yog nej leej twg xav tau ib daim no ces hu tau rau 612 - 746 - 0520.'
-),
-    ('optional', '(Questions 23-27 are optional)', '(Preguntas 23-27 son opcionales)', '(Su''aalaha 23-27 ayaa ikhtiyaar ah)', '(Cov Lus Nug Nqe 23 - 27 no teb los tau hos tsis teb los tsis ua cas)'),
-    ('intro1', 'Thank you for taking this survey to tell Aeon what it’s like to live in your home. All answers are private and will be combined with everyone else’s answers, so we will not know how you answered each question. You can skip questions or stop the survey at any time. When answering, please think about the past 12 months.', 'Gracias por tomar esta encuesta para contar a Aeon cómo es vivir en su casa.  Todas las respuestas son privadas y las combinarán con las respuestas de los demás.  Por lo tanto, no sabremos cómo usted haya contestado cada pregunta.  Puede brincar preguntas o detener la encuesta en cualquier momento.  Cuando contesta, favor de pensar con respeto a los últimos 12 meses.', 'Waad ku mahadsan tahay in aad ka jawaabto su’aalo qoran oo aad Aeon fikrad uga siineyso nolosha guriga aad deggen tahay. Jawaabaha dadka oo dhan waa kuwa qarsoodi ah oo waa la isu-geyn doonaa, lama ogaan karo sida aad adigu wax uga jawaabtay. Haddii aad rabto su’aalaha kama jawaabeysid ama markii aad rabto ayaad iska joojin kartaa. Marka aad su’aalaha ka jawaabeyso fadlan ka feker 12-kii bilood ee ugu dambeeyey.', 'Ua tsaug uas koj tseem teb cov lus qhia rau Aeon hais tias koj nyob hauv lub tsev no nws ho zoo li cas rau li cas. Koj cov lus teb yuav tsis muab qhia rau leej twg paub li, thiab peb yuav muab xyaw rau lwm leej lwm tus cov lus teb, uas yuav tsis muaj neeg paub hais tias leej twg yog tus teb li cas. Koj teb teb txog tog koj txawm xav tsum los yeej tsum tau li nawb. Thaum koj teb cov lus, koj teb raws li 12 lub hlis dhau los no xwb.'
-),
-    ('intro2', 'If you have any questions, please talk to your Site Manager or Resident Connections Coordinator. Surveys are available in English, Hmong, Somali, and Spanish. Other languages can be made available, please ask your Site Manager.', 'Si tiene alguna duda, favor de hablar con su gerente de sitio o un coordinador de Conexiones de Residente.  Las encuestas están disponibles en inglés, hmong, somalí y español. Se puede hacer disponibles otros idiomas.  Favor de preguntar a su gerente de sitio.', 'Haddii aad su’aalo ka qabto arrintan, fadlan kala hadal Maamulaha Guriga ama Isku-duwaha Xiriirka Kireystaha. Su’aaluhu waxa ay ku qoran yihiin afafka kala ah Ingiriis, Soomaali, Moong iyo Isbaanish. Luuqad kale qofkii raba waa loogu soo diyaarin karaa, fadlan kala xiriir Maamulaha Guriga.', 'Yog koj muaj lus nug dab tsi no ces nug tus nai saib nej koog tsev no los yog tus nai loj (Resident Connection Coordinator). Cov lus nug no muaj ntau hom lus, xws li: Mis Kas, Hmoob, Xas Mas Lis, thiab Mev. Yog leej twg ho xav yuav lwm hom lus no ces qhia rau nej tus nai saib xyuas vaj tse.'
-),
-    ('intro3', 'helloEnglish', 'helloSpanish', 'helloSomali', 'helloHmong'),
-    ('survey', 'Home Survey', 'Encuesta de casa', 'Su’aalo Qoran oo ku Saabsan Guriga', 'Lus Nug Txog Tsev'),
-    ('answer1', 'Strongly agree', 'Completamente de acuerdo', 'Aad Baan Ugu Raacsanahay', 'Txaus pom zoo'),
-    ('answer2', 'Agree', 'De acuerdo', 'Waan Ku Raacsanahay', 'Pom zoo'),
-    ('answer3', 'Disagree', 'En desacuerdo', 'Waan Diiddanahay', 'Tsis pom zoo'),
-    ('answer4', 'Strongly disagree', 'Definitivamente en desacuerdo', 'Aad baan u Diiddanahay', 'Txaus tsis pom zoo'); 
 
+INSERT INTO translations (type, english, spanish, somali, hmong) VALUES
+('directions1', 'For each question, touch the button that best describes your experience during the last 12 months. Touch NEXT to go to the next page. Touch GO BACK to go back a page. Press CANCEL to cancel the survey', 'En cada pregunta, pulse el botón que describe mejor su experiencia en los últimos 12 meses.
+Presione AVANZAR para pasar a la siguiente página. Presione RETROCEDER para devolverse a la página anterior. Presione CANCELAR para cancelar la encuesta.', 'Su’aal kasta, taabo batoonka jawaabta kuugu fiican wixii aad la kulantay 12-kii
+bilood ee ugu dambeeyey. Taabo NEXT si aad bog kale ugu gudubto. Taabo GO
+BACK si aad dib ugu noqoto. Taabo CANCEL si aad isaga joojiso su’aalaha.', 'Rau ib lo lus nug, nias lub npov uas piav qhia qhov koj tau ntsib zoo dua tshaj
+rau lub sijhawm 12 lub hlis tag los. Kov TOM NTEJ NTXIV MUS yog xav mus rau
+nplooj ntawv tom ntej. Kov ROV MUS TOM QAB yog xav rov mus rau nplooj
+ntawm tom qab. Nias MUAB TSO TSEG yog xav muab daim ntawv xam phaj tso
+tseg.'),
+('directions2', 'Please enter your answers to each question in the box.', 'Por favor ingrese sus respuestas de cada pregunta en el recuadro.', 'Fadlan santuuqa dhex ku qor jawaabaha su’aal kasta.', 'Thov tso koj cov lus teb rau txhua lo lus nug nyob rau hauv lub npov.'),
+('begin', 'Begin Survey', 'Comenzar encuesta', 'Bilow Su’aalaha', 'Pib Cov Lus Xam Phaj'),
+('property', 'Property', 'Propiedad', 'Guri', 'Vaj Tse'),
+('unit', 'Unit Number', 'Número de apartamento', 'Lambarka Guriga', 'Chav Tsev'),
+('progress', 'Survey Progress', 'Progreso de la encuesta', 'Su’aalahaad ka Jawaabtay', 'Kev Xam Phaj Txog Twg Lawm'),
+('continue', 'Continue', 'Continuar', 'Sii-wad', 'Ua Ntxiv Mus'),
+('instructions', 'Instructions', 'Instrucciones', 'Tilmaamo', 'Cov Lus Taw Qhia'),
+('next', 'Next', 'Avanzar', 'Sii-soco', 'Mus Tom Ntej'),
+('goback', 'Go Back', 'Retroceder', 'Dib u Noqo', 'Rov Mus Tom Qab'),
+('cancel', 'Cancel', 'Cancelar', 'Tirtir', 'Tso Tseg'),
+('review', 'Review Your Answers', 'Revisar sus respuestas', 'Eeg Jawaabahaaga', 'Rov Saib Xyuas Dua Koj Cov Lus Teb'),
+('touchToGoBack', 'Touch any question to go back and change your answer.', 'Pulse cualquier pregunta para retroceder y cambiar su respuesta', 'Taabo su’aal kasta si aad dib ugu noqoto oo aad u beddesho jawaabtaada.', 'Nias lo lus nug twg los tau yog koj xav mus rau tom qab thiab hloov koj lo lus teb'),
+('submit', 'Submit', 'Completar y enviar encuesta', 'Dir', 'Muab Xa Mus'),
+('submitdesc', 'Pressing the Submit button will submit your answers to Aeon and enter you into a drawing for gift cards and one month of free rent. After doing so, please hand this tablet back to the Aeon site manager to receive $10.', 'Sus respuestas serán enviadas al presionar el botón de Enviar. Usted estará participando en una rifa de una tarjeta de regalo y de un mes de alquiler gratis. Después de presionar el botón de Enviar lleve este document al administrador de su
+edificio y obtendrá $10. ¡Gracias!','Guji batoonka ‘Submit’ si aad u dirto jawaabahaaga. Markaas waxaa lagugu dari doonaa abaalmarin bakhtiyaa-nasiib ah oo aad ku heli karto kaar hadyad ah iyo hal bil oo kiro bilaash ah. Markaad dirto ee aad gujiso ‘Submit’, warqadda u dhiib maamulaha guriga aad ku nooshahay si laguu siiyo 10 doollar oo ah hadyad. Mahadsanid!', 'Nias lub npov Xa Mus yuab muab koj cov lus teb xa mus. Thiab lawv yuav muab koj tso npe cuv xab laj saib puas tau ib daim npav phaj tshab thiab tau nyob pub dawb tsis them nqi tsev ib lub hlis. Tom qab nias Xa Mus, muab qhov no cev rov
+rau koj tus nai saib vaj tse ces koj tau txais $10. Ua tsaug!'),
+('howlong1', '1 to 3 months', '1 a 3 meses', '1 illaa 3 bilood', '1 txog 3 hlis'),
+('howlong2', '4 to 11 months', '4 a 11 meses', '4 illaa 11 bilood', '4 txog 11 hlis'),
+('howlong3', '1 to 3 years', '1 a 3 años', '1 illaa 3 sano', '1 txog 3 xyoos'),
+('howlong4', '3 to 5 years', '3 a 5 años', '3 illaa 5 sano', '3 txog 5 xyoos'),
+('howlong5', '5+ years', '5+ años', '5+ Sano', '5 xyoos rov sauv'),
+('ethnicity1', 'American Indian', 'American Indian', 'Hindi Maraykan', 'Neeg Khab'),
+('ethnicity2', 'African Immigrant (Somali, Nigerian, Eritrean, other)', 'Inmigrante de Africa (Somali, Nigerian, Eritrean, otro)', 'Immigrant Afrika (Soomaaliya, Nigeria, Eritrean, kale)', 'Neeg Dub (Tuaj lwm teb chaws tuaj, xws li Xas Mas Lias)'),
+('ethnicity3', 'Asian / Pacific Islander', 'Asian / Pacific Islander', 'Aasiyaan / Jasiidlay Baasifik ', 'Neeg Es Xias'),
+('ethnicity4', 'Black / African American', 'Negro / African American', 'Madow / Afrikaan Ameerikaan', 'Kheej Dub'),
+('ethnicity5', 'Caucasian / White', 'Anglo / Blanco', 'Kookeeshiyaan / Caddaan', 'Neeg Dawb'),
+('ethnicity6', 'Hispanic / Latino', 'Hispanic / Latino', 'Hisbaanik / Laatino', 'Neeg Mev'),
+('ethnicity7', 'Other', 'Otro', 'Kuwo kale', 'Lwm Yam'),
+('gender1', 'Female', 'Mujer', 'Dheddig', 'Poj niam'),
+('gender2', 'Male', 'Hombre', 'Lab', 'txiv neej'),
+('gender3', 'Self Identify', 'Autoproclamarse', 'Isku aqoonsi', 'Koj xaiv (lwm yam)'),
+('age1', 'Under 18', 'Bajo 18', 'Ka yar 18', 'Qis dua 18'),
+('age2', '18-25', '18-25', '18-25', '18-25'),
+('age3', '26-35', '26-35', '26-35', '26-35'),
+('age4', '36-45', '36-45', '36-45', '36-45'),
+('age5', '46-55', '46-55', '46-55', '46-55'),
+('age6', 'Over 55', 'Más de 55', 'Ka wayn 55', 'tshaj 55'),
+('income1', 'Less than $800/mo. (Less than $9,600/yr.)', 'Bajo de $800/mes. (Bajo de $9,600/año.)', 'In ka yar $800/bish. (In ka yar $9,600/san.)', 'Ib hlis tsawg dua $800 (ib xyoos tsawg dua $9,600)'),
+('income2', '$801- 1,300/mo. ($9601 - 15,600/yr.)', '$801-1,300/mes. ($9601 - 15,600/año.)', '$801-1,300/bish. ($9601 - 15,600/san.)', 'Ib hlis $801 - $1,300 (ib xyoos $$9,601 - $15,600)'),
+('income3', '$1,301-1,800/mo. ($15,601 -21,600/yr.)', '$1,301-1,800/mes. ($15,601 - 21,600/año.)', '$1,301-1,800/bish. ($15,601 - 21,600/san.', 'Ib hlis $1,301 - $1,800 (ib xyoos $15,601 - $$21,600)'),
+('income4', '$1,801-2,300/mo. ($21,601-27,600/yr.)', '$1,801-2,300/mes. ($21,601- 27,600/año.)', '$1,801-2,300/bish. ($21,601- 27,600/san.)', 'Ib hlis $1,801 - $2,300 (ib xyoos $21,601 - $27,600)'),
+('income5', '$2,301-2,800/mo. ($27,601-33,600/yr.)', '$2,301-2,800/mes. ($27,601-33,600/año.)', '$2,301-2,800/bish. ($27,601-33,600/san.)', 'Ib hlis $2,301 - $2,800 (ib xyoos $27,601 - $33,600)'),
+('income6', '$2,801-3,300/mo. ($33,601-39,600/yr.)', '$2,801-3,300/mes. ($33,601- 39,600/año.)', '$2,801-3,300/bish. ($33,601- 39,600/san.)', 'Ib hlis $2,801 - $3,300 (ib xyoos $33,601 - $39,600)'),
+('income7', '$3,301-3,800/mo. ($39,601-45,600/yr.)', '$3,301-3,800/mes. ($39,601- 45,600/año.)', '$3,301-3,800/bish. ($39,601- 45,600/san.)', 'Ib hlis $3,301 - $3,800 (ib xyoos $39,601 - $45,600)'),
+('income8', 'More than $3,800/mo. (More than 45,600/yr.)', 'Más de $3,800/mes. (Má de 45,600/año.)', 'In ka badan $ 3,800/mo. (In ka badan 45,600/san.)', 'Ib hlis ntau dua $3,800 (ib xyoos ntau dua $45,600)'),
+('thanks', 'Thank you – your feedback is very important to us!', 'Gracias.  ¡Nos importa mucho su opinión!', 'Waad mahadsan tahay – jawaabaha aan kaa helno aad bay muhiim noogu yihiin!', 'Ua tsaug - koj cov lus teb no tseem ceeb heev rau peb.'),
+('requestresults', 'Summarized results of this confidential survey will be available from Aeon after September 1, upon your request. To request results, call us at 612-746-0520.', 'Los resultados resumidos de este formulario confidencial estarán disponible a partir de Aeon con una petición. Para solicitar los resultados llámenos al 612-746-0520.', 'Natiijada la soo koobay ee ra''yi-ururintan asturnaanta kalsoonida leh ayaa laga heli doonaa Aeon marka alaga codsato. Si aad u codsato natiijada, naga soo wac 612-746-0520.', 'Cov lus uas nej sawv daws teb rau cov lus nug no Aeon yuav muab sau kom tiav log rau hnub 9/1/2017 no.  Yog nej leej twg xav tau ib daim no ces hu tau rau 612 - 746 - 0520.'),
+('optional', '(Questions 23-27 are optional)', '(Preguntas 23-27 son opcionales)', '(Su''aalaha 23-27 ayaa ikhtiyaar ah)', '(Cov Lus Nug Nqe 23 - 27 no teb los tau hos tsis teb los tsis ua cas)'),
+('intro1', 'Thank you for taking this survey to tell Aeon what it’s like to live in your home. All answers are private and will be combined with everyone else’s answers, so we will not know how you answered each question. You can skip questions or stop the survey at any time. When answering, please think about the past 12 months.', 'Gracias por tomar esta encuesta para contar a Aeon cómo es vivir en su casa.  Todas las respuestas son privadas y las combinarán con las respuestas de los demás.  Por lo tanto, no sabremos cómo usted haya contestado cada pregunta.  Puede brincar preguntas o detener la encuesta en cualquier momento.  Cuando contesta, favor de pensar con respeto a los últimos 12 meses.', 'Waad ku mahadsan tahay in aad ka jawaabto su’aalo qoran oo aad Aeon fikrad uga siineyso nolosha guriga aad deggen tahay. Jawaabaha dadka oo dhan waa kuwa qarsoodi ah oo waa la isu-geyn doonaa, lama ogaan karo sida aad adigu wax uga jawaabtay. Haddii aad rabto su’aalaha kama jawaabeysid ama markii aad rabto ayaad iska joojin kartaa. Marka aad su’aalaha ka jawaabeyso fadlan ka feker 12-kii bilood ee ugu dambeeyey.', 'Ua tsaug uas koj tseem teb cov lus qhia rau Aeon hais tias koj nyob hauv lub tsev no nws ho zoo li cas rau li cas. Koj cov lus teb yuav tsis muab qhia rau leej twg paub li, thiab peb yuav muab xyaw rau lwm leej lwm tus cov lus teb, uas yuav tsis muaj neeg paub hais tias leej twg yog tus teb li cas. Koj teb teb txog tog koj txawm xav tsum los yeej tsum tau li nawb. Thaum koj teb cov lus, koj teb raws li 12 lub hlis dhau los no xwb.'),
+('intro2', 'If you have any questions, please talk to your Site Manager or Resident Connections Coordinator. Surveys are available in English, Hmong, Somali, and Spanish. Other languages can be made available, please ask your Site Manager.', 'Si tiene alguna duda, favor de hablar con su gerente de sitio o un coordinador de Conexiones de Residente.  Las encuestas están disponibles en inglés, hmong, somalí y español. Se puede hacer disponibles otros idiomas.  Favor de preguntar a su gerente de sitio.', 'Haddii aad su’aalo ka qabto arrintan, fadlan kala hadal Maamulaha Guriga ama Isku-duwaha Xiriirka Kireystaha. Su’aaluhu waxa ay ku qoran yihiin afafka kala ah Ingiriis, Soomaali, Moong iyo Isbaanish. Luuqad kale qofkii raba waa loogu soo diyaarin karaa, fadlan kala xiriir Maamulaha Guriga.', 'Yog koj muaj lus nug dab tsi no ces nug tus nai saib nej koog tsev no los yog tus nai loj (Resident Connection Coordinator). Cov lus nug no muaj ntau hom lus, xws li: Mis Kas, Hmoob, Xas Mas Lis, thiab Mev. Yog leej twg ho xav yuav lwm hom lus no ces qhia rau nej tus nai saib xyuas vaj tse.'),
+('intro3', 'helloEnglish', 'helloSpanish', 'helloSomali', 'helloHmong'),
+('survey', 'Home Survey', 'Encuesta de casa', 'Su’aalo Qoran oo ku Saabsan Guriga', 'Lus Nug Txog Tsev'),
+('answer1', 'Strongly agree', 'Completamente de acuerdo', 'Aad Baan Ugu Raacsanahay', 'Txaus pom zoo'),
+('answer2', 'Agree', 'De acuerdo', 'Waan Ku Raacsanahay', 'Pom zoo'),
+('answer3', 'Disagree', 'En desacuerdo', 'Waan Diiddanahay', 'Tsis pom zoo'),
+('answer4', 'Strongly disagree', 'Definitivamente en desacuerdo', 'Aad baan u Diiddanahay', 'Txaus tsis pom zoo');
 
 INSERT INTO questions
     (question_number,

@@ -6,14 +6,12 @@ var pool = require('../modules/pool.js');
 
 // Handles CSV upload from admin view
 router.post('/upload', function (req, res) {
-  console.log('/csv/upload POST');
 
   const OCCUPANCY_ROW_LENGTH = 3;
   const OCCUPANCY_IGNORE_ROWS = 1; // number of rows to ignore at top of imported .csv
 
   if (req.isAuthenticated()) {
     if (req.user.role == 'Administrator') {
-      console.log('req.body', req.body);
       var unitsArray = req.body.data;
       var queryString = 'INSERT INTO occupancy (property, unit, year) VALUES (';
 
@@ -64,6 +62,7 @@ router.post('/upload', function (req, res) {
   }
 }); // end POST route
 
+// exports all responses from the passed-in year. called from admin
 router.get('/export/:year', function (req, res) {
   var tableName = 'responses' + req.params.year;
 
@@ -77,8 +76,8 @@ router.get('/export/:year', function (req, res) {
         } else {
           // get table names
           client.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';", function (err, data) {
-            done();
             if (err) {
+              done();
               console.log('query error', err);
             } else {
               // check that this table exists
@@ -101,6 +100,7 @@ router.get('/export/:year', function (req, res) {
                   }
                 });
               } else {
+                done();
                 res.status(400).send('no data for year ' + req.params.year);
               }
             }
