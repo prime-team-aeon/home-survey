@@ -16,18 +16,6 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, $loc
 
   
   //--------------------------------------
-  //-------------RUNTIME CODE-------------
-  //--------------------------------------
-
-
-  // passes the user-selected property and unit to the service to be checked against the db for whether or not it's a valid property and unit that has not yet responded to the survey
-  self.beginSurvey = function (property, unit) {
-    SurveyService.beginSurvey(property, unit);
-  }
-
-
-
-  //--------------------------------------
   //-------------FUNCTIONS----------------
   //--------------------------------------
 
@@ -97,4 +85,19 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, $loc
       SurveyService.submitSurvey();
     }, function () {});
   }
+
+
+  //--------------------------------------
+  //-------------RUNTIME CODE-------------
+  //--------------------------------------
+
+
+  // passes the user-selected property and unit to the service to be checked against the db for whether or not it's a valid property and unit that has not yet responded to the survey
+  self.beginSurvey = function (property, unit) {
+    SurveyService.beginSurvey(property, unit);
+  }
+
+
+
+
 });

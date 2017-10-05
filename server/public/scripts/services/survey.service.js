@@ -23,15 +23,6 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
 
     
     //--------------------------------------
-    //-------------RUNTIME CODE-------------
-    //--------------------------------------
-
-    self.wipeSurveyClean(); // start out with a fresh survey
-    self.getSurvey('english'); // Load english as language on load
-    
-
-
-    //--------------------------------------
     //-------------FUNCTIONS----------------
     //--------------------------------------
 
@@ -145,6 +136,16 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
             self.surveyAnswers.list.push({});
         }
     }
+
+
+    //--------------------------------------
+    //-------------RUNTIME CODE-------------
+    //--------------------------------------
+
+    self.wipeSurveyClean(); // start out with a fresh survey
+    self.getSurvey('english'); // Load english as language on load
+    
+
 
 
 }); //end of myApp.service

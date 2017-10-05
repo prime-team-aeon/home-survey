@@ -7,12 +7,6 @@ myApp.controller('VerifyController', function ($http, $location, UserService, $m
   var self = this;
 
   //--------------------------------------
-  //-------------RUNTIME CODE-------------
-  //--------------------------------------
-
-  //none
-
-  //--------------------------------------
   //-------------FUNCTIONS----------------
   //--------------------------------------
 
@@ -33,5 +27,13 @@ myApp.controller('VerifyController', function ($http, $location, UserService, $m
       }, 2000);
     }
   }); // end get route
+
+
+  //--------------------------------------
+  //-------------RUNTIME CODE-------------
+  //--------------------------------------
+
+  //none
+
 
 });

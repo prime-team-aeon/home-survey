@@ -11,13 +11,6 @@ myApp.controller('LoginController', function ($http, $location, UserService, $md
     password: ''
   };
 
-  //--------------------------------------
-  //-------------RUNTIME CODE-------------
-  //--------------------------------------
-
-  // none
-
-
   
   //--------------------------------------
   //-------------FUNCTIONS----------------
@@ -107,4 +100,18 @@ myApp.controller('LoginController', function ($http, $location, UserService, $md
         .position('top right')
     );//end of $mdToast
   };//end of vm.showToast
+
+
+
+
+
+  
+  //--------------------------------------
+  //-------------RUNTIME CODE-------------
+  //--------------------------------------
+
+  // none
+
+
+
 });

@@ -24,25 +24,6 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
 
 
   //--------------------------------------
-  //-------------RUNTIME CODE-------------
-  //--------------------------------------
-
-  // build yearsArray - this is what's shown in the select. Starts at START_YEAR and ends at that plus NUM_FUTURE_YEARS
-  for (i = START_YEAR; i < (self.thisYear + NUM_FUTURE_YEARS); i++) {
-    self.yearsArray.push(i);
-  }
-
-  // assigns the event listener function self.handleFileSelect()
-  document.getElementById('admin-file-input').addEventListener('change', self.handleFileSelect, false);
-
-
-  // Gets user information and assign to self.users
-  self.AdminService = AdminService;
-  AdminService.getUsers();
-  self.users = AdminService.users;
-
-
-  //--------------------------------------
   //-------------FUNCTIONS----------------
   //--------------------------------------
 
@@ -120,5 +101,23 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
       CsvService.updateQuestion(question, year);
     }, function () {});
   }
+
+  //--------------------------------------
+  //-------------RUNTIME CODE-------------
+  //--------------------------------------
+
+  // build yearsArray - this is what's shown in the select. Starts at START_YEAR and ends at that plus NUM_FUTURE_YEARS
+  for (i = START_YEAR; i < (self.thisYear + NUM_FUTURE_YEARS); i++) {
+    self.yearsArray.push(i);
+  }
+
+  // assigns the event listener function self.handleFileSelect()
+  document.getElementById('admin-file-input').addEventListener('change', self.handleFileSelect, false);
+
+
+  // Gets user information and assign to self.users
+  self.AdminService = AdminService;
+  AdminService.getUsers();
+  self.users = AdminService.users;
 
 }]);

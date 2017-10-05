@@ -17,16 +17,6 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     };
 
 
-
-    //--------------------------------------
-    //-------------RUNTIME CODE-------------
-    //--------------------------------------
-
-    self.getProperties(); // build propertyList immediately
-
-
-
-
     //--------------------------------------
     //-------------FUNCTIONS----------------
     //--------------------------------------
@@ -204,4 +194,15 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         });
     };
 
+
+
+    //--------------------------------------
+    //-------------RUNTIME CODE-------------
+    //--------------------------------------
+
+    self.getProperties(); // build propertyList immediately
+
+
+    
 }]);
+    
