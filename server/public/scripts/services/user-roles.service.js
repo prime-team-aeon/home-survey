@@ -108,7 +108,6 @@ myApp.service('UserRolesService', ['$http', '$mdToast', '$location', function ($
             // get the properties
             self.uniqueProperties = [];
             response.data.forEach(function (occupancy) {
-                self.allProperties = response.data;
 
                 self.uniqueProperties = response.data.map(function (occupancy) {
                     return occupancy.property

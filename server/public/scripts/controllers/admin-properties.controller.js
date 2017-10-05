@@ -14,4 +14,5 @@ myApp.controller('AdminPropertiesController', ['UserRolesService', '$mdDialog', 
     self.addNewProperty = function () {
         UserRolesService.addNewProperty(UserRolesService.newProperty.name, UserRolesService.newProperty.unit);
     }
+    
 }]);
