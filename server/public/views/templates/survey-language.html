@@ -3,21 +3,29 @@
 
 <div layout="row" layout-align="space-around">
     <div layout="column" class="survey-language-langbtn-container" layout-align="space-around center">
-        <md-button class="survey-language-button md-raised md-primary" ng-class="{'md-accent':sc.surveyLanguage.language=='english'}" ng-click='sc.getSurvey("english")'>English</md-button>
-        <md-button class="survey-language-button md-raised md-primary" ng-class="{'md-accent':sc.surveyLanguage.language=='hmong'}" ng-click='sc.getSurvey("hmong")'>Hmoob</md-button>
+        <md-button class="survey-language-button md-raised " ng-class="{'md-primary':sc.surveyLanguage.language=='english'}"
+            ng-click='sc.getSurvey("english")'>English</md-button>
+        <md-button class="survey-language-button md-raised " ng-class="{'md-primary':sc.surveyLanguage.language=='hmong'}"
+            ng-click='sc.getSurvey("hmong")'>Hmoob</md-button>
     </div>
 
     <div layout="column" class="survey-language-langbtn-container" layout-align="space-around center">
-        <md-button class="survey-language-button md-raised md-primary" ng-class="{'md-accent':sc.surveyLanguage.language=='somali'}" ng-click='sc.getSurvey("somali")'>Somali</md-button>
-        <md-button class="survey-language-button md-raised md-primary" ng-class="{'md-accent':sc.surveyLanguage.language=='spanish'}" ng-click='sc.getSurvey("spanish")'>Espanol</md-button>
+        <md-button class="survey-language-button md-raised " ng-class="{'md-primary':sc.surveyLanguage.language=='somali'}"
+            ng-click='sc.getSurvey("somali")'>Somali</md-button>
+        <md-button class="survey-language-button md-raised " ng-class="{'md-primary':sc.surveyLanguage.language=='spanish'}"
+            ng-click='sc.getSurvey("spanish")'>Espanol</md-button>
     </div>
 </div>
 
-<div id="survey-language-unit-prop-container" layout="row" layout-align="center center">
-    <md-select ng-model="sc.propertyChosen">
-        <md-option ng-repeat="property in sc.propertyList.list" ng-value="property">{{property}}</md-option>
-    </md-select>
-    <md-input-container>
+<div id="survey-language-unit-prop-container" layout="row" layout-align="space-around center">
+    <md-input-container layout="column" layout-align="end center">
+        <label>Property</label>
+        <md-select id="survey-language-property-select" ng-model="sc.propertyChosen">
+            <md-option ng-repeat="property in sc.propertyList.list" ng-value="property" ></md-option>{{property}}</md-option>
+        </md-select>
+    </md-input-container>
+
+    <md-input-container  layout="column" layout-align="end center">
         <label>Unit #</label>
         <input ng-model="sc.unitChosen" type="text">
     </md-input-container>
