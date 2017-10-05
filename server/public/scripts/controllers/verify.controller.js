@@ -1,7 +1,22 @@
 myApp.controller('VerifyController', function ($http, $location, UserService, $mdToast, $routeParams) {
-  console.log('VerifyController created. Token:', $routeParams.token);
+
+  //--------------------------------------
+  //-------------VARIABLES----------------
+  //--------------------------------------
+
   var self = this;
 
+  //--------------------------------------
+  //-------------RUNTIME CODE-------------
+  //--------------------------------------
+
+  //none
+
+  //--------------------------------------
+  //-------------FUNCTIONS----------------
+  //--------------------------------------
+
+  // checks the token route param against the database, and flips the user to active if it finds a matching token
   $http.get('/register/verify/' + $routeParams.token).then(function(response){
     console.log('response', response);
     
