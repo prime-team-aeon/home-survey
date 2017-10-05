@@ -6,15 +6,16 @@ var encryptLib = require('../modules/encryption');
 var randomstring = require('randomstring');
 var nodemailer = require('nodemailer');
 
+// searches for the token and flips associated user to active if found
+// only ever hit the links sent out via nodemailer during registration process
 router.get('/verify/:token', function (req, res) {
-  console.log('verify token hit', req.params.token);
   //look for the token in db
   pool.connect(function (err, client, done) {
     if (err) {
       console.log("Error connecting: ", err);
       res.sendStatus(500);
     } else {
-      //SELECT id, timestamp FROM users WHERE token = 'sAhlEMrt0rL1f3St';
+      // query like: SELECT id, timestamp FROM users WHERE token = 'sAhlEMrt0rL1f3St';
       client.query('SELECT id, timestamp FROM users WHERE token = $1;', [req.params.token],
         function (err, results) {
           done();
@@ -41,7 +42,6 @@ router.get('/verify/:token', function (req, res) {
                     console.log("Error connecting: ", err);
                     res.sendStatus(500);
                   } else {
-
                     client.query('UPDATE users SET active=true, token=null WHERE id=$1;', [userId],
                       function (err, results) {
                         done()
@@ -95,8 +95,6 @@ router.post('/', function (req, res, next) {
       timestamp: new Date()
     };
 
-    // console.log('new user:', saveUser);
-
     pool.connect(function (err, client, done) {
       if (err) {
         console.log("Error connecting: ", err);
@@ -117,15 +115,18 @@ router.post('/', function (req, res, next) {
                 user: 'aeonhomesurvey@gmail.com',
                 pass: 'sadhorsenocookie'
               }
-            })
+            });
+
             var emailtext = "Thank you for registering. Please click this link to confirm your email address. An Aeon administrator will approve your access levels.";
             emailtext += "\n\nhttp://aeonhomesurvey.com/#/register/verify/" + saveUser.token;
+
             var mailOptions = {
               from: 'aeonhomesurvey@gmail.com',
               to: saveUser.username,
               subject: 'Aeon Home Survey Registration Confirmation',
               text: emailtext
             }
+
             transporter.sendMail(mailOptions, function (mailerr, info) {
               if (mailerr) {
                 console.log('mailerr', mailerr);
@@ -134,7 +135,7 @@ router.post('/', function (req, res, next) {
                 // console.log('email sent: ' + info.response);
                 res.sendStatus(201);
               }
-            })
+            });
           }
         });
     });
