@@ -1,10 +1,9 @@
-<div ng-include="'views/partials/nav.html'"></div>
+<div ng-include="'views/partials/nav.survey.html'"></div>
 
 <div layout="column" layout-align="center center">        
 
 <div id="progressBar">This will be a progress bar</div>
 
-<md-button class="md-raised md-primary" id="instructionsButton">{{sc.surveyObject.instructions}}</md-button>
 
 <section class="survey-question">
     <p>23. {{sc.surveyObject[23]}}</p>
@@ -63,7 +62,8 @@
 
     <div>
         <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q4")'>{{sc.surveyObject.goback}}</md-button>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-review")'>{{sc.surveyObject.next}}</md-button>
+        <!-- <md-button class="md-raised md-primary" ng-click='sc.go("/survey-review")'>{{sc.surveyObject.next}}</md-button> -->
+        <md-button class="md-raised md-primary" ng-click='sc.submitSurvey(); sc.go("/survey-thanks")'>{{sc.surveyObject.submit}}</md-button>
     </div>
 
 </div>
