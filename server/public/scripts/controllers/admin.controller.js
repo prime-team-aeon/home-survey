@@ -1,4 +1,4 @@
-myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$mdDialog', function (CsvService, AdminService, $scope, $mdDialog) {
+myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$mdDialog', function (CsvService, AdminService, $scope, $mdDialog, $timeout, $mdSidenav, $mdComponentRegistry, $log) {
 
   //--------------------------------------
   //-------------VARIABLES----------------
