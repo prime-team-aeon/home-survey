@@ -112,13 +112,13 @@ router.post('/', function (req, res, next) {
             var transporter = nodemailer.createTransport({
               service: 'Gmail',
               auth: {
-                user: 'aeonhomesurvey@gmail.com',
-                pass: 'sadhorsenocookie'
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASSWORD
               }
             });
 
             var emailtext = "Thank you for registering. Please click this link to confirm your email address. An Aeon administrator will approve your access levels.";
-            emailtext += "\n\nhttp://aeonhomesurvey.com/#/register/verify/" + saveUser.token;
+            emailtext += "\n\n" + process.env.DOMAIN_NAME + "/#/register/verify/" + saveUser.token;
 
             var mailOptions = {
               from: 'aeonhomesurvey@gmail.com',
