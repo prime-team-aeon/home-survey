@@ -21,6 +21,8 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
 
   self.questions = CsvService.questions;
   self.propertyList = AdminService.propertyList;
+  console.log('HERES THE PROPERTLIST', self.propertyList);
+  
 
 
   //--------------------------------------
@@ -49,6 +51,11 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
     CsvService.exportAllResponses(self.yearToAdd);
   }
 
+  // get all occupancy data for the admin site manager page
+  self.getSiteManagerProperties = function() {
+    AdminService.getSiteManagerProperties();
+  }
+
 
   // event handler for 'change' event on file input. reads in the file, and sets the validInput flag to true which shows the upload button
   self.handleFileSelect = function (fileEvent) {
@@ -71,6 +78,10 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
     AdminService.manageAuth(user.id, property, route);
   }
 
+  // Toggle Sidenav
+  self.openLeftMenu = function () {
+    $mdSidenav('left').toggle();
+  };
 
   // called by the UPLOAD CSV button, sends the chosen file and the year to the service for POSTing to the server. Hides the upload button to avoid weird double-click errors
   self.startUpload = function () {
@@ -78,10 +89,6 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
     self.validInput = false;
   }
 
-  // Toggle Sidenav
-  self.openLeftMenu = function () {
-    $mdSidenav('left').toggle();
-  };
 
 
   //--------------UPDATE QUESTIONS---------------
@@ -132,5 +139,9 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
 
   self.UserService = UserService // connects admin controller to user service
   self.SiteManagerService = SiteManagerService // connects admin controller to site manager service
+
+  // Get the site manager Properties on load
+  self.getSiteManagerProperties();
+
  
 }]);

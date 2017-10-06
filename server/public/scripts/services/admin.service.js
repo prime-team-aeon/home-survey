@@ -146,6 +146,30 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         });
     }
 
+    // get a list of occupancy data for the admin site manager page
+    self.getSiteManagerProperties = function() {
+        $http.get('/user-roles/allProperties/').then(function (response) {
+
+            // get the properties
+            self.siteManagerUniqueProperties = [];
+            response.data.forEach(function (occupancy) {
+
+                self.siteManagerUniqueProperties = response.data.map(function (occupancy) {
+                    return occupancy.property
+                });
+
+                self.siteManagerUniqueProperties = self.siteManagerUniqueProperties.filter(function (property, index) {
+                    return self.siteManagerUniqueProperties.indexOf(property) == index;
+                });
+
+            });
+
+            self.siteManagerProperties = response.data;
+            self.numberofResponses = 
+                self.numberofUnits = self.siteManagerPropertie.length;
+        });
+    }
+
 
     // get list of properties from db
     self.getProperties = function () {

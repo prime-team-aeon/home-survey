@@ -17,14 +17,15 @@
 
         <div layout="column">
             <h1>Admin: Site Manager View</h1>
+            Property Response Rate: {{ac.AdminService.numberOfResponses}} out of {{ac.AdminService.numberOfUnits}} occupied units
             <md-input-container>
                 <label>Select a Property</label>
-                <md-select ng-model="ac.SiteManagerService.selectedProperty" placeholder="Select a Property">
-                    <md-option ng-value="property" ng-repeat="property in ac.propertyList.list">{{ property }}</md-option>
+                <md-select ng-model="ac.selectedProperty" placeholder="Select a Property">
+                    <md-option ng-value="property" ng-repeat="property in ac.AdminService.siteManagerUniqueProperties">{{ property }}</md-option>
                 </md-select>
             </md-input-container>
-            <div ng-if="ac.SiteManagerService.selectedProperty">
-                <h2>{{ac.SiteManagerService.selectedProperty}}</h2>
+            <div ng-if="ac.selectedProperty">
+                <h2>{{ac.selectedProperty}}</h2>
                 <div layout="row">
                     <div flex="25">
                         <h3>Unit #</p>
@@ -40,7 +41,7 @@
                     </div>
                 </div>
                 <md-divider></md-divider>
-                <div layout="row" ng-repeat="property in ac.SiteManagerService.properties.list | filter: ac.SiteManagerService.selectedProperty">
+                <div layout="row" ng-repeat="property in ac.AdminService.siteManagerProperties | filter: ac.selectedProperty | orderBy: 'unit/1'">
                     <div flex="25">
                         <p>{{property.unit}}</p>
                     </div>
