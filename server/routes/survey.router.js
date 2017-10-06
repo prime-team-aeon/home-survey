@@ -197,7 +197,6 @@ router.post('/questions/:year?', function (req, res) {
 
 // takes a completed survey and posts it to the database. also updates the unit to having responded in the `occupancy` table.
 router.post('/', function (req, res) {
-    console.log('POST /survey', req.query, req.body);
     if (req.isAuthenticated()) {
         if (req.user.role == 'Resident') {
             var thisYear = new Date();

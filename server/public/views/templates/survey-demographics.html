@@ -1,6 +1,5 @@
 <div ng-include="'views/partials/nav.survey.html'"></div>
 
-
 <div class="container" layout="row" layout-align="space-around center">
     <div class="progressbar">
         <i class="material-icons md-48">looks_one</i>
@@ -71,8 +70,7 @@
 
     <div>
         <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q4")'>{{sc.surveyObject.goback}}</md-button>
-        <!-- <md-button class="md-raised md-primary" ng-click='sc.go("/survey-review")'>{{sc.surveyObject.next}}</md-button> -->
-        <md-button class="md-raised md-primary" ng-click='sc.submitSurvey(); sc.go("/survey-thanks")'>{{sc.surveyObject.submit}}</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.submitSurvey()'>{{sc.surveyObject.submit}}</md-button>
     </div>
 
 </div>
