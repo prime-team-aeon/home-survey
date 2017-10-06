@@ -1,15 +1,23 @@
-<md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4">
-
-    <md-toolbar class="md-theme-indigo">
-        <h1 class="md-toolbar-tools">Sidenav Left</h1>
-    </md-toolbar>
-    <md-content layout-padding ng-controller="LeftCtrl">
-        <md-button ng-click="close()" class="md-primary" hide-gt-md>
-            Close Sidenav Left
-        </md-button>
-        <p hide show-gt-md>
-            This sidenav is locked open on your device. To go back to the default behavior, narrow your display.
-        </p>
+<md-sidenav md-component-id="left" class="md-sidenav-left md-whiteframe-z2 full-height" md-is-locked-open="$mdMedia('gt-sm')"
+    flex>
+    <md-content>
+        <md-list>
+            <md-subheader class="md-no-sticky">Admin Menu</md-subheader>
+            <md-list-item ng-href="#/admin">
+                <p>Imprt/Export CSV</p>
+            </md-list-item>
+            <md-list-item ng-href="#/admin-properties">
+                <p>Edit Properties</p>
+            </md-list-item>
+            <md-list-item ng-href="#/admin-questions">
+                <p>Edit Survey Questions</p>
+            </md-list-item>
+            <md-list-item ng-href="#/admin-users">
+                <p>User Management</p>
+            </md-list-item>
+            <!-- <md-list-item ng-href="#/admin-site-manager">
+                <p>Site Manager View TODO</p>
+            </md-list-item> -->
+        </md-list>
     </md-content>
-
 </md-sidenav>

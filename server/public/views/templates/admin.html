@@ -1,37 +1,51 @@
-<div ng-controller="AppCtrl" layout="column" style="height:500px;" ng-cloak>
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <md-button ng-click="ac.openLeftMenu()" hide-gt-sm>
+      Menu
+    </md-button>
+    <h2 md-truncate flex>Aeon Home Survey Admin</h2>
+    <md-button ng-href="#/logout">
+      Logout Need to Get This Working
+    </md-button>
+  </div>
+</md-toolbar>
+<div layout="row" class="full-height">
 
-  <section layout="row" flex>
+  <div ng-include="'views/partials/sidenav.html'"></div>
 
+  <md-content flex layout-padding>
 
+    <div layout="column">
+      <h1>Import/Export Occupancy CSV</h1>
 
-    <md-content flex layout-padding>
+      <section id="admin-upload-container">
 
-      <div layout="column" layout-align="top center">
-        <p>
-          The left sidenav will 'lock open' on a medium (>=960px wide) device.
-        </p>
-        <p>
-          The right sidenav will focus on a specific child element.
-        </p>
+        <!-- <input type="file" id="admin-file-input" name="admin-file-input" accept=".csv"> -->
+        <h1>Import Property Data</h1>
+        <input class="ng-hide" id="admin-file-input" type="file" name="admin-file-input" accept=".csv" />
+        <label for="admin-file-input" class="md-button md-raised">Choose File</label>
 
-        <div>
-          <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md>
-            Toggle left
-          </md-button>
+        <md-input-container>
+          <md-select ng-model="ac.yearToAdd" placeholder="Year to Add">
+            <md-option ng-value="year" ng-repeat="year in ac.yearsArray">{{year}}</md-option>
+          </md-select>
+        </md-input-container>
+        <div layout="row">
+          <md-button ng-show="ac.validInput" class="md-raised md-primary" ng-click="ac.startUpload()">Upload</md-button>
         </div>
+      </section>
 
-        <div>
-          <md-button ng-click="toggleRight()" ng-hide="isOpenRight()" class="md-primary">
-            Toggle right
-          </md-button>
-        </div>
-      </div>
-
-      <div flex></div>
-
-    </md-content>
-
-  </section>
+      <section id="admin-export-container">
+        <h1>Export Survey Response Data</h1>
+        <md-input-container>
+          <md-select ng-model="ac.yearToAdd">
+            <md-option ng-value="year" ng-repeat="year in ac.yearsArray">{{year}}</md-option>
+          </md-select>
+        </md-input-container>
+        <md-button class="md-raised md-accent" ng-click="ac.exportAllResponses()">Export Data</md-button>
+      </section>
+    </div>
+  </md-content>
 
 </div>
 
