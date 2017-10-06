@@ -1,81 +1,105 @@
-.material-icons.md-dark { 
-    color: rgba(0, 0, 0, 0.54); 
+    .material-icons.md-dark {
+    color: rgba(0, 0, 0, 0.54);
 }
+
 .container {
     width: 100%;
 }
-.material-icons.md-48 { 
-    font-size: 28px; 
+
+.material-icons.md-48 {
+    font-size: 28px;
 }
-.material-icons.md-48 { 
+
+.material-icons.md-48 {
     color: green;
-    margin: 20px; 
+    margin: 20px;
 }
-.material-icons.md-48.inactive { 
+
+.material-icons.md-48.inactive {
     color: #CCD1CC;
-    margin: 20px; 
-}
-=======
-#survey-language-top-spacer{
-  height: 8vh;
-  width: 100vw;
+    margin: 20px;
 }
 
-.survey-language-langbtn-container{
-  /* margin-top: 15vw;
+#survey-language-top-spacer {
+    height: 8vh;
+    width: 100vw;
+}
+
+.survey-language-langbtn-container {
+    /* margin-top: 15vw;
   margin-bottom: 15vw; */
-  height: 50vh;
-  width: 35vw;
+    height: 50vh;
+    width: 35vw;
 }
 
-.survey-language-langbtn-container > .md-raised{
-  background-color: #c8e6c9;
-}  
-
-.survey-language-button{
-  width: 95%;
-  height: 25%;
-  font-size: 2.1em;
+.survey-language-langbtn-container>.md-raised {
+    background-color: #c8e6c9;
 }
 
-#survey-language-unit-prop-container{
-  height: 15vh;
+.survey-language-button {
+    width: 95%;
+    height: 25%;
+    font-size: 2.1em;
 }
 
-#survey-language-unit-prop-container > * {
-  height: 40%;
-  width: 45%;
-  font-size: 1.4em;
+#survey-language-unit-prop-container {
+    height: 15vh;
 }
 
-#survey-language-property-select{
-  width: 90%;
+#survey-language-unit-prop-container>* {
+    height: 40%;
+    width: 45%;
+    font-size: 1.4em;
 }
+
+#survey-language-property-select {
+    width: 90%;
+}
+
 
 /* #survey-language-property-select > * {
   width: 90%;
 } */
 
+/* .survey-question {} */
 
-
-
-
-
-
-
-
-
-
-
-.survey-question {
-    width: 80vw
-}
-
-
-.cancelbtn-container > .md-raised{
+.cancelbtn-container>.md-raised {
     background-color: #c8e6c9
 }
 
 #logout-button {
     float: right;
+}
+
+
+/* Admin Side Nav Styling */
+
+main.ng-scope,
+.full-height {
+    height: 100%;
+}
+
+.sidenavbg {
+    background: #eee;
+}
+
+md-sidenav md-content,
+md-sidenav.full-height {
+    background: #f1f1f1;
+}
+
+md-list .md-subheader {
+    background: #222;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+md-list {
+    padding: 0px 0px 8px 0px;
+}
+
+@media (min-width: 600px) {
+    md-sidenav {
+        max-width: 250px;
+    }
 }
