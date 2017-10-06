@@ -11,6 +11,11 @@ myApp.controller('AdminPropertiesController', ['AdminService', '$mdDialog', '$ti
     self.addNewProperty = function () {
         AdminService.addNewProperty(AdminService.newProperty.name, AdminService.newProperty.unit);
     }
+    
+    // Send a new property function to the admin service
+    self.addNewUnit = function () {
+        AdminService.addNewUnit(AdminService.newUnit.name, self.selectedItem);
+    }
 
     // Send an unit occupied status update to the admin service
     self.updateOccupied = function(property) {
