@@ -42,6 +42,10 @@
         font-size: 2.1em;
     }
 
+    .survey-question {
+        width: 80vw
+    }
+
     #survey-language-unit-prop-container {
         height: 15vh;
     }
@@ -97,4 +101,14 @@
         md-sidenav {
             max-width: 250px;
         }
+    }
+
+    #thankyou-message {
+        padding: 25px 40px 25px 40px;
+        font-size: 175%
+    }
+
+    #intro-message {
+        padding: 0px 40px 25px 40px;
+        font-size: 175%
     }

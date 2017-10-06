@@ -2,12 +2,15 @@
 <div ng-include="'views/partials/nav.html'"></div>
 
 <div layout="column" layout-align="center center">
-        
-<h1>{{sc.surveyObject.survey}}</h1>
-<h2>{{sc.surveyObject.intro1}}</h2>
-<h2>{{sc.surveyObject.intro2}}</h2>
+    <h1>{{sc.surveyObject.survey}}</h1>
+</div>
+
+<div id="intro-message">
+    <p>{{sc.surveyObject.intro1}}</p>
+    <p>{{sc.surveyObject.intro2}}</p>
 </div>
 
 <div layout="row" layout-align="center center">
 <md-button class=" md-raised md-primary" ng-click='sc.go("/survey-q1")'>{{sc.surveyObject.begin}}</md-button>
 </div>
+
