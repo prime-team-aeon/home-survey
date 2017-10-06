@@ -1,4 +1,4 @@
-myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService', '$scope', '$mdDialog', '$mdSidenav', '$location', function (CsvService, AdminService, UserService, $scope, $mdDialog, $mdSidenav, $location) {
+myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService', 'SiteManagerService', '$scope', '$mdDialog', '$mdSidenav', '$location', function (CsvService, AdminService, UserService, SiteManagerService, $scope, $mdDialog, $mdSidenav, $location) {
 
   //--------------------------------------
   //-------------VARIABLES----------------
@@ -131,5 +131,6 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   self.users = AdminService.users;
 
   self.UserService = UserService // connects admin controller to user service
-
+  self.SiteManagerService = SiteManagerService // connects admin controller to site manager service
+ 
 }]);

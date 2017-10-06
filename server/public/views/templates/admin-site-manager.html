@@ -1,0 +1,68 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button ng-click="ac.openLeftMenu()" hide-gt-sm>
+            Menu
+        </md-button>
+        <h2 md-truncate flex>Aeon Home Survey Admin</h2>
+        <md-button ng-click="ac.UserService.logout()">
+            Logout
+        </md-button>
+    </div>
+</md-toolbar>
+<div layout="row" class="full-height">
+
+    <div ng-include="'views/partials/sidenav.html'"></div>
+
+    <md-content flex layout-padding>
+
+        <div layout="column">
+            <h1>Admin: Site Manager View</h1>
+            <md-input-container>
+                <label>Select a Property</label>
+                <md-select ng-model="ac.SiteManagerService.selectedProperty" placeholder="Select a Property">
+                    <md-option ng-value="property" ng-repeat="property in ac.propertyList.list">{{ property }}</md-option>
+                </md-select>
+            </md-input-container>
+            <div ng-if="ac.SiteManagerService.selectedProperty">
+                <h2>{{ac.SiteManagerService.selectedProperty}}</h2>
+                <div layout="row">
+                    <div flex="25">
+                        <h3>Unit #</p>
+                    </div>
+                    <div flex="25">
+                        <h3>Responded?</p>
+                    </div>
+                    <div flex="25">
+                        <h3>Property Occupied?</p>
+                    </div>
+                    <div flex="25">
+                        <h3>Paid?</h3>
+                    </div>
+                </div>
+                <md-divider></md-divider>
+                <div layout="row" ng-repeat="property in ac.SiteManagerService.properties.list | filter: ac.SiteManagerService.selectedProperty">
+                    <div flex="25">
+                        <p>{{property.unit}}</p>
+                    </div>
+                    <div flex="25">
+                        <p>
+                            <span ng-if="property.responded">{{property.responded}}</span>
+                            <span ng-if="!property.responded">No Response</span>
+                        </p>
+                    </div>
+                    <div flex="25">
+                        <p>
+                            <span ng-if="property.occupied">Yes</span>
+                            <span ng-if="!property.occupied">No</span</p>
+                    </div>
+                    <div flex="25">
+                        <p>
+                            <md-checkbox ng-model="property.paid" ng-change="ac.SiteManagerService.updatePaid(property)" aria-label="paid"></md-checkbox>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-content>
+
+</div>
