@@ -17,7 +17,16 @@
 
         <div layout="column">
             <h1>Admin: Site Manager View</h1>
-            Property Response Rate: {{ac.AdminService.numberOfResponses}} out of {{ac.AdminService.numberOfUnits}} occupied units
+            <md-card>
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">Property Response Rate</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content>
+                    {{ac.AdminService.numberOfRespondedUnits}} out of {{ac.AdminService.numberOfOccupiedUnits}} occupied units
+                </md-card-content>
+            </md-card>
             <md-input-container>
                 <label>Select a Property</label>
                 <md-select ng-model="ac.selectedProperty" placeholder="Select a Property">

@@ -20,9 +20,7 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   self.validInput = false;
 
   self.questions = CsvService.questions;
-  self.propertyList = AdminService.propertyList;
-  console.log('HERES THE PROPERTLIST', self.propertyList);
-  
+  self.propertyList = AdminService.propertyList;  
 
 
   //--------------------------------------

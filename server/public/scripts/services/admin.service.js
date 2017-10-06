@@ -165,8 +165,18 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             });
 
             self.siteManagerProperties = response.data;
-            self.numberofResponses = 
-                self.numberofUnits = self.siteManagerPropertie.length;
+
+            self.occupiedUnits = self.siteManagerProperties.filter(function(property){                
+                return property.occupied;
+            });
+            
+            self.respondedUnits = self.siteManagerProperties.filter(function(property){                
+                return property.responded;
+            });
+
+            self.numberOfOccupiedUnits = self.occupiedUnits.length;
+            self.numberOfRespondedUnits = self.respondedUnits.length;             
+            
         });
     }
 
