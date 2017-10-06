@@ -106,7 +106,6 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
             } else if (response.data == 'responded') {
                 $mdDialog.show(
                     $mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#survey-begin-container')))
                     .clickOutsideToClose(true)
                     .title('Already Responded')
                     .textContent('This unit has already responded. Please try again.')
@@ -116,7 +115,6 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
             } else {
                 $mdDialog.show(
                     $mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#survey-review-button-container')))
                     .clickOutsideToClose(true)
                     .title('Survey Error')
                     .textContent('There was an error submitting the survey. Please ask your Aeon staff member for assistance.')

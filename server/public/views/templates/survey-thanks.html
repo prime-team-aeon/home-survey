@@ -1,9 +1,13 @@
 <header ng-include="'/views/partials/header.html'"></header>
 <div ng-include="'views/partials/nav.html'"></div>
+
 <div id="thankYou Message">
-
-
-    <h1>{{sc.surveyObject.thanks}}<br>
-        {{sc.surveyObject.requestresults}}
-</h1>
+    <h1>{{sc.surveyObject.thanks}}
+        <br> {{sc.surveyObject.requestresults}}
+    </h1>
 </div>
+
+<div layout="row" layout-align="space-around">
+    <div class="cancelbtn-container" layout-align="space-around-center">
+        <md-button class="cancelbtn md-raised" ng-click='sc.cancelSurvey(false)'>{{sc.surveyObject.begin}}</md-button>
+    </div>
