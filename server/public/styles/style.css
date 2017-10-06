@@ -56,11 +56,26 @@
   width: 90%;
 } */
 
+
+
+
+
+
+
+
+
+
+
+
 .survey-question {
     width: 80vw
-};
+}
 
-.cancelbtn {
-    background-color: #C0C03E 
-};
 
+.cancelbtn-container > .md-raised{
+    background-color: #c8e6c9
+}
+
+#logout-button {
+    float: right;
+}
