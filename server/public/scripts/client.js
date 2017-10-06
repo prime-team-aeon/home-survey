@@ -44,15 +44,6 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
         }
       }
     })
-    .when('/survey-review', {
-      templateUrl: '/views/templates/survey-review.html',
-      controller: 'SurveyController as sc',
-      resolve: {
-        getUser: function (UserService) {
-          return UserService.getUser('Resident');
-        }
-      }
-    })
     .when('/survey-language', {
       templateUrl: '/views/templates/survey-language.html',
       controller: 'SurveyController as sc',
