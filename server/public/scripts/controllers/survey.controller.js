@@ -1,4 +1,4 @@
-myApp.controller('SurveyController', function (AdminService, SurveyService, $location, $window, $mdDialog) {
+myApp.controller('SurveyController', function (AdminService, SurveyService, UserService, $location, $window, $mdDialog) {
 
   //--------------------------------------
   //-------------VARIABLES----------------
@@ -97,6 +97,7 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, $loc
     SurveyService.beginSurvey(property, unit);
   }
 
+  self.UserService=UserService;
 
 
 
