@@ -67,7 +67,7 @@ myApp.service('CsvService', function ($http, $location, $mdToast) {
       parsed.data[i].push(year);
     }
 
-    $http.post('/csv/upload', parsed).then(function (response) {
+    $http.post('/csv/upload/' + year, parsed).then(function (response) {
       $mdToast.show(
         $mdToast.simple()
         .textContent('CSV uploaded!')
