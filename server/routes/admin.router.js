@@ -43,6 +43,45 @@ router.post('/new-property', function (req, res) {
     }
 });
 
+// Add a new unit to a property. called from admin-properties view
+router.post('/new-unit', function (req, res) {    
+
+    var thisYear = new Date();
+    thisYear = thisYear.getFullYear();
+
+    if (req.isAuthenticated()) {
+        if (req.user.role == 'Administrator') {
+            pool.connect(function (errDatabase, client, done) {
+                if (errDatabase) {
+                    console.log('Error connecting to database', errDatabase);
+                    res.sendStatus(500);
+                } else {
+                    client.query('INSERT INTO occupancy (property, unit, year) VALUES ($1, $2, $3)', [
+                        req.body.property,
+                        req.body.unit,
+                        thisYear
+                    ],
+                        function (errQuery, data) {
+                            done();
+                            if (errQuery) {
+                                console.log('Error making database query', errQuery);
+                                res.sendStatus(500);
+                            } else {
+                                res.sendStatus(201);
+                            }
+                        });
+                }
+            });
+        } else {
+            //not authorized
+            res.sendStatus(403);
+        }
+    } else {
+        //not authorized
+        res.sendStatus(403);
+    }
+});
+
 // Delete a property unit. called from admin-properties view
 router.delete('/delete-unit', function (req, res) {
     var occupancyId = req.query.occupancyId;

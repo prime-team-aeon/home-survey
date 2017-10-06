@@ -1,33 +1,50 @@
-<div ng-include="'views/partials/nav.html'"></div>
-
-<h1>Admin: Edit Questions Page</h1>
-
-<md-button class="md-primary" ng-click="ac.goToUpdateQuestions()">Refresh Data</md-button>
-<md-button type="button" ng-href="#/admin">Go Back</md-button>
-
-<section id="admin-questions-container">
-  <div ng-repeat="question in ac.questions.list">
-    <span>{{question.question_number}}</span>
-    <md-button type="button" class="md-primary md-raised" ng-click="ac.updateQuestion(question)">Update #{{question.question_number}}</md-button>
-    <md-input-container>
-      <label>English</label>
-      <input ng-model="question.english">
-    </md-input-container>
-    <md-input-container>
-      <label>Spanish</label>
-      <input ng-model="question.spanish">
-    </md-input-container>
-    <md-input-container>
-      <label>Somali</label>
-      <input ng-model="question.somali">
-    </md-input-container>
-    <md-input-container>
-      <label>Hmong</label>
-      <input ng-model="question.hmong">
-    </md-input-container>
-    <md-input-container>
-      <label>Theme</label>
-      <input ng-model="question.theme">
-    </md-input-container>
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <md-button ng-click="ac.openLeftMenu()" hide-gt-sm>
+      Menu
+    </md-button>
+    <h2 md-truncate flex>Aeon Home Survey Admin</h2>
+    <md-button ng-href="#/logout">
+      Logout Need to Get This Working
+    </md-button>
   </div>
-</section>
+</md-toolbar>
+<div layout="row" class="full-height">
+
+  <div ng-include="'views/partials/sidenav.html'"></div>
+
+  <md-content flex layout-padding>
+
+    <div layout="column">
+      <h1>Admin: Edit Questions Page</h1>
+
+      <section id="admin-questions-container">
+        <div ng-repeat="question in ac.questions.list">
+          <span>{{question.question_number}}</span>
+          <md-button type="button" class="md-primary md-raised" ng-click="ac.updateQuestion(question)">Update #{{question.question_number}}</md-button>
+          <md-input-container>
+            <label>English</label>
+            <input ng-model="question.english">
+          </md-input-container>
+          <md-input-container>
+            <label>Spanish</label>
+            <input ng-model="question.spanish">
+          </md-input-container>
+          <md-input-container>
+            <label>Somali</label>
+            <input ng-model="question.somali">
+          </md-input-container>
+          <md-input-container>
+            <label>Hmong</label>
+            <input ng-model="question.hmong">
+          </md-input-container>
+          <md-input-container>
+            <label>Theme</label>
+            <input ng-model="question.theme">
+          </md-input-container>
+        </div>
+      </section>
+    </div>
+  </md-content>
+
+</div>

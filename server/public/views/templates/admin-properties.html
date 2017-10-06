@@ -1,17 +1,24 @@
-<div ng-include="'views/partials/nav.html'"></div>
-<md-button href="#/admin" class="md-raised">Go Back</md-button>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button ng-click="apc.openLeftMenu()" hide-gt-sm>
+            Menu
+        </md-button>
+        <h2 md-truncate flex>Aeon Home Survey Admin</h2>
+        <md-button>
+            Logout Need to Get This Working
+        </md-button>
+    </div>
+</md-toolbar>
+<div layout="row" class="full-height">
 
-<div layout-gt-sm="row" layout="column" layout-padding layout-margin>
-    <div flex="50">
-        <!-- Add a new property and unit -->
-        <md-content>
-            <md-card>
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">Add a Property/Unit</span>
-                    </md-card-title-text>
-                </md-card-title>
-                <md-card-content>
+    <div ng-include="'views/partials/sidenav.html'"></div>
+
+    <md-content flex layout-padding>
+
+        <div layout="column">
+            <md-content>
+                <md-content>
+                    <h1>Add a Property/Unit</h1>
                     <md-input-container>
                         <label>Property Name</label>
                         <input ng-model="apc.AdminService.newProperty.name" type="text">
@@ -21,40 +28,37 @@
                         <input ng-model="apc.AdminService.newProperty.unit" type="number">
                     </md-input-container>
                     <md-button class="md-primary md-raised" ng-click="apc.addNewProperty()">Add Property</md-button>
-                </md-card-content>
-            </md-card>
-        </md-content>
-    </div>
-    <div flex="50">
-        <!-- Edit an existing property -->
-        <md-content>
-            <md-card>
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">Edit a Property</span>
-                    </md-card-title-text>
-                </md-card-title>
-                <md-card-content>
-                    <form ng-submit="$event.preventDefault()">
-                        <md-autocomplete md-selected-item="apc.selectedItem" md-search-text-change="apc.searchTextChange(apc.searchText)" md-search-text="apc.searchText"
-                            md-selected-item-change="apc.selectedItemChange(property)" md-items="property in apc.AdminService.uniqueProperties | filter: apc.searchText"
-                            md-item-text="item" md-min-length="0" placeholder="Please select a property">
-                            <md-item-template>
-                                <span md-highlight-text="apc.searchText" md-highlight-flags="^i">{{property}}</span>
-                            </md-item-template>
-                            <md-not-found>
-                                No properties matching "{{apc.searchText}}" were found.
-                            </md-not-found>
-                        </md-autocomplete>
-                    </form>
-                </md-card-content>
-            </md-card>
-        </md-content>
-        <md-content style="height: 500px;" ng-if="apc.selectedItem">
-            <md-card>
-                <md-subheader class="md-primary">Edit {{apc.selectedItem}}</md-subheader>
+                </md-content>
+            </md-content>
+            <md-content>
+                <h1>Edit Properties</h1>
+                <form ng-submit="$event.preventDefault()">
+                    <md-autocomplete md-selected-item="apc.selectedItem" md-search-text-change="apc.searchTextChange(apc.searchText)" md-search-text="apc.searchText"
+                        md-selected-item-change="apc.selectedItemChange(property)" md-items="property in apc.AdminService.uniqueProperties | filter: apc.searchText"
+                        md-item-text="item" md-min-length="0" placeholder="Please select a property">
+                        <md-item-template>
+                            <span md-highlight-text="apc.searchText" md-highlight-flags="^i">{{property}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            No properties matching "{{apc.searchText}}" were found.
+                        </md-not-found>
+                    </md-autocomplete>
+                </form>
+            </md-content>
+            <md-card ng-if="apc.selectedItem">
+                <div layout="row" layout-padding>
+                    <div flex>
+                        <h2>{{apc.selectedItem}}</h2>
+                        <md-input-container>
+                            <label>Add a Unit Number</label>
+                            <input ng-model="apc.AdminService.newUnit.name" type="number">
+                        </md-input-container>
+                        <md-button class="md-primary md-raised" ng-click="apc.addNewUnit()">Add Unit</md-button>
+                    </div>
+                </div>
+                <md-subheader class="md-primary">{{apc.selectedItem}} Units</md-subheader>
                 <md-list class="md-dense">
-                    <md-list-item ng-repeat="property in apc.AdminService.allProperties | filter: apc.searchText | orderBy: 'unit'">
+                    <md-list-item ng-repeat="property in apc.AdminService.allProperties | filter: apc.searchText | orderBy: 'unit/1'">
                         <div class="md-list-item-text">
                             <h3>Unit # {{property.unit}}</h3>
                             <p>
@@ -66,8 +70,8 @@
                     </md-list-item>
                 </md-list>
             </md-card>
-        </md-content>
-    </div>
 
+        </div>
+    </md-content>
 
 </div>

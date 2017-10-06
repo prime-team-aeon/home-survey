@@ -1,4 +1,4 @@
-myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$mdDialog', function (CsvService, AdminService, $scope, $mdDialog) {
+myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$mdDialog', '$mdSidenav', '$location', function (CsvService, AdminService, $scope, $mdDialog, $mdSidenav, $location) {
 
   //--------------------------------------
   //-------------VARIABLES----------------
@@ -78,13 +78,20 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
     self.validInput = false;
   }
 
+  // Toggle Sidenav
+  self.openLeftMenu = function () {
+    $mdSidenav('left').toggle();
+  };
+
 
   //--------------UPDATE QUESTIONS---------------
 
   // gets the list of questions from the db and sends the user to the updateQuestions page
-  self.goToUpdateQuestions = function (year = self.thisYear) {
-    CsvService.getQuestions(year);
-  }
+  // self.goToUpdateQuestions = function (year = self.thisYear) {
+  //   CsvService.getQuestions(year);
+  // }
+  var year = self.thisYear;
+  CsvService.getQuestions(year);
 
 
   // called by a button on each individual question. displays a confirm dialog and if confirmed, updates the question in the db
@@ -112,8 +119,11 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
   }
 
   // assigns the event listener function self.handleFileSelect()
-  document.getElementById('admin-file-input').addEventListener('change', self.handleFileSelect, false);
-
+  // run only if on the /admin route
+  self.currentPath = $location.path();
+  if (self.currentPath === '/admin') {
+    document.getElementById('admin-file-input').addEventListener('change', self.handleFileSelect, false);
+  }
 
   // Gets user information and assign to self.users
   self.AdminService = AdminService;

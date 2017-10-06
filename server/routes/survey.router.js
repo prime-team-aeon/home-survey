@@ -204,9 +204,9 @@ router.post('/', function (req, res) {
 
             var tableName = 'responses' + thisYear;
 
-            queryString = "INSERT INTO " + tableName + " (property, language, answer1, answer2, answer3, answer4, answer5, answer6, answer7, answer8, answer9, answer10, answer11, answer12, answer13, answer14, answer15, answer16, answer17, answer18, answer19, answer20, answer21, answer22, answer23, answer24, answer25, answer26, answer27) VALUES ('"
+            queryString = "INSERT INTO " + tableName + " (property, language, answer1, answer2, answer3, answer4, answer5, answer6, answer7, answer8, answer9, answer10, answer11, answer12, answer13, answer14, answer15, answer16, answer17, answer18, answer19, answer20, answer21, answer22, answer23, answer24, answer25, answer26, answer27) VALUES ($1, $2, '"
 
-            queryString += req.query.property + "', '" + req.query.language + "', '";
+            // queryString += req.query.property + "', '" + req.query.language + "', '";
 
             for (var i = 0; i < req.body.list.length; i++) {
                 queryString += req.body.list[i].answer + "', '";
@@ -266,7 +266,7 @@ router.post('/', function (req, res) {
                                                                                 console.log('connection err', err);
                                                                                 res.sendStatus(500);
                                                                             } else {
-                                                                                client.query(queryString, function (err, data) {
+                                                                                client.query(queryString, [req.query.property, req.query.language], function (err, data) {
                                                                                     done();
                                                                                     if (err) {
                                                                                         console.log('query error 258', err);
@@ -303,7 +303,7 @@ router.post('/', function (req, res) {
                                                                 console.log('connection err', err);
                                                                 res.sendStatus(500);
                                                             } else {
-                                                                client.query(queryString, function (err, data) {
+                                                                client.query(queryString, [req.query.property, req.query.language], function (err, data) {
                                                                     done();
                                                                     if (err) {
                                                                         console.log('query error', err);

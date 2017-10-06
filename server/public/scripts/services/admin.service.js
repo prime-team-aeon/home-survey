@@ -22,7 +22,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     //--------------------------------------
 
 
-    // add a new property and unit to the database
+    // add a new property to the database
     self.addNewProperty = function (property, unit) {
 
         if (property && unit) {
@@ -45,8 +45,37 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         } else {
             $mdToast.show(
                 $mdToast.simple()
-                .textContent('Please enter in both a property name and unit number')
+                .textContent('Please enter in both a property name')
                 .hideDelay(2000)
+            );
+        }
+    }
+
+    // add a new property unit to the database
+    self.addNewUnit = function (unit, property) {
+
+        if (unit) {
+            $http({
+                method: 'POST',
+                url: '/admin/new-unit',
+                data: {
+                    property: property,
+                    unit: unit
+                }
+            }).then(function (response) {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('Unit has been added.')
+                        .hideDelay(2000)
+                );
+                self.newUnit = {};
+                self.getAllProperties();
+            });
+        } else {
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Please enter in a unit name')
+                    .hideDelay(2000)
             );
         }
     }

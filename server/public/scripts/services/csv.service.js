@@ -33,7 +33,7 @@ myApp.service('CsvService', function ($http, $location, $mdToast) {
 
     $http.get('/survey/questions/' + year).then(function (response) {
       self.questions.list = response.data;
-      $location.path('/admin-questions');
+      // $location.path('/admin-questions');
     });
   }
 
@@ -42,7 +42,8 @@ myApp.service('CsvService', function ($http, $location, $mdToast) {
   self.updateQuestion = function (question, year) {
 
     $http.post('/survey/questions/' + year, question).then(function (response) {
-      $location.path('/admin-questions');
+      self.getQuestions();
+      // $location.path('/admin-questions');
     });
 
   }
