@@ -60,4 +60,24 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
         })
     }
 
+
+    // clears out all responses and rebuilds the answers array with null objects
+    self.wipeSurveyClean = function () {
+        self.surveyAnswers.list = [];
+        for (var i = 0; i < NUM_SURVEY_QUESTIONS; i++) {
+            self.surveyAnswers.list.push({});
+        }
+    }
+
+
+    //--------------------------------------
+    //-------------RUNTIME CODE-------------
+    //--------------------------------------
+
+    self.wipeSurveyClean(); // start out with a fresh survey
+    self.getSurvey('hmong'); // Load english as language on load
+    
+
+
+
 }); //end of myApp.service
