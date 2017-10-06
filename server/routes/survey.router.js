@@ -4,11 +4,51 @@ var passport = require('passport');
 var path = require('path');
 var pool = require('../modules/pool.js');
 
+router.get('/begin', function (req, res) {
+    if (req.isAuthenticated()) {
+        if (req.user.role == 'Resident') {
+            // is this property/unit combo legit?
+            pool.connect(function (err, client, done) {
+                if (err) {
+                    console.log('db connect error', err);
+                    res.sendStatus(500);
+                } else {
+                    client.query('SELECT * FROM occupancy WHERE property=$1 AND unit=$2', [req.query.property, req.query.unit], function (err, data) {
+                        done();
+                        if (err) {
+                            console.log('query error', err);
+                            res.sendStatus(500);
+                        } else {
+                            if (data.rows[0]) {
+                                if (data.rows[0].responded) {
+                                    // responded == true
+                                    res.send('responded');
+                                } else {
+                                    res.send('authorized');
+                                }
+                            } else {
+                                // unit not found
+                                res.send('unit not found');
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            //not resident role
+            res.sendStatus(403);
+        }
+    } else {
+        // not authenticated
+        res.sendStatus(403);
+    }
+
+});
 
 router.get('/language', function (req, res) {
-    console.log(req.query.language);
     var language = req.query.language;
     var translation;
+
     switch (language) {
         case 'english':
             language = "SELECT question_number, english FROM questions WHERE question_number BETWEEN 1 AND 27;";
@@ -44,18 +84,23 @@ router.get('/language', function (req, res) {
                             console.log('query error', err);
                         } else {
                             surveyObject.questions = data.rows;
-                            client.query(translation, function (err, data) {
-                                done();
-                                // console.log('query result', data.rows)
+                            pool.connect(function (err, client, done) {
                                 if (err) {
-                                    console.log('query error', err);
+                                    console.log('error connecting to db', err);
+                                    res.sendStatus(500);
                                 } else {
-                                    // send response data back to client
-                                    surveyObject.translations = data.rows;
-                                    res.send(surveyObject);
+                                    client.query(translation, function (err, data) {
+                                        done();
+                                        if (err) {
+                                            console.log('query error', err);
+                                        } else {
+                                            // send response data back to client
+                                            surveyObject.translations = data.rows;
+                                            res.send(surveyObject);
+                                        }
+                                    });
                                 }
                             });
-                            // send response data back to client
                         }
                     });
                 }
@@ -70,8 +115,8 @@ router.get('/language', function (req, res) {
     }
 });
 
+// fetches list of questions out of the db. 'year' param defaults to this year if not specified, which it generally shouldn't be
 router.get('/questions/:year?', function (req, res) {
-    // console.log('GET /questions');
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator') {
             var thisYear = new Date();
@@ -84,16 +129,16 @@ router.get('/questions/:year?', function (req, res) {
                     res.sendStatus(500);
                 } else {
                     client.query('SELECT * FROM questions ORDER BY question_number', function (err, data) {
+                        done();
                         if (err) {
                             console.log('db query error', err);
                             res.sendStatus(500);
                         } else {
                             res.send(data.rows);
                         }
-                    })
+                    });
                 }
-            })
-
+            });
         } else {
             //not resident role
             res.sendStatus(403);
@@ -104,8 +149,8 @@ router.get('/questions/:year?', function (req, res) {
     }
 });
 
+// updates the posted question in the db. 'year' defaults to this year if not specified, which it really shouldn't be.
 router.post('/questions/:year?', function (req, res) {
-    // console.log('POST /questions', req.body);
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator') {
             var thisYear = new Date();
@@ -140,7 +185,6 @@ router.post('/questions/:year?', function (req, res) {
                     });
                 }
             });
-
         } else {
             //not resident role
             res.sendStatus(403);
@@ -151,20 +195,16 @@ router.post('/questions/:year?', function (req, res) {
     }
 });
 
-router.post('/:language', function (req, res) {
-    // console.log('POST /survey/' + req.params.language, req.body);
+// takes a completed survey and posts it to the database. also updates the unit to having responded in the `occupancy` table.
+router.post('/', function (req, res) {
     if (req.isAuthenticated()) {
         if (req.user.role == 'Resident') {
             var thisYear = new Date();
             thisYear = thisYear.getFullYear();
 
-            var DEBUG_PROPERTY = "chicago";
+            var tableName = 'responses' + thisYear;
 
-            var tableName = 'responses' + thisYear;         
-
-            queryString = "INSERT INTO " + tableName + " (property, language, answer1, answer2, answer3, answer4, answer5, answer6, answer7, answer8, answer9, answer10, answer11, answer12, answer13, answer14, answer15, answer16, answer17, answer18, answer19, answer20, answer21, answer22, answer23, answer24, answer25, answer26, answer27) VALUES ('"
-
-            queryString += DEBUG_PROPERTY + "', '" + req.params.language + "', '";
+            queryString = "INSERT INTO " + tableName + " (property, language, answer1, answer2, answer3, answer4, answer5, answer6, answer7, answer8, answer9, answer10, answer11, answer12, answer13, answer14, answer15, answer16, answer17, answer18, answer19, answer20, answer21, answer22, answer23, answer24, answer25, answer26, answer27) VALUES ($1, $2, '"
 
             for (var i = 0; i < req.body.list.length; i++) {
                 queryString += req.body.list[i].answer + "', '";
@@ -172,57 +212,132 @@ router.post('/:language', function (req, res) {
 
             queryString = queryString.slice(0, -3) + ");";
 
-            // console.log('queryString:', queryString);
-
             pool.connect(function (err, client, done) {
                 if (err) {
                     console.log('error connecting to db', err);
                     res.sendStatus(500);
-                } else {
-                    // make a new table for this year if one doesn't already exist
-                    client.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';", function (err, tableNames) {
+                } else
+                    // double-check that the unit hasn't responded yet 
+                    client.query('SELECT * FROM occupancy WHERE property=$1 AND unit=$2', [req.query.property, req.query.unit], function (err, data) {
                         done();
                         if (err) {
                             console.log('query error', err);
                             res.sendStatus(500);
                         } else {
-                            var foundTable = tableNames.rows.find(function (table) {
-                                return table.table_name == tableName;
-                            });
-                            console.log('foundTable', foundTable);
-                            if(!foundTable){
-                                console.log('notfound');
-                                client.query("CREATE TABLE " + tableName + "(id SERIAL PRIMARY KEY, property TEXT NOT NULL, language TEXT NOT NULL, answer1 TEXT NOT NULL, answer2 TEXT NOT NULL, answer3 TEXT NOT NULL, answer4 TEXT NOT NULL, answer5 TEXT NOT NULL, answer6 TEXT NOT NULL, answer7 TEXT NOT NULL, answer8 TEXT NOT NULL, answer9 TEXT NOT NULL, answer10 TEXT NOT NULL, answer11 TEXT NOT NULL, answer12 TEXT NOT NULL, answer13 TEXT NOT NULL, answer14 TEXT NOT NULL, answer15 TEXT NOT NULL, answer16 TEXT NOT NULL, answer17 TEXT NOT NULL, answer18 TEXT NOT NULL, answer19 TEXT NOT NULL, answer20 TEXT NOT NULL, answer21 TEXT NOT NULL, answer22 TEXT NOT NULL, answer23 TEXT NOT NULL, answer24 TEXT NOT NULL, answer25 TEXT NOT NULL, answer26 TEXT NOT NULL, answer27 TEXT NOT NULL);", function(err,createData){
-                                    if(err){
-                                        console.log('query error');
-                                        res.sendStatus(500);
-                                    } else {
-                                        client.query(queryString, function (err, data) {
-                                            done();
-                                            if (err) {
-                                                console.log('query error', err);
-                                                res.sendStatus(500);
-                                            } else {
-                                                res.sendStatus(201);
-                                            }
-                                        });            
-                                    }
-                                });
+                            if (data.rows[0]) {
+                                if (data.rows[0].responded) {
+                                    // responded == true
+                                    res.send('responded');
+                                } else {
+                                    // unit exists and hasn't responded. first, enter the survey data
+                                    pool.connect(function (err, client, done) {
+                                        if (err) {
+                                            console.log('connect error', err);
+                                            res.sendStatus(500)
+                                        } else {
+                                            client.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';", function (err, tableNames) {
+                                                done();
+                                                if (err) {
+                                                    console.log('query error 239', err);
+                                                    res.sendStatus(500);
+                                                } else {
+                                                    var foundTable = tableNames.rows.find(function (table) {
+                                                        return table.table_name == tableName;
+                                                    });
+                                                    // make a new table for this year if one doesn't already exist
+                                                    if (!foundTable) {
+                                                        pool.connect(function (err, client, done) {
+                                                            if (err) {
+                                                                console.log('connection err', err);
+                                                                res.sendStatus(500);
+                                                            } else {
+                                                                client.query("CREATE TABLE " + tableName + "(id SERIAL PRIMARY KEY, property TEXT NOT NULL, language TEXT NOT NULL, answer1 TEXT NOT NULL, answer2 TEXT NOT NULL, answer3 TEXT NOT NULL, answer4 TEXT NOT NULL, answer5 TEXT NOT NULL, answer6 TEXT NOT NULL, answer7 TEXT NOT NULL, answer8 TEXT NOT NULL, answer9 TEXT NOT NULL, answer10 TEXT NOT NULL, answer11 TEXT NOT NULL, answer12 TEXT NOT NULL, answer13 TEXT NOT NULL, answer14 TEXT NOT NULL, answer15 TEXT NOT NULL, answer16 TEXT NOT NULL, answer17 TEXT NOT NULL, answer18 TEXT NOT NULL, answer19 TEXT NOT NULL, answer20 TEXT NOT NULL, answer21 TEXT NOT NULL, answer22 TEXT NOT NULL, answer23 TEXT NOT NULL, answer24 TEXT NOT NULL, answer25 TEXT NOT NULL, answer26 TEXT NOT NULL, answer27 TEXT NOT NULL);", function (err, createData) {
+                                                                    done();
+                                                                    if (err) {
+                                                                        console.log('query error 252', err);
+                                                                        res.sendStatus(500);
+                                                                    } else {
+                                                                        pool.connect(function (err, client, done) {
+                                                                            if (err) {
+                                                                                console.log('connection err', err);
+                                                                                res.sendStatus(500);
+                                                                            } else {
+                                                                                client.query(queryString, [req.query.property, req.query.language], function (err, data) {
+                                                                                    done();
+                                                                                    if (err) {
+                                                                                        console.log('query error 258', err);
+                                                                                        res.sendStatus(500);
+                                                                                    } else {
+                                                                                        pool.connect(function (err, client, done) {
+                                                                                            if (err) {
+                                                                                                console.log('connection err', err);
+                                                                                                res.sendStatus(500);
+                                                                                            } else {
+                                                                                                client.query('UPDATE occupancy SET responded=true WHERE property=$1 AND unit=$2;', [req.query.property, req.query.unit], function (err, data) {
+                                                                                                    done();
+                                                                                                    if (err) {
+                                                                                                        console.log('query error 264', err);
+                                                                                                        res.sendStatus(500);
+                                                                                                    } else {
+                                                                                                        res.sendStatus(201);
+                                                                                                    }
+                                                                                                });
+                                                                                            }
+                                                                                        });
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                    } else {
+                                                        // table was found, so we don't need to create it
+                                                        pool.connect(function (err, client, done) {
+                                                            if (err) {
+                                                                console.log('connection err', err);
+                                                                res.sendStatus(500);
+                                                            } else {
+                                                                client.query(queryString, [req.query.property, req.query.language], function (err, data) {
+                                                                    done();
+                                                                    if (err) {
+                                                                        console.log('query error', err);
+                                                                        res.sendStatus(500);
+                                                                    } else {
+                                                                        pool.connect(function (err, client, done) {
+                                                                            if (err) {
+                                                                                console.log('connection err', err);
+                                                                                res.sendStatus(500);
+                                                                            } else {
+                                                                                client.query('UPDATE occupancy SET responded=true WHERE property=$1 AND unit=$2;', [req.query.property, req.query.unit], function (err, data) {
+                                                                                    done();
+                                                                                    if (err) {
+                                                                                        console.log('query error', err);
+                                                                                        res.sendStatus(500);
+                                                                                    } else {
+                                                                                        res.sendStatus(201);
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        });
+
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
                             } else {
-                                // table was found, so we don't need to create it
-                                client.query(queryString, function (err, data) {
-                                    done();
-                                    if (err) {
-                                        console.log('query error', err);
-                                        res.sendStatus(500);
-                                    } else {
-                                        res.sendStatus(201);
-                                    }
-                                });    
+                                // unit not found
+                                res.send('unit not found');
                             }
                         }
                     });
-                }
             });
         } else {
             //not resident role
@@ -233,5 +348,6 @@ router.post('/:language', function (req, res) {
         res.sendStatus(403);
     }
 });
+
 
 module.exports = router;

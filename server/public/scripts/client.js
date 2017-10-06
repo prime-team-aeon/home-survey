@@ -17,15 +17,6 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
       templateUrl: '/views/templates/register.html',
       controller: 'LoginController as lc'
     })
-    .when('/user', {
-      templateUrl: '/views/templates/user.html',
-      controller: 'UserController as uc',
-      resolve: {
-        getUser: function (UserService) {
-          return UserService.getUser('any');
-        }
-      }
-    })
     .when('/survey-language', {
       templateUrl: '/views/templates/survey-language.html',
       controller: 'SurveyController as sc',
@@ -46,15 +37,6 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
     })
     .when('/survey-demographics', {
       templateUrl: '/views/templates/survey-demographics.html',
-      controller: 'SurveyController as sc',
-      resolve: {
-        getUser: function (UserService) {
-          return UserService.getUser('Resident');
-        }
-      }
-    })
-    .when('/survey-review', {
-      templateUrl: '/views/templates/survey-review.html',
       controller: 'SurveyController as sc',
       resolve: {
         getUser: function (UserService) {
@@ -133,7 +115,26 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
           return UserService.getUser('Administrator');
         }
       }
-    })    .when('/site-manager', {
+    })    
+    .when('/admin-properties', {
+      templateUrl: '/views/templates/admin-properties.html',
+      controller: 'AdminPropertiesController as apc',
+      resolve: {
+        getUser: function (UserService) {
+          return UserService.getUser('Administrator');
+        }
+      }
+    })    
+    .when('/admin-users', {
+      templateUrl: '/views/templates/admin-users.html',
+      controller: 'AdminController as ac',
+      resolve: {
+        getUser: function (UserService) {
+          return UserService.getUser('Administrator');
+        }
+      }
+    })    
+    .when('/site-manager', {
       templateUrl: '/views/templates/site-manager.html',
       controller: 'SiteManagerController as smc',
       resolve: {
@@ -156,5 +157,6 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('green')
     .accentPalette('light-green')
+
 
 });

@@ -1,35 +1,47 @@
-<div ng-include="'views/partials/nav.html'"></div>
+<header ng-include="'/views/partials/header.html'"></header>
+<div ng-include="'views/partials/nav.survey.html'"></div>
 
-<div id="progressBar">This will be a progress bar</div>
 
-<md-button class="md-raised md-primary" id="instructionsButton">HELP</md-button>
+<div class="container" layout="row" layout-align="space-around center">
+    <div class="progressbar">
+        <i class="material-icons md-48">looks_one</i>
+        <i class="material-icons md-48">looks_two</i>
+        <i class="material-icons md-48">looks_3</i>
+        <i class="material-icons md-48">looks_4</i>
+        <i class="material-icons md-48 inactive">looks_5</i>
+    </div>
+</div>
 
-<section>
-    <p>QUESTION TWENTY-ONE ANSWERS</p>
+<div layout="column" layout-align="center center">        
+
+
+<section class="survey-question">
+    <p>21. {{sc.surveyObject[21]}}</p>
 
     <md-input-container>
-        <label>[...]</label>
-        <input id="question-21-input" type="text" ng-model="sc.surveyAnswers.list[20].answer" >
+        <label>Write your answer here</label>
+        <input id="question-21-input" type="text" ng-model="sc.surveyAnswers.list[20].answer">
     </md-input-container>
 </section>
 
-<section>
-        <p>QUESTION TWENTY-TWO ANSWERS</p>
-        
-            <md-input-container>
-                <label>[...]</label>
-                <input id="question-22-input" type="text" ng-model="sc.surveyAnswers.list[21].answer" >
-            </md-input-container>
-        </section>
+<section class="survey-question">
+    <p>22. {{sc.surveyObject[22]}}</p>
+
+    <md-input-container>
+        <label>Write your answer here</label>
+        <input id="question-22-input" type="text" ng-model="sc.surveyAnswers.list[21].answer">
+    </md-input-container>
+</section>
+</div>
 
 <div layout="row" layout-align="space-around">
-    <div>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-language")'>CANCEL</md-button>
+    <div layout="column" class="cancelbtn-container" layout-align="space-around-center">
+        <md-button class="cancelbtn md-raised" ng-click='sc.cancelSurvey()'>{{sc.surveyObject.cancel}}</md-button>
     </div>
 
     <div>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q3")'>PREV</md-button>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-demographics")'>NEXT</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q3")'>{{sc.surveyObject.goback}}</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-demographics")'>{{sc.surveyObject.next}}</md-button>
     </div>
 
 </div>

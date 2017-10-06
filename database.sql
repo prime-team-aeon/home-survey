@@ -32,10 +32,10 @@ CREATE TABLE occupancy
 (
     id SERIAL PRIMARY KEY,
     property TEXT NOT NULL,
-    unit INT,
+    unit TEXT NOT NULL,
     responded TEXT,
     paid BOOLEAN,
-    occupied TEXT,
+    occupied BOOLEAN,
     year INT NOT NULL
 );
 CREATE TABLE responses2017
@@ -77,20 +77,32 @@ CREATE TABLE occupancy_users
     user_id INT REFERENCES users,
     PRIMARY KEY(occupancy_property, user_id)
 );
+
 INSERT INTO translations (type, english, spanish, somali, hmong) VALUES
-('directions1', 'For each question, touch the button that best describes your experience during the last 12 months. Touch NEXT to go to the next page. Touch GO BACK to go back a page. Press CANCEL to cancel the survey', 'helloSpanish', 'helloSomali', 'helloHmong'),
-('directions2', 'Please enter your answers to each question in the box.', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
-('begin', 'Begin Survey', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
-('property', 'Property', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
-('unit', 'Unit Number', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
-('progress', 'Survey Progress', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
-('continue', 'Continue', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
-('instructions', 'Instructions', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
-('next', 'Next', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
-('cancel', 'Cancel', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
-('review', 'Review Your Answers', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
-('touchToGoBack', 'Touch any question to go back and change your answer.', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
-('submit', 'Submit', 'cancelSpanish', 'cancelSomali', 'cancelHmong'),
+('directions1', 'For each question, touch the button that best describes your experience during the last 12 months. Touch NEXT to go to the next page. Touch GO BACK to go back a page. Press CANCEL to cancel the survey', 'En cada pregunta, pulse el botón que describe mejor su experiencia en los últimos 12 meses.
+Presione AVANZAR para pasar a la siguiente página. Presione RETROCEDER para devolverse a la página anterior. Presione CANCELAR para cancelar la encuesta.', 'Su’aal kasta, taabo batoonka jawaabta kuugu fiican wixii aad la kulantay 12-kii
+bilood ee ugu dambeeyey. Taabo NEXT si aad bog kale ugu gudubto. Taabo GO
+BACK si aad dib ugu noqoto. Taabo CANCEL si aad isaga joojiso su’aalaha.', 'Rau ib lo lus nug, nias lub npov uas piav qhia qhov koj tau ntsib zoo dua tshaj
+rau lub sijhawm 12 lub hlis tag los. Kov TOM NTEJ NTXIV MUS yog xav mus rau
+nplooj ntawv tom ntej. Kov ROV MUS TOM QAB yog xav rov mus rau nplooj
+ntawm tom qab. Nias MUAB TSO TSEG yog xav muab daim ntawv xam phaj tso
+tseg.'),
+('directions2', 'Please enter your answers to each question in the box.', 'Por favor ingrese sus respuestas de cada pregunta en el recuadro.', 'Fadlan santuuqa dhex ku qor jawaabaha su’aal kasta.', 'Thov tso koj cov lus teb rau txhua lo lus nug nyob rau hauv lub npov.'),
+('begin', 'Begin Survey', 'Comenzar encuesta', 'Bilow Su’aalaha', 'Pib Cov Lus Xam Phaj'),
+('property', 'Property', 'Propiedad', 'Guri', 'Vaj Tse'),
+('unit', 'Unit Number', 'Número de apartamento', 'Lambarka Guriga', 'Chav Tsev'),
+('progress', 'Survey Progress', 'Progreso de la encuesta', 'Su’aalahaad ka Jawaabtay', 'Kev Xam Phaj Txog Twg Lawm'),
+('continue', 'Continue', 'Continuar', 'Sii-wad', 'Ua Ntxiv Mus'),
+('instructions', 'Instructions', 'Instrucciones', 'Tilmaamo', 'Cov Lus Taw Qhia'),
+('next', 'Next', 'Avanzar', 'Sii-soco', 'Mus Tom Ntej'),
+('goback', 'Go Back', 'Retroceder', 'Dib u Noqo', 'Rov Mus Tom Qab'),
+('cancel', 'Cancel', 'Cancelar', 'Tirtir', 'Tso Tseg'),
+('review', 'Review Your Answers', 'Revisar sus respuestas', 'Eeg Jawaabahaaga', 'Rov Saib Xyuas Dua Koj Cov Lus Teb'),
+('touchToGoBack', 'Touch any question to go back and change your answer.', 'Pulse cualquier pregunta para retroceder y cambiar su respuesta', 'Taabo su’aal kasta si aad dib ugu noqoto oo aad u beddesho jawaabtaada.', 'Nias lo lus nug twg los tau yog koj xav mus rau tom qab thiab hloov koj lo lus teb'),
+('submit', 'Submit', 'Completar y enviar encuesta', 'Dir', 'Muab Xa Mus'),
+('submitdesc', 'Pressing the Submit button will submit your answers to Aeon and enter you into a drawing for gift cards and one month of free rent. After doing so, please hand this tablet back to the Aeon site manager to receive $10.', 'Sus respuestas serán enviadas al presionar el botón de Enviar. Usted estará participando en una rifa de una tarjeta de regalo y de un mes de alquiler gratis. Después de presionar el botón de Enviar lleve este document al administrador de su
+edificio y obtendrá $10. ¡Gracias!','Guji batoonka ‘Submit’ si aad u dirto jawaabahaaga. Markaas waxaa lagugu dari doonaa abaalmarin bakhtiyaa-nasiib ah oo aad ku heli karto kaar hadyad ah iyo hal bil oo kiro bilaash ah. Markaad dirto ee aad gujiso ‘Submit’, warqadda u dhiib maamulaha guriga aad ku nooshahay si laguu siiyo 10 doollar oo ah hadyad. Mahadsanid!', 'Nias lub npov Xa Mus yuab muab koj cov lus teb xa mus. Thiab lawv yuav muab koj tso npe cuv xab laj saib puas tau ib daim npav phaj tshab thiab tau nyob pub dawb tsis them nqi tsev ib lub hlis. Tom qab nias Xa Mus, muab qhov no cev rov
+rau koj tus nai saib vaj tse ces koj tau txais $10. Ua tsaug!'),
 ('howlong1', '1 to 3 months', '1 a 3 meses', '1 illaa 3 bilood', '1 txog 3 hlis'),
 ('howlong2', '4 to 11 months', '4 a 11 meses', '4 illaa 11 bilood', '4 txog 11 hlis'),
 ('howlong3', '1 to 3 years', '1 a 3 años', '1 illaa 3 sano', '1 txog 3 xyoos'),
