@@ -104,6 +104,10 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
 
   self.UserService=UserService;
 
+  // handle the window unload event
+  window.addEventListener("beforeunload", function(event) {
+    event.returnValue = "Reloading will erase all your answers. Are you sure?"
+  });   
 
 
 });
