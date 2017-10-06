@@ -206,15 +206,11 @@ router.post('/', function (req, res) {
 
             queryString = "INSERT INTO " + tableName + " (property, language, answer1, answer2, answer3, answer4, answer5, answer6, answer7, answer8, answer9, answer10, answer11, answer12, answer13, answer14, answer15, answer16, answer17, answer18, answer19, answer20, answer21, answer22, answer23, answer24, answer25, answer26, answer27) VALUES ($1, $2, '"
 
-            // queryString += req.query.property + "', '" + req.query.language + "', '";
-
             for (var i = 0; i < req.body.list.length; i++) {
                 queryString += req.body.list[i].answer + "', '";
             }
 
             queryString = queryString.slice(0, -3) + ");";
-
-            // console.log('queryString:', queryString);
 
             pool.connect(function (err, client, done) {
                 if (err) {
