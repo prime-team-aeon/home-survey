@@ -106,3 +106,13 @@ md-list {
         max-width: 250px;
     }
 }
+
+#thankyou-message {
+    padding: 25px 40px 25px 40px;
+    font-size: 175%
+}
+
+#intro-message {
+    padding: 0px 40px 25px 40px;
+    font-size: 175%
+}
