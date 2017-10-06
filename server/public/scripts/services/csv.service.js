@@ -55,6 +55,12 @@ myApp.service('CsvService', function ($http, $location, $mdToast) {
     var parsed = Papa.parse(file);
 
     for (var i = 0; i < parsed.data.length; i++) {
+      for (var j = 0; j < parsed.data[i].length; j++) {
+        parsed.data[i][j] = parsed.data[i][j].replace(/(?!\w|\s|-)./g, '')
+          .replace(/\s+/g, ' ')
+          .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2');
+      }
+
       parsed.data[i].push(year);
     }
 
