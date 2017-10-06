@@ -61,7 +61,10 @@
   width: 90%;
 } */
 
-/* .survey-question {} */
+
+.survey-question {
+    width: 80vw
+}
 
 .cancelbtn-container>.md-raised {
     background-color: #c8e6c9
