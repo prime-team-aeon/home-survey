@@ -1,5 +1,5 @@
 <header ng-include="'/views/partials/header.html'"></header>
-<div ng-include="'views/partials/nav.html'"></div>
+<div ng-include="'views/partials/nav.survey.html'"></div>
 
 
 <div class="container" layout="row" layout-align="space-around center">
@@ -15,7 +15,6 @@
 <div layout="column" layout-align="center center">        
 
 
-<md-button class="md-raised md-primary" id="instructionsButton" ng-click="sc.help()">{{sc.surveyObject.instructions}}</md-button>
 
 <section class="survey-question">
     <p>6. {{sc.surveyObject[6]}}</p>
@@ -75,8 +74,8 @@
 </div>
 
 <div layout="row" layout-align="space-around">
-    <div>
-        <md-button class="md-raised md-primary" ng-click='sc.cancelSurvey()'>{{sc.surveyObject.cancel}}</md-button>
+    <div layout="column" class="cancelbtn-container" layout-align="space-around-center">
+        <md-button class="cancelbtn md-raised" ng-click='sc.cancelSurvey()'>{{sc.surveyObject.cancel}}</md-button>
     </div>
 
     <div>

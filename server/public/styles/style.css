@@ -1,4 +1,4 @@
-.material-icons.md-dark {
+    .material-icons.md-dark {
     color: rgba(0, 0, 0, 0.54);
 }
 
@@ -61,12 +61,14 @@
   width: 90%;
 } */
 
-.survey-question {
-    width: 80vw;
+/* .survey-question {} */
+
+.cancelbtn-container>.md-raised {
+    background-color: #c8e6c9
 }
 
-.cancelbtn {
-    background-color: #C0C03E;
+#logout-button {
+    float: right;
 }
 
 
