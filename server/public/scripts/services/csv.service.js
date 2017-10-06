@@ -53,14 +53,17 @@ myApp.service('CsvService', function ($http, $location, $mdToast) {
   self.uploadCsv = function (file, year) {
     // thanks Papa!
     var parsed = Papa.parse(file);
-
+    
     for (var i = 0; i < parsed.data.length; i++) {
+      
+      // scrub the data
       for (var j = 0; j < parsed.data[i].length; j++) {
-        parsed.data[i][j] = parsed.data[i][j].replace(/(?!\w|\s|-)./g, '')
-          .replace(/\s+/g, ' ')
-          .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2');
+        parsed.data[i][j] = parsed.data[i][j].replace(/(?!\w|\s|-)./g, '') // remove all non-alphanumeric characters except whitespace, -, and _
+          .replace(/\s+/g, ' ') // replace all multiple-whitespace patterns with a single space
+          .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2'); // remove all trailing and leading whitespace
       }
 
+      // add the passed-in year to the data row
       parsed.data[i].push(year);
     }
 
