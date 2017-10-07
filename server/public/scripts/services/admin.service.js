@@ -131,7 +131,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     self.getAllProperties = function () {
         $http.get('/user-roles/allProperties/').then(function (response) {
 
-            // forEach loop that stores an array of uniwue property names in the occupancy table
+            // forEach loop that stores an array of unique property names in the occupancy table
             response.data.forEach(function (occupancy) {
 
                 self.uniqueProperties = response.data.map(function (occupancy) {
