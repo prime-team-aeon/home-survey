@@ -27,7 +27,7 @@
 
     .survey-language-langbtn-container {
         /* margin-top: 15vw;
-  margin-bottom: 15vw; */
+        margin-bottom: 15vw; */
         height: 50vh;
         width: 35vw;
     }
@@ -40,10 +40,6 @@
         width: 95%;
         height: 25%;
         font-size: 2.1em;
-    }
-
-    .survey-question {
-        width: 80vw
     }
 
     #survey-language-unit-prop-container {
@@ -59,10 +55,10 @@
     #survey-language-property-select {
         width: 90%;
     }
-    /* #survey-language-property-select > * {
-  width: 90%;
-} */
-    /* .survey-question {} */
+
+    .survey-question {
+        width: 80vw
+    }
 
     .cancelbtn-container>.md-raised {
         background-color: #c8e6c9
@@ -84,16 +80,38 @@
 
     md-sidenav md-content,
     md-sidenav.full-height {
-        background: #e1eebe;
+        background: #f1f1f1;
     }
 
     md-list .md-subheader {
         background: #222;
         color: #fff;
+        text-transform: uppercase;
     }
 
     md-list {
         padding: 0px 0px 8px 0px;
+    }
+
+    #bg img {
+        width: 85%;
+        height: 70%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        min-width: 50%;
+        min-height: 50%;
+        opacity: 0.5;
+        z-index: 100;
+        pointer-events: none;
+    }
+
+    body {
+        position: relative;
+        z-index: 0;
     }
 
     @media (min-width: 600px) {
@@ -107,7 +125,16 @@
         font-size: 175%
     }
 
-    #intro-message {
+    .intro-message {
         padding: 0px 40px 25px 40px;
-        font-size: 175%
+        font-size: 175%;
+    }
+
+    .header-survey-container {
+        max-height: 70px;
+        border-bottom: green solid 5px;
+    }
+
+    .self-identify-input {
+        margin-bottom: 0;
     }
