@@ -92,9 +92,7 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
 
     // sends the user's language, property, unit, and survey answers to the db to be stored
     // displays error dialogs if a unit has already responded or a server error happens, or takes the user to the thanks page if successful
-    self.submitSurvey = function () {
-        console.log('self.surveyAnswers', self.surveyAnswers);
-        
+    self.submitSurvey = function () {x        
 
         $http.post('/survey', self.surveyAnswers, {
             params: {
