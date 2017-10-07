@@ -1,4 +1,4 @@
-myApp.controller('SurveyController', function (AdminService, SurveyService, $location, $window, $mdDialog) {
+myApp.controller('SurveyController', function (AdminService, SurveyService, UserService, $location, $window, $mdDialog) {
 
   //--------------------------------------
   //-------------VARIABLES----------------
@@ -12,28 +12,33 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, $loc
   self.surveyAnswers = SurveyService.surveyAnswers; // holds the user's answers
   self.surveyLanguage = SurveyService.surveyLanguage; // the user-selected language
   self.surveyObject = SurveyService.surveyObject; // holds the translated questions for display
-  
 
-  
+
+
   //--------------------------------------
   //-------------FUNCTIONS----------------
   //--------------------------------------
 
 
   // displays a confirmation dialog for the user, and if confirmed clears the surveyAnswers object and sends the user back to the language-select page
-  self.cancelSurvey = function () {
-    var confirm = $mdDialog.confirm()
-      .title('Confirm Cancel Survey')
-      .textContent('Do you want to cancel this survey? This cannot be undone!')
-      .ariaLabel('confirm cancel survey dialog')
-      .targetEvent(event)
-      .ok('Cancel Survey')
-      .cancel('Go Back');
+  self.cancelSurvey = function (showAlert = true) {
+    if (showAlert) {
+      var confirm = $mdDialog.confirm()
+        .title('Confirm Cancel Survey')
+        .textContent('Do you want to cancel this survey? This cannot be undone!')
+        .ariaLabel('confirm cancel survey dialog')
+        .targetEvent(event)
+        .ok('Cancel Survey')
+        .cancel('Go Back');
 
-    $mdDialog.show(confirm).then(function () {
+      $mdDialog.show(confirm).then(function () {
+        SurveyService.wipeSurveyClean();
+        self.go('/survey-language');
+      }, function () { });
+    } else {
       SurveyService.wipeSurveyClean();
       self.go('/survey-language');
-    }, function () {});
+    }
   }
 
 
@@ -49,7 +54,7 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, $loc
     $window.scrollTo(0, 0);
   }
 
-  
+
   // displays a dialog with translated help instructions for the user
   self.help = function () {
     var confirm = $mdDialog.confirm()
@@ -61,7 +66,7 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, $loc
 
     $mdDialog.show(confirm).then(function () {
       SurveyService.help();
-    }, function () {});
+    }, function () { });
   }
 
 
@@ -83,7 +88,7 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, $loc
 
     $mdDialog.show(confirm).then(function () {
       SurveyService.submitSurvey();
-    }, function () {});
+    }, function () { });
   }
 
 
@@ -97,7 +102,12 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, $loc
     SurveyService.beginSurvey(property, unit);
   }
 
+  self.UserService=UserService;
 
+  // handle the window unload event
+  window.addEventListener("beforeunload", function(event) {
+    event.returnValue = "Reloading will erase all your answers. Are you sure?"
+  });   
 
 
 });

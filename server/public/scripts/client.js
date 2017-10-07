@@ -44,15 +44,6 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
         }
       }
     })
-    .when('/survey-review', {
-      templateUrl: '/views/templates/survey-review.html',
-      controller: 'SurveyController as sc',
-      resolve: {
-        getUser: function (UserService) {
-          return UserService.getUser('Resident');
-        }
-      }
-    })
     .when('/survey-language', {
       templateUrl: '/views/templates/survey-language.html',
       controller: 'SurveyController as sc',
@@ -128,6 +119,15 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
     .when('/admin-properties', {
       templateUrl: '/views/templates/admin-properties.html',
       controller: 'AdminPropertiesController as apc',
+      resolve: {
+        getUser: function (UserService) {
+          return UserService.getUser('Administrator');
+        }
+      }
+    })    
+    .when('/admin-users', {
+      templateUrl: '/views/templates/admin-users.html',
+      controller: 'AdminController as ac',
       resolve: {
         getUser: function (UserService) {
           return UserService.getUser('Administrator');

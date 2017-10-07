@@ -1,9 +1,4 @@
-myApp.controller('AdminPropertiesController', ['AdminService', '$mdDialog', function (AdminService, $mdDialog) {
-    
-    //--------------------------------------
-    //-------------VARIABLES----------------
-    //--------------------------------------
-    
+myApp.controller('AdminPropertiesController', ['AdminService', '$mdDialog', '$timeout', '$mdSidenav', '$log', function (AdminService, $mdDialog, $timeout, $mdSidenav, $log) {
     var self = this;
     self.AdminService = AdminService; // connects AdminService to the AdminPropertiesController
     self.allProperties = AdminService.allProperties; // list of all property information from the occupancy table
@@ -17,18 +12,20 @@ myApp.controller('AdminPropertiesController', ['AdminService', '$mdDialog', func
     self.addNewProperty = function () {
         AdminService.addNewProperty(AdminService.newProperty.name, AdminService.newProperty.unit);
     }
+    
+    // Send a new property function to the admin service
+    self.addNewUnit = function () {
+        AdminService.addNewUnit(AdminService.newUnit.name, self.selectedItem);
+    }
 
     // Called from a checkbox on the /admin-properties page. Sends unit occupied status update to the admin service
     self.updateOccupied = function (property) {
         AdminService.updateOccupied(property);
     }
 
-    //--------------------------------------
-    //-------------RUNTIME CODE-------------
-    //--------------------------------------
-
-    // On controller load, get list of all property/unit combos from db
-    AdminService.getAllProperties();
-
-
-}]); // End of AdminPropertiesController
+    // Toggle Sidenav
+    self.openLeftMenu = function () {
+        $mdSidenav('left').toggle();
+    };
+    
+}]);

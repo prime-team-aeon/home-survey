@@ -1,5 +1,5 @@
-<div ng-include="'views/partials/nav.html'"></div>
-
+<header ng-include="'/views/partials/header.html'"></header>
+<div ng-include="'views/partials/nav.survey.html'"></div>
 
 <div class="container" layout="row" layout-align="space-around center">
     <div class="progressbar">
@@ -13,7 +13,6 @@
 
 <div layout="column" layout-align="center center">        
 
-<md-button class="md-raised md-primary" id="instructionsButton">{{sc.surveyObject.instructions}}</md-button>
 
 <section class="survey-question">
     <p>23. {{sc.surveyObject[23]}}</p>
@@ -66,13 +65,13 @@
 </div>
 
 <div layout="row" layout-align="space-around">
-    <div>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-language")'>{{sc.surveyObject.cancel}}</md-button>
+    <div layout="column" class="cancelbtn-container" layout-align="space-around-center">
+        <md-button class="cancelbtn md-raised" ng-click='sc.cancelSurvey()'>{{sc.surveyObject.cancel}}</md-button>
     </div>
 
     <div>
         <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q4")'>{{sc.surveyObject.goback}}</md-button>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-review")'>{{sc.surveyObject.next}}</md-button>
+        <md-button class="md-raised md-primary" ng-click='sc.submitSurvey()'>{{sc.surveyObject.submit}}</md-button>
     </div>
 
 </div>
