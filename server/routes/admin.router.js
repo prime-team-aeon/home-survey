@@ -4,9 +4,36 @@ var passport = require('passport');
 var path = require('path');
 var pool = require('../modules/pool.js');
 
+// get a dataset for reporting purposes. takes in an array of properties and an array of years, and sends back the matching dataset
+router.get('/data', function (req, res) {
+
+    if (req.isAuthenticated()) {
+        if (req.user.role == 'Administrator') {
+            var properties = req.query.properties;
+            var years = req.query.years;
+            console.log('GET /survey/data', properties, years);
+
+            pool.connect(function (err, client, done) {
+                if (err) {
+                    console.log('db connect error', err);
+                    res.sendStatus(500);
+                }else {
+                    res.sendStatus(200);
+                }
+            });
+        } else {
+            //not authorized
+            res.sendStatus(403);
+        }
+    } else {
+        //not authorized
+        res.sendStatus(403);
+    }
+});
+
 // Add a new property. called from admin-properties view
-router.post('/new-property', function (req, res) {    
-    
+router.post('/new-property', function (req, res) {
+
     var thisYear = new Date();
     thisYear = thisYear.getFullYear();
 
@@ -18,10 +45,10 @@ router.post('/new-property', function (req, res) {
                     res.sendStatus(500);
                 } else {
                     client.query('INSERT INTO occupancy (property, unit, year) VALUES ($1, $2, $3)', [
-                        req.body.property,
-                        req.body.unit,
-                        thisYear
-                    ],
+                            req.body.property,
+                            req.body.unit,
+                            thisYear
+                        ],
                         function (errQuery, data) {
                             done();
                             if (errQuery) {
@@ -44,7 +71,7 @@ router.post('/new-property', function (req, res) {
 });
 
 // Add a new unit to a property. called from admin-properties view
-router.post('/new-unit', function (req, res) {    
+router.post('/new-unit', function (req, res) {
 
     var thisYear = new Date();
     thisYear = thisYear.getFullYear();
@@ -57,10 +84,10 @@ router.post('/new-unit', function (req, res) {
                     res.sendStatus(500);
                 } else {
                     client.query('INSERT INTO occupancy (property, unit, year) VALUES ($1, $2, $3)', [
-                        req.body.property,
-                        req.body.unit,
-                        thisYear
-                    ],
+                            req.body.property,
+                            req.body.unit,
+                            thisYear
+                        ],
                         function (errQuery, data) {
                             done();
                             if (errQuery) {
@@ -124,9 +151,9 @@ router.put('/updateOccupied', function (req, res) {
                     res.sendStatus(500);
                 } else {
                     client.query('UPDATE occupancy SET occupied=$1 WHERE id=$2;', [
-                        req.body.occupied,
-                        req.body.id
-                    ],
+                            req.body.occupied,
+                            req.body.id
+                        ],
                         function (errQuery, data) {
                             done();
                             if (errQuery) {

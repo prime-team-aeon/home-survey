@@ -10,12 +10,13 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     self.newProperty = {};
     self.users = {};
 
+    self.chartData = {}; // holds data gotten from the server for reporting
+
     // stores list of properties from the database
     // one entry per property. for building selectors
     self.propertyList = {
         list: []
     };
-
 
     //--------------------------------------
     //-------------FUNCTIONS----------------
@@ -146,6 +147,20 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         });
     }
 
+
+    // take in an array of years and an array of properties, and get the matching dataset from the server
+    self.getData = function(years, properties) {
+        $http({
+            method: 'GET',
+            url: '/admin/data', 
+            params: {
+                years: years,
+                properties: properties
+            }
+        }).then(function(response){
+            self.chartData.list = response.rows;
+        })
+    }
 
     // get list of properties from db
     self.getProperties = function () {
