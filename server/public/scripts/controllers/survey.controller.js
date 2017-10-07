@@ -72,7 +72,20 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
 
   // takes hard-coded question_id and answer values from the user/DOM and puts them in surveyAnswers.list
   self.respond = function (question_id, answer) {
-    SurveyService.surveyAnswers.list[question_id - 1].answer = answer;
+    
+    // If question is #25 gender and answer is self-identify, include the input repsonse in surveyAnswers
+    if (question_id === 25) {
+      if(answer === 3) {
+        SurveyService.surveyAnswers.list[question_id - 1].answer = answer + ' (' + self.selfIdentify + ')';
+      } else {
+        self.selfIdentify = '';
+        SurveyService.surveyAnswers.list[question_id - 1].answer = answer;
+      }
+    } else {
+      SurveyService.surveyAnswers.list[question_id - 1].answer = answer;
+    }
+    console.log('SurveyService.surveyAnswers.list', SurveyService.surveyAnswers.list);
+    
   }
 
 
@@ -102,12 +115,12 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
     SurveyService.beginSurvey(property, unit);
   }
 
-  self.UserService=UserService;
+  self.UserService = UserService;
 
   // handle the window unload event
-  window.addEventListener("beforeunload", function(event) {
+  window.addEventListener("beforeunload", function (event) {
     event.returnValue = "Reloading will erase all your answers. Are you sure?"
-  });   
+  });
 
 
 });
