@@ -4,6 +4,118 @@ var passport = require('passport');
 var path = require('path');
 var pool = require('../modules/pool.js');
 
+// DEBUG - generate random survey data
+
+/*
+function randomNumber(min, max) {
+    return Math.floor(Math.random() * (1 + max - min) + min);
+}
+
+var randomstring = require('randomstring');
+
+router.get('/data/:number', function (req, res) {
+    console.log('GET /survey/data', req.params.number);
+
+    if (req.params.number <= 10000 && req.params.number > 0) {
+
+        const SURVEYS_TO_GENERATE = req.params.number;
+        const NUM_BASIC_QUESTIONS = 20;
+        const NUM_BASIC_ANSWERS = 4;
+        const NUM_FREE_QUESTIONS = 2;
+        const NUM_DEMO_QUESTIONS = 5;
+        const DEMO_ANSWERS = [5, 7, 3, 6, 8]
+
+        pool.connect(function (err, client, done) {
+            if (err) {
+                console.log('db connect error', err);
+                res.sendStatus(500);
+            } else {
+                //get property names
+                client.query('SELECT DISTINCT property FROM occupancy WHERE year=2017 ORDER BY property;', function (err, occupancyData) {
+                    done();
+                    if (err) {
+                        console.log('query error', err);
+                        res.sendStatus(500);
+                    } else {
+                        var properties = [];
+                        for (var i = 0; i < occupancyData.rows.length; i++) {
+                            properties.push(occupancyData.rows[i].property);
+                        }
+
+                        var languages = ['english', 'spanish', 'hmong', 'somali'];
+
+                        // now we have our property names, we can use them to help us generate random survey data
+                        var queryString = "INSERT INTO responses2017 (property, language, answer1, answer2, answer3, answer4, answer5, answer6, answer7, answer8, answer9, answer10, answer11, answer12, answer13, answer14, answer15, answer16, answer17, answer18, answer19, answer20, answer21, answer22, answer23, answer24, answer25, answer26, answer27) VALUES "
+                        for (var i = 0; i < SURVEYS_TO_GENERATE; i++) {
+                            var survey = [];
+                            var index = randomNumber(0, properties.length - 1);
+                            if(properties[index] == undefined) {
+                                console.log('propindex', index);
+                            }
+                            survey.push("'" + properties[index] + "'");
+                            index = randomNumber(0, languages.length - 1);
+                            if(languages[index] == undefined) {
+                                console.log('langindex', index);
+                            }
+
+                            survey.push("'" + languages[index] + "'");
+
+                            for (var j = 0; j < NUM_BASIC_QUESTIONS; j++) {
+                                survey.push(randomNumber(0, NUM_BASIC_ANSWERS));
+                            }
+                            for (var j = 0; j < NUM_FREE_QUESTIONS; j++) {
+                                survey.push("'" + randomstring.generate(32) + "'");
+                            }
+                            for (var j = 0; j < NUM_DEMO_QUESTIONS; j++) {
+                                survey.push(randomNumber(0, DEMO_ANSWERS[j]));
+                            }
+
+                            // survey[] is now one randomized survey's worth of data, let's add it to the queryString
+
+                            // queryString = ...'VALUES ' --OR-- ...'5,3,2,1),'
+                            queryString += "(";
+
+                            for (var j = 0; j < survey.length; j++) {
+                                var data = survey[j];
+                                queryString += data + ","; // "(chicago,"
+                            } // "...5,3,2,1,"
+
+                            queryString = queryString.slice(0, -1) + "),"; // "(...5,3,2,1),"
+
+                        } // end big for loop
+
+                        // now we have a ton of surveys pushed into queryString, and the end of it looks like:
+                        // queryString =  ...'5,3,2,1),'
+                        queryString = queryString.slice(0, -1) + ';';
+                        // queryString is built! now to INSERT it into responses2017
+
+                        pool.connect(function (err, client, done) {
+                            if (err) {
+                                console.log('debug insert connect error', err);
+                                res.sendStatus(500);
+                            } else {
+                                client.query(queryString, function (err, data) {
+                                    if (err) {
+                                        console.log('debug insert query error', err);
+                                        res.sendStatus(500);
+                                    } else {
+                                        res.sendStatus(201);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        //bad number param
+        res.status(400).send('bad year param');
+    }
+}); */
+
+// end debug
+
 router.get('/begin', function (req, res) {
     if (req.isAuthenticated()) {
         if (req.user.role == 'Resident') {
