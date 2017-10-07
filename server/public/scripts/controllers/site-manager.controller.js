@@ -1,5 +1,18 @@
-myApp.controller('SiteManagerController', ['SiteManagerService', function (SiteManagerService) {    
+myApp.controller('SiteManagerController', ['SiteManagerService', function (SiteManagerService) {
+
+    //--------------------------------------
+    //-------------VARIABLES----------------
+    //--------------------------------------
+
     var self = this;
-    self.SiteManagerService = SiteManagerService;
-    SiteManagerService.getUserProperties();
+    
+    // connects SiteManagerService to the SiteManagerController
+    self.SiteManagerService = SiteManagerService; 
+
+    //--------------------------------------
+    //-------------RUNTIME CODE-------------
+    //--------------------------------------
+
+    // Gets user's properties to select from the Select a Property dropdown on page load
+    SiteManagerService.getUserProperties(); 
 }]);

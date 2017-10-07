@@ -1,13 +1,14 @@
 myApp.controller('AdminPropertiesController', ['AdminService', '$mdDialog', '$timeout', '$mdSidenav', '$log', function (AdminService, $mdDialog, $timeout, $mdSidenav, $log) {
     var self = this;
-
-    self.AdminService = AdminService;
-    AdminService.getAllProperties();
-
-    self.allProperties = AdminService.allProperties;
+    self.AdminService = AdminService; // connects AdminService to the AdminPropertiesController
+    self.allProperties = AdminService.allProperties; // list of all property information from the occupancy table
     self.uniqueProperties = AdminService.uniqueProperties;
 
-    // Send a new property function to the admin service
+    //--------------------------------------
+    //-------------FUNCTIONS----------------
+    //--------------------------------------
+
+    // Called from the Add Property button on the /admin-property page. Sends a nee property and unit number to the admin service
     self.addNewProperty = function () {
         AdminService.addNewProperty(AdminService.newProperty.name, AdminService.newProperty.unit);
     }
@@ -17,9 +18,8 @@ myApp.controller('AdminPropertiesController', ['AdminService', '$mdDialog', '$ti
         AdminService.addNewUnit(AdminService.newUnit.name, self.selectedItem);
     }
 
-    // Send an unit occupied status update to the admin service
-    self.updateOccupied = function(property) {
-        console.log('updateOccupied property', property);
+    // Called from a checkbox on the /admin-properties page. Sends unit occupied status update to the admin service
+    self.updateOccupied = function (property) {
         AdminService.updateOccupied(property);
     }
 
