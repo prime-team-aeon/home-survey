@@ -84,7 +84,6 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
     } else {
       SurveyService.surveyAnswers.list[question_id - 1].answer = answer;
     }
-    console.log('SurveyService.surveyAnswers.list', SurveyService.surveyAnswers.list);
     
   }
 
