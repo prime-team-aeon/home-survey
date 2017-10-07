@@ -38,6 +38,41 @@ CREATE TABLE occupancy
     occupied BOOLEAN,
     year INT NOT NULL
 );
+CREATE TABLE responses
+(
+    id SERIAL PRIMARY KEY,
+    property TEXT NOT NULL,
+    language TEXT NOT NULL,
+    year INT NOT NULL,
+    answer1 INT,
+    answer2 INT,
+    answer3 INT,
+    answer4 INT,
+    answer5 INT,
+    answer6 INT,
+    answer7 INT,
+    answer8 INT,
+    answer9 INT,
+    answer10 INT,
+    answer11 INT,
+    answer12 INT,
+    answer13 INT,
+    answer14 INT,
+    answer15 INT,
+    answer16 INT,
+    answer17 INT,
+    answer18 INT,
+    answer19 INT,
+    answer20 INT,
+    answer21 TEXT,
+    answer22 TEXT,
+    answer23 INT,
+    answer24 INT,
+    answer25 TEXT,
+    answer26 INT,
+    answer27 INT
+);
+
 CREATE TABLE occupancy_users
 (
     occupancy_property TEXT NOT NULL,
@@ -310,11 +345,3 @@ VALUES
         'Demographics',
         2017);
 
-
-INSERT INTO responses2017 (property, answer1, answer2, answer3, answer4, answer5, answer6, answer7, answer8, answer9, answer10, answer11, answer12, answer13, answer14, answer15, answer16, answer17, answer18, answer19, answer20, answer21, answer22, answer23, answer24, answer25, answer26, answer27) VALUES
-( '1934', 'chicago', 'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10', 'a11', 'a12', 'a13', 'a14', 'a15', 'a16', 'a17', 'a18', 'a19', 'a20', 'a21', 'a22', 'a23', 'a24', 'a25', 'a26', 'a27' ),
-( '0052', 'columbus', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'b9', 'b10', 'b11', 'b12', 'b13', 'b14', 'b15', 'b16', 'b17', 'b18', 'b19', 'b20', 'b21', 'b22', 'b23', 'b24', 'b25', 'b26', 'b27' ),
-( '2001', 'chicago', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11', 'c12', 'c13', 'c14', 'c15', 'c16', 'c17', 'c18', 'c19', 'c20', 'c21', 'c22', 'c23', 'c24', 'c25', 'c26', 'c27' ),
-( '3', 'oakland', 'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10', 'd11', 'd12', 'd13', 'd14', 'd15', 'd16', 'd17', 'd18', 'd19', 'd20', 'd21', 'd22', 'd23', 'd24', 'd25', 'd26', 'd27' ),
-( '2134', 'columbus', 'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', 'e10', 'e11', 'e12', 'e13', 'e14', 'e15', 'e16', 'e17', 'e18', 'e19', 'e20', 'e21', 'e22', 'e23', 'e24', 'e25', 'e26', 'e27' ),
-( '44', 'chicago', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19', 'f20', 'f21', 'f22', 'f23', 'f24', 'f25', 'f26', 'f27' );
