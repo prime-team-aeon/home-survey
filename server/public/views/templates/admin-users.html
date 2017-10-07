@@ -18,6 +18,77 @@
         <div layout="column">
             <h1>User Management</h1>
 
+            <!-- <md-toolbar class="md-table-toolbar md-default">
+                <div class="md-toolbar-tools">
+                    <span>Users</span>
+                </div>
+            </md-toolbar> -->
+            <md-table-container>
+                <table md-table multiple ng-model="ac.selectedUser" md-progress="promise">
+                    <thead md-head md-order="query.order" md-on-reorder="ac.getUsers">
+                        <tr md-row>
+                            <th md-column>Username</th>
+                            <th md-column md-numeric>Update Role</th>
+                            <th md-column md-numeric md-order-by="ac.active.status">Update Active Status</th>
+                            <th md-column md-numeric>Site Manager Properties</th>
+                            <th md-column md-numeric>Delete User</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row md-select="user" md-select-id="username" md-auto-select ng-repeat="user in ac.AdminService.users" aria-label="users">
+                            <td md-cell>{{user.username}}</td>
+                            <td md-cell>
+                                <md-select ng-model="user.role" ng-change="ac.AdminService.updateUserRole(user)" aria-label="role">
+                                    <md-option value="Not Assigned">Not Assigned</md-option>
+                                    <md-option value="Administrator">Administrator</md-option>
+                                    <md-option value="Site Manager">Site Manager</md-option>
+                                    <md-option value="Resident">Resident</md-option>
+                                </md-select>
+                            </td>
+                            <td md-cell>
+                                </md-select>
+                                <md-select ng-model="user.active" ng-change="ac.AdminService.toggleActive(user)" aria-label="role">
+                                    <md-option value="true">Active</md-option>
+                                    <md-option value="false">Inactive</md-option>
+                                </md-select>
+                            </td>
+                            <td md-cell>
+                                <span ng-if="user.role === 'Site Manager'">
+                                    <md-button class="md-raised" ng-click="ac.deleteUser(user)">Manage Properties</md-button>
+                                </span>
+                            </td>
+                            <td md-cell>
+                                <md-button class="md-raised md-warn" ng-click="ac.deleteUser(user)">Delete User</md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+        </div>
+    </md-content>
+
+</div>
+
+<!-- <md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button ng-click="ac.openLeftMenu()" hide-gt-sm>
+            Menu
+        </md-button>
+        <h2 md-truncate flex>Aeon Home Survey Admin</h2>
+        <md-button ng-click="ac.UserService.logout()">
+            Logout
+        </md-button>
+    </div>
+</md-toolbar>
+<div layout="row" class="full-height">
+
+    <div ng-include="'views/partials/sidenav.html'"></div>
+
+    <md-content flex layout-padding>
+
+        <div layout="column">
+            <h1>User Management</h1>
+
             <section id="users-status-container">
                 <h1>Users</h1>
                 <md-card ng-repeat="user in ac.AdminService.users">
@@ -69,4 +140,4 @@
         </div>
     </md-content>
 
-</div>
+</div> -->

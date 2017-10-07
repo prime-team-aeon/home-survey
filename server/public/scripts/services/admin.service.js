@@ -228,6 +228,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     // Update the users active status PUT request
     self.toggleActive = function (user) {
+        console.log('heres the user', user);
+        
         $http({
             method: 'PUT',
             url: '/user-roles/active',
@@ -252,12 +254,13 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     // Updates a user role from the database
     self.updateUserRole = function (user) {
+
         $http({
             method: 'PUT',
             url: '/user-roles/role',
             data: {
                 user: user,
-                role: user.newRole
+                role: user.role
             }
         }).then(function (response) {
             self.getUsers(); // get a fresh list of users with updates role

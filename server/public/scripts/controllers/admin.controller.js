@@ -22,6 +22,8 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   self.questions = CsvService.questions;
   self.propertyList = AdminService.propertyList;  
 
+  self.selectedUser = []; // used for the user md-data-table
+
 
   //--------------------------------------
   //-------------FUNCTIONS----------------
