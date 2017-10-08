@@ -16,14 +16,18 @@
     <md-content flex layout-padding>
 
         <div layout="column">
-            <h1>User Management</h1>
-            <div layout="row">
-                <div flex="25" ng-show="!ac.selectedSiteManager">
+            <div layout="row" ng-show="!ac.selectedSiteManager">
+                <div flex="75">
+                    <h1>User Management</h1>
+                </div>
+                <div flex="25">
                     <md-input-container>
                         <input ng-model="searchUser" placeholder="Search Users">
                     </md-input-container>
                 </div>
             </div>
+
+            <!-- Table listing all users -->
             <md-table-container ng-if="!ac.selectedSiteManager">
                 <table md-table multiple ng-model="ac.selectedUser" md-progress="promise">
                     <thead md-head md-order="myOrder" md-on-reorder="ac.getUsers">
@@ -66,21 +70,21 @@
                     </tbody>
                 </table>
             </md-table-container>
+
+            <!-- Message if search users return zero results -->
             <p ng-if="!(ac.AdminService.users.list | filter: searchUser).length" ng-cloak>No users found.</p>
 
-            <div ng-if="ac.selectedSiteManager" style="padding: 20px 0;">
-                <md-button class="md-raised" ng-click="ac.selectedSiteManager = ''">Go Back to All Users</md-button>
-            </div>
-            <div ng-repeat="user in ac.AdminService.users.list" ng-if="user.role == 'Site Manager' && user.username == ac.selectedSiteManager"
-                class="md-whiteframe-4dp" layout-padding>
-                <h3>Site Manager: {{user.username}}</h3>
-                    <md-input-container>
-                        <label>Authorize Property</label>
-                        <md-select ng-model="user.propertyToEdit">
-                            <md-option ng-repeat="property in ac.propertyList.list" ng-value="property">{{property}}</md-option>
-                        </md-select>
-                    </md-input-container>
-                    <md-button class="md-raised md-accent" ng-click="ac.manageAuth(user, user.propertyToEdit, 'auth')">Add Authorization</md-button>
+            <!-- Site Manager admin -->
+            <div ng-repeat="user in ac.AdminService.users.list" ng-if="user.role == 'Site Manager' && user.username == ac.selectedSiteManager">
+                <md-button ng-click="ac.selectedSiteManager = ''">Go Back to All Users</md-button>
+                <h1>Site Manager: {{user.username}}</h1>
+                <md-input-container>
+                    <label>Authorize Property</label>
+                    <md-select ng-model="user.propertyToEdit">
+                        <md-option ng-repeat="property in ac.propertyList.list" ng-value="property">{{property}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-button class="md-raised md-accent" ng-click="ac.manageAuth(user, user.propertyToEdit, 'auth')">Add Authorization</md-button>
                 <md-table-container>
                     <table md-table multiple ng-model="ac.selectedUser" md-progress="promise">
                         <thead md-head md-order="query.order" md-on-reorder="ac.getUsers">
