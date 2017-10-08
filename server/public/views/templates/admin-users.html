@@ -1,9 +1,9 @@
 <md-toolbar>
     <div class="md-toolbar-tools">
-        <md-button ng-click="ac.openLeftMenu()" hide-gt-sm>
-            Menu
+        <md-button class="md-icon-button" ng-click="ac.openLeftMenu()" hide-gt-sm>
+            <i class="material-icons">menu</i>
         </md-button>
-        <h2 md-truncate flex>Aeon Home Survey Admin</h2>
+        <h2 md-truncate flex>Aeon Home Survey</h2>
         <md-button ng-click="ac.UserService.logout()">
             Logout
         </md-button>
@@ -17,25 +17,19 @@
 
         <div layout="column">
             <h1>User Management</h1>
-
-            <!-- <md-toolbar class="md-table-toolbar md-default">
-                <div class="md-toolbar-tools">
-                    <span>Users</span>
-                </div>
-            </md-toolbar> -->
-            <md-table-container>
+            <md-table-container ng-if="!ac.selectedSiteManager">
                 <table md-table multiple ng-model="ac.selectedUser" md-progress="promise">
                     <thead md-head md-order="query.order" md-on-reorder="ac.getUsers">
                         <tr md-row>
-                            <th md-column>Username</th>
+                            <th md-column md-numeric>Username</th>
                             <th md-column md-numeric>Update Role</th>
                             <th md-column md-numeric md-order-by="ac.active.status">Update Active Status</th>
-                            <th md-column md-numeric>Site Manager Properties</th>
-                            <th md-column md-numeric>Delete User</th>
+                            <th md-column md-numeric>Site Manager Admin</th>
+                            <th md-column md-numeric></th>
                         </tr>
                     </thead>
                     <tbody md-body>
-                        <tr md-row md-select="user" md-select-id="username" md-auto-select ng-repeat="user in ac.AdminService.users" aria-label="users">
+                        <tr md-row md-select="user" md-select-id="username" md-auto-select ng-repeat="user in ac.AdminService.users.list" aria-label="users">
                             <td md-cell>{{user.username}}</td>
                             <td md-cell>
                                 <md-select ng-model="user.role" ng-change="ac.AdminService.updateUserRole(user)" aria-label="role">
@@ -53,91 +47,54 @@
                                 </md-select>
                             </td>
                             <td md-cell>
-                                <span ng-if="user.role === 'Site Manager'">
-                                    <md-button class="md-raised" ng-click="ac.deleteUser(user)">Manage Properties</md-button>
-                                </span>
+                                <md-button class="cell-link" ng-if="user.role === 'Site Manager'" ng-click="ac.selectedSiteManager = user.username">Manage Properties</md-button>
                             </td>
                             <td md-cell>
-                                <md-button class="md-raised md-warn" ng-click="ac.deleteUser(user)">Delete User</md-button>
+                                <md-button class="md-icon-button" ng-click="ac.deleteUser(user)">
+                                    <i class="material-icons">delete</i>
+                                </md-button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </md-table-container>
+
+            <div ng-repeat="user in ac.AdminService.users.list" ng-if="user.role == 'Site Manager' && user.username == ac.selectedSiteManager"
+                class="md-whiteframe-4dp" layout-padding>
+                <h3>Site Manager: {{user.username}}</h3>
+                <md-button class="cell-link" ng-click="ac.selectedSiteManager = ''">Cancel</md-button>
+
+                <div layout="row">
+                    <md-input-container ng-if="user.role == 'Site Manager'">
+                        <label>Authorize Property</label>
+                        <md-select ng-model="user.propertyToEdit">
+                            <md-option ng-repeat="property in ac.propertyList.list" ng-value="property">{{property}}</md-option>
+                        </md-select>
+                        <md-button class="md-raised md-accent" ng-click="ac.manageAuth(user, user.propertyToEdit, 'auth')">Add Authorization</md-button>
+                    </md-input-container>
+                </div>
+                <md-table-container>
+                    <table md-table multiple ng-model="ac.selectedUser" md-progress="promise">
+                        <thead md-head md-order="query.order" md-on-reorder="ac.getUsers">
+                            <tr md-row>
+                                <th md-column>Properties</th>
+                                <th md-column>Deauthorize</th>
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row md-select="property" md-select-id="property" md-auto-select ng-repeat="property in user.properties" aria-label="users">
+                                <td md-cell>{{property}}</td>
+                                <td md-cell>
+                                    <md-button class="md-icon-button" ng-click="ac.manageAuth(user, property, 'deauth')">
+                                        <i class="material-icons">delete</i>
+                                    </md-button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+            </div>
         </div>
     </md-content>
 
 </div>
-
-<!-- <md-toolbar>
-    <div class="md-toolbar-tools">
-        <md-button ng-click="ac.openLeftMenu()" hide-gt-sm>
-            Menu
-        </md-button>
-        <h2 md-truncate flex>Aeon Home Survey Admin</h2>
-        <md-button ng-click="ac.UserService.logout()">
-            Logout
-        </md-button>
-    </div>
-</md-toolbar>
-<div layout="row" class="full-height">
-
-    <div ng-include="'views/partials/sidenav.html'"></div>
-
-    <md-content flex layout-padding>
-
-        <div layout="column">
-            <h1>User Management</h1>
-
-            <section id="users-status-container">
-                <h1>Users</h1>
-                <md-card ng-repeat="user in ac.AdminService.users">
-                    <md-card-content>
-                        <h3>{{ user.username }} (
-                            <span ng-if="user.active">Active</span>
-                            <span ng-if="!user.active">Inactive</span>)</h3>
-                        <p>Role: {{user.role}}</p>
-
-                        <md-input-container>
-                            <label>Update User Role</label>
-                            <md-select ng-model="user.newRole">
-                                <md-option value="Not Assigned">Not Assigned</md-option>
-                                <md-option value="Administrator">Administrator</md-option>
-                                <md-option value="Site Manager">Site Manager</md-option>
-                                <md-option value="Resident">Resident</md-option>
-                            </md-select>
-                        </md-input-container>
-
-                        <md-input-container>
-                            <md-button class="md-raised md-accent" ng-click="ac.AdminService.updateUserRole(user)">Update Role</md-button>
-                        </md-input-container>
-
-                        <md-input-container ng-if="user.role == 'Site Manager'">
-                            <div ng-repeat="property in user.properties">
-                                <span>{{property}}</span>
-                                <md-button ng-click="ac.manageAuth(user, property, 'deauth')">Deauthorize</md-button>
-                            </div>
-                        </md-input-container>
-
-                        <md-input-container ng-if="user.role == 'Site Manager'">
-                            <label>Authorize Property</label>
-                            <md-select ng-model="user.propertyToEdit">
-                                <md-option ng-repeat="property in ac.propertyList.list" ng-value="property">{{property}}</md-option>
-                            </md-select>
-                            <md-button class="md-raised md-accent" ng-click="ac.manageAuth(user, user.propertyToEdit, 'auth')">Add Authorization</md-button>
-                        </md-input-container>
-
-                        <md-input-container class="md-block">
-                            <md-switch md-invert ng-change="ac.AdminService.toggleActive(user)" ng-model="user.active">Toggle Account Status</md-switch>
-                        </md-input-container>
-
-                        <md-input-container>
-                            <md-button class="md-raised md-warn" ng-click="ac.deleteUser(user)">Delete User</md-button>
-                        </md-input-container>
-                    </md-card-content>
-                </md-card>
-            </section>
-        </div>
-    </md-content>
-
-</div> -->

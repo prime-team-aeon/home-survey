@@ -45,7 +45,6 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
     }, function () {}); // blank function is to do nothing when 'cancel' is chosen. otherwise md generates console warnings
   }
 
-
   // exports all responses for the chosen year to a csv and starts the download
   self.exportAllResponses = function () {
     CsvService.exportAllResponses(self.yearToAdd);

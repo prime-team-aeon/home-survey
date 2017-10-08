@@ -9,7 +9,9 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     self.allProperties = {}; // holds all unit/property combos    
     self.newProperty = {}; // data bound to the property and input fields in the Add New Property section
     self.uniqueProperties = []; // stores an array of unique properties 
-    self.users = {}; // stores all administrators, site manager
+    self.users = {
+        list: []
+    }; // stores all administrators, site manager
 
 
     // stores list of properties from the database
@@ -208,7 +210,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             method: 'GET',
             url: '/user-roles',
         }).then(function (response) {
-            self.users = response.data;
+            self.users.list = response.data;
         });
     };
 
