@@ -149,16 +149,18 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
 
     // take in an array of years and an array of properties, and get the matching dataset from the server
-    self.getData = function(years, properties) {
+    self.getData = function(year, properties) {
         $http({
             method: 'GET',
             url: '/admin/data', 
             params: {
-                years: years,
+                year: year,
                 properties: properties
             }
         }).then(function(response){
-            self.chartData.list = response.rows;
+            self.chartData.list = response;
+            console.log('self.chartData.list', self.chartData.list);
+            
         })
     }
 
