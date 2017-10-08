@@ -153,5 +153,49 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   // Get the site manager Properties on load
   self.getSiteManagerProperties();
 
+  // Testing
+  self.showAdvanced = function(ev) {
+    $mdDialog.show({
+      controller: DialogController,
+      controllerAs: 'dc',
+      templateUrl: '../../views/partials/site-manager-dialog.tmpl.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: self.customFullscreen // Only for -xs, -sm breakpoints.
+    })
+    .then(function(answer) {
+      self.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      self.status = 'You cancelled the dialog.';
+    });
+  };
+
+  function DialogController($mdDialog, AdminService) {
+
+    var vm = this;
+
+    vm.AdminService = AdminService;
+
+    vm.hide = function () {
+      $mdDialog.hide();
+    };
+
+    vm.cancel = function () {
+      $mdDialog.cancel();
+    };
+
+    vm.answer = function (answer) {
+      $mdDialog.hide(answer);
+    };
+
+    // authorizes or de-authorizes a user for a particular property
+    vm.manageAuth = function (user, property, route) {
+      AdminService.manageAuth(user.id, property, route);
+    }
+
+    vm.propertyList = AdminService.propertyList;  
+  }
+
  
 }]);

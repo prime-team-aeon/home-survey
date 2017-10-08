@@ -136,6 +136,32 @@
     }
 
     .cell-link {
-        font-size: 13px;
+        font-size: 16px;
         text-transform: none;
+        margin-left: 0;
+    }
+
+    table.md-table th.md-column {
+        color: #844444;
+        font-size: 16px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    table.md-table th.md-column.md-active, table.md-table th.md-column.md-active md-icon {
+    color: #844444;
+}
+
+    table.md-table td.md-cell {
+        color: #222;
+        font-size: 16px;
+        border-top: 1px rgba(0, 0, 0, 0.12) solid;
+    }
+
+    .md-select-menu-container.md-table-select .md-text {
+        font-size: 16px;
+    }
+
+    .md-select-value>span:not(.md-select-icon) {
+        flex: initial;
     }
