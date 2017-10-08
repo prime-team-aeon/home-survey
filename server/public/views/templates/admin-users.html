@@ -55,7 +55,7 @@
                                 </md-select>
                             </td>
                             <td md-cell>
-                                <md-button class="cell-link" ng-if="user.role === 'Site Manager'" ng-click="ac.showAdvanced($event)">Property Authorizations</md-button>
+                                <md-button class="cell-link" ng-if="user.role === 'Site Manager'" ng-click="ac.selectedSiteManager = user.username">Property Authorizations</md-button>
                             </td>
                             <td md-cell>
                                 <md-button class="md-icon-button" ng-click="ac.deleteUser(user)">
