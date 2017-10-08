@@ -13,8 +13,12 @@
 
   <div ng-include="'views/partials/sidenav.html'"></div>
 
-  <canvas id="myChart" width="400" height="400"></canvas>
+  <md-button class="md-primary" ng-click="arc.chartTest()">Chart!</md-button>
   
 </div>
 
+<div>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    
+</div>
 {{arc.chartData}}

@@ -10,7 +10,9 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     self.newProperty = {};
     self.users = {};
 
-    self.chartData = {}; // holds data gotten from the server for reporting
+    self.chartData = {}; // holds data to be charted
+
+    self.gottenData = {}; // holds data gotten from the server for reporting
 
     // stores list of properties from the database
     // one entry per property. for building selectors
@@ -79,6 +81,32 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     .hideDelay(2000)
             );
         }
+    }
+
+    self.buildTestChart = function(){
+        self.chartData.list = [0,0,0,0,0];
+        for (var i = 0; i < self.gottenData.list.length; i++) {
+            switch(self.gottenData.list[i].answer1){
+                // 1,2,3,4,null
+                case 1:
+                    self.chartData.list[1]++;
+                    break;
+                case 2:
+                    self.chartData.list[2]++;
+                    break;
+                case 3:
+                    self.chartData.list[3]++;
+                    break;
+                case 4:
+                    self.chartData.list[4]++;
+                    break;
+                default:
+                    self.chartData.list[0]++;
+                    break;
+            } 
+        }
+        console.log('AdminService.chartData.list', self.chartData.list);
+        
     }
 
 
@@ -158,8 +186,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 properties: properties
             }
         }).then(function(response){
-            self.chartData.list = response;
-            console.log('self.chartData.list', self.chartData.list);
+            self.gottenData.list = response.data;
+            console.log('self.gottenData.list', self.gottenData.list);
             
         })
     }
