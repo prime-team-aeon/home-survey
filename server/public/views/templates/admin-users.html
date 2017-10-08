@@ -9,7 +9,7 @@
         </md-button>
     </div>
 </md-toolbar>
-<div layout="row" class="full-height">
+<div layout="row" class="full-height" ng-cloak>
 
     <div ng-include="'views/partials/sidenav.html'"></div>
 
@@ -18,7 +18,7 @@
         <div layout="column">
             <h1>User Management</h1>
             <div layout="row">
-                <div flex="25">
+                <div flex="25" ng-show="!ac.selectedSiteManager">
                     <md-input-container>
                         <input ng-model="searchUser" placeholder="Search Users">
                     </md-input-container>
@@ -36,7 +36,7 @@
                         </tr>
                     </thead>
                     <tbody md-body>
-                        <tr md-row md-select="user" md-select-id="username" md-auto-select ng-repeat="user in ac.AdminService.users.list | filter: {username: searchUser} | orderBy: myOrder"
+                        <tr md-row md-select="user" md-select-id="username" md-auto-select ng-repeat="user in filteredUsers = (ac.AdminService.users.list | filter: {username: searchUser}) | orderBy: myOrder"
                             aria-label="users">
                             <td md-cell>{{user.username}}</td>
                             <td md-cell>
@@ -66,6 +66,7 @@
                     </tbody>
                 </table>
             </md-table-container>
+            <p ng-if="!(ac.AdminService.users.list | filter: searchUser).length" ng-cloak>No users found.</p>
 
             <div ng-if="ac.selectedSiteManager" style="padding: 20px 0;">
                 <md-button class="md-raised" ng-click="ac.selectedSiteManager = ''">Go Back to All Users</md-button>
