@@ -1,4 +1,4 @@
-myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$mdDialog', '$mdSidenav', '$location', function (CsvService, AdminService, $scope, $mdDialog, $mdSidenav, $location) {
+myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService', 'SiteManagerService', '$scope', '$mdDialog', '$mdSidenav', '$location', function (CsvService, AdminService, UserService, SiteManagerService, $scope, $mdDialog, $mdSidenav, $location) {
 
   //--------------------------------------
   //-------------VARIABLES----------------
@@ -20,7 +20,9 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
   self.validInput = false;
 
   self.questions = CsvService.questions;
-  self.propertyList = AdminService.propertyList;
+  self.propertyList = AdminService.propertyList;  
+
+  self.selectedUser = []; // used for the user md-data-table
 
 
   //--------------------------------------
@@ -43,10 +45,14 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
     }, function () {}); // blank function is to do nothing when 'cancel' is chosen. otherwise md generates console warnings
   }
 
-
   // exports all responses for the chosen year to a csv and starts the download
   self.exportAllResponses = function () {
     CsvService.exportAllResponses(self.yearToAdd);
+  }
+
+  // get all occupancy data for the admin site manager page
+  self.getSiteManagerProperties = function() {
+    AdminService.getSiteManagerProperties();
   }
 
 
@@ -71,6 +77,10 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
     AdminService.manageAuth(user.id, property, route);
   }
 
+  // Toggle Sidenav
+  self.openLeftMenu = function () {
+    $mdSidenav('left').toggle();
+  };
 
   // called by the UPLOAD CSV button, sends the chosen file and the year to the service for POSTing to the server. Hides the upload button to avoid weird double-click errors
   self.startUpload = function () {
@@ -89,10 +99,6 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
 
   }
 
-  // Toggle Sidenav
-  self.openLeftMenu = function () {
-    $mdSidenav('left').toggle();
-  };
 
 
   //--------------UPDATE QUESTIONS---------------
@@ -141,4 +147,11 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
   AdminService.getUsers();
   self.users = AdminService.users;
 
+  self.UserService = UserService; // connects admin controller to user service
+  self.SiteManagerService = SiteManagerService; // connects admin controller to site manager service
+
+  // Get the site manager Properties on load
+  // self.getSiteManagerProperties();
+
+ 
 }]);

@@ -1,7 +1,12 @@
-myApp.controller('AdminPropertiesController', ['AdminService', '$mdDialog', '$timeout', '$mdSidenav', '$log', function (AdminService, $mdDialog, $timeout, $mdSidenav, $log) {
+myApp.controller('AdminPropertiesController', ['AdminService', 'UserService', '$mdDialog', '$timeout', '$mdSidenav', '$log', function (AdminService, UserService, $mdDialog, $timeout, $mdSidenav, $log) {
     var self = this;
+
+    self.UserService = UserService;
     self.AdminService = AdminService; // connects AdminService to the AdminPropertiesController
+    AdminService.getAllProperties();
+
     self.allProperties = AdminService.allProperties; // list of all property information from the occupancy table
+
     self.uniqueProperties = AdminService.uniqueProperties;
 
     //--------------------------------------

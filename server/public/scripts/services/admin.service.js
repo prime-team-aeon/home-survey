@@ -9,7 +9,9 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     self.allProperties = {}; // holds all unit/property combos    
     self.newProperty = {}; // data bound to the property and input fields in the Add New Property section
     self.uniqueProperties = []; // stores an array of unique properties 
-    self.users = {}; // stores all administrators, site manager
+    self.users = {
+        list: []
+    }; // stores all administrators, site manager
 
 
     self.chartData = {}; // holds data to be charted
@@ -179,6 +181,40 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         });
     }
 
+    // get a list of occupancy data for the admin site manager page
+    self.getSiteManagerProperties = function() {
+        $http.get('/user-roles/allProperties/').then(function (response) {
+
+            // get the properties
+            self.siteManagerUniqueProperties = [];
+            response.data.forEach(function (occupancy) {
+
+                self.siteManagerUniqueProperties = response.data.map(function (occupancy) {
+                    return occupancy.property
+                });
+
+                self.siteManagerUniqueProperties = self.siteManagerUniqueProperties.filter(function (property, index) {
+                    return self.siteManagerUniqueProperties.indexOf(property) == index;
+                });
+
+            });
+
+            self.siteManagerProperties = response.data;
+
+            self.occupiedUnits = self.siteManagerProperties.filter(function(property){                
+                return property.occupied;
+            });
+            
+            self.respondedUnits = self.siteManagerProperties.filter(function(property){                
+                return property.responded;
+            });
+
+            self.numberOfOccupiedUnits = self.occupiedUnits.length;
+            self.numberOfRespondedUnits = self.respondedUnits.length;             
+            
+        });
+    }
+
 
     // take in an array of years and an array of properties, and get the matching dataset from the server
     self.getData = function(years, properties) {
@@ -219,7 +255,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             method: 'GET',
             url: '/user-roles',
         }).then(function (response) {
-            self.users = response.data;
+            self.users.list = response.data;
         });
     };
 
@@ -239,6 +275,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     // Update the users active status PUT request
     self.toggleActive = function (user) {
+        console.log('heres the user', user);
+        
         $http({
             method: 'PUT',
             url: '/user-roles/active',
@@ -263,12 +301,13 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     // Updates a user role from the database
     self.updateUserRole = function (user) {
+
         $http({
             method: 'PUT',
             url: '/user-roles/role',
             data: {
                 user: user,
-                role: user.newRole
+                role: user.role
             }
         }).then(function (response) {
             self.getUsers(); // get a fresh list of users with updates role

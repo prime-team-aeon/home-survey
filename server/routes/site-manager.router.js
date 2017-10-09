@@ -35,6 +35,37 @@ router.get('/getProperties', function (req, res) {
     }
 
 });
+// GET list of all properties
+router.get('/getProperties', function (req, res) {
+
+    if (req.isAuthenticated()) {
+        if (req.user.role == 'Administrator' || req.user.role == 'Site Manager') {
+            pool.connect(function (err, client, done) {
+                if (err) {
+                    console.log('error connecting to db', err);
+                    res.sendStatus(500);
+                } else {
+                    //query
+                    client.query('SELECT * FROM occupancy JOIN occupancy_users ON occupancy.property = occupancy_users.occupancy_property WHERE user_id=$1 ORDER BY occupancy.property, occupancy.unit;', [req.user.id], function (err, data) {
+                        done();
+                        if (err) {
+                            console.log('query error', err);
+                        } else {
+                            res.send(data.rows);
+                        }
+                    });
+                }
+            });
+        } else {
+            //not admin role
+            res.sendStatus(403);
+        }
+    } else {
+        //not authorized
+        res.sendStatus(403);
+    }
+
+});
 
 // Update user role
 router.put('/updatePaid', function (req, res) {

@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngMaterial', 'ngRoute']);
+var myApp = angular.module('myApp', ['ngMaterial', 'ngRoute', 'md.data.table']);
 
 /// Routes ///
 myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
@@ -136,6 +136,15 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
     })  
     .when('/admin-users', {
       templateUrl: '/views/templates/admin-users.html',
+      controller: 'AdminController as ac',
+      resolve: {
+        getUser: function (UserService) {
+          return UserService.getUser('Administrator');
+        }
+      }
+    })    
+    .when('/admin-site-manager', {
+      templateUrl: '/views/templates/admin-site-manager.html',
       controller: 'AdminController as ac',
       resolve: {
         getUser: function (UserService) {
