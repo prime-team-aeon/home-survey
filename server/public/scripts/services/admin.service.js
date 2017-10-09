@@ -18,6 +18,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     self.gottenData = {}; // holds data gotten from the server for reporting
 
+    self.chartsArray = []; // holds pointers to the charts we've built so that we can .destroy() them later
+
     // stores list of properties from the database
     // one entry per property. for building selectors
     self.propertyList = {
@@ -176,6 +178,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 
             }
         });
+
+        self.chartsArray.push(genderPieChart);
     }
 
 
@@ -220,6 +224,14 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         });
     }
 
+
+    self.destroyAllCharts = function(){
+        for (var i = 0; i < self.chartsArray.length; i++) {
+            console.log('i', i);
+            
+            self.chartsArray[i].destroy();      
+        }
+    }
 
     // GET request for all occupancy information from the occupancy table
     self.getAllProperties = function () {

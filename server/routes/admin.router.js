@@ -11,18 +11,6 @@ router.get('/data', function (req, res) {
         if (req.user.role == 'Administrator') {
             var properties = req.query.properties;
             var year = req.query.year;
-            console.log('GET /admin/data', properties, year);
-            console.log('typeof properties', typeof properties);
-            
-
-            // var yearBlingString = "";
-
-            // // start at 1 because pg wants $1, $2, etc in sequence
-            // for (var i = 1; i < (year.length + 1); i++) { 
-            //     yearBlingString += "$" + (i) + ",";
-            // }
-
-            // yearBlingString = yearBlingString.slice(0, -1);
 
             var propBlingString = "";
 
@@ -34,34 +22,9 @@ router.get('/data', function (req, res) {
                     propBlingString += "$" + (i + 2) + ",";
                 }
                 propBlingString = propBlingString.slice(0, -1);
-                
             }
 
-
-
-            // var propertyString = "";
-
-            // for (var i = 0; i < properties.length; i++) {
-            //     propertyString += "'" + properties[i] + "',"
-            // }
-
-            // propertyString = propertyString.slice(0, -1) + ')';
-
-            // var yearString = "(";
-
-            // for (var i = 0; i < years.length; i++) {
-            //     yearString += years[i] + ','
-            // }
-
-            // yearString = yearString.slice(0, -1);
-
-            // query like:
-            // SELECT * FROM responses WHERE property IN ('The Jourdain', '1822 Park') AND year IN (2017);
-
             queryString = 'SELECT * FROM responses WHERE year IN ($1) AND property IN (' + propBlingString + ')';
-
-            console.log('queryString', queryString);
-
 
             pool.connect(function (err, client, done) {
                 if (err) {
@@ -73,8 +36,6 @@ router.get('/data', function (req, res) {
                             console.log('data select query error', err);
                             res.sendStatus(500);
                         } else {
-                            // console.log('data.rows', data.rows);
-
                             res.send(data.rows);
                         }
                     });
@@ -84,8 +45,6 @@ router.get('/data', function (req, res) {
                             console.log('data select query error', err);
                             res.sendStatus(500);
                         } else {
-                            // console.log('data.rows', data.rows);
-
                             res.send(data.rows);
                         }
                     });

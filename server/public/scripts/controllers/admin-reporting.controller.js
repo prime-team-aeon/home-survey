@@ -69,6 +69,7 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         self.propertiesToGet = [];
         self.selectAllProperties = false;
         self.calculation = null;
+        AdminService.destroyAllCharts();
         
     }
 
