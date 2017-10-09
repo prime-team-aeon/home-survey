@@ -57,11 +57,6 @@
 }
 
 
-/* #survey-language-property-select > * {
-  width: 90%;
-} */
-
-
 .survey-question {
     width: 80vw
 }
@@ -105,4 +100,8 @@ md-list {
     md-sidenav {
         max-width: 250px;
     }
+}
+
+#admin-theme-select {
+    width: 17%;
 }

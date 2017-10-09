@@ -33,7 +33,20 @@ myApp.service('CsvService', function ($http, $location, $mdToast) {
 
     $http.get('/survey/questions/' + year).then(function (response) {
       self.questions.list = response.data;
-      // $location.path('/admin-questions');
+      //Create array to store themes without repeating values. Generates drop down selector in Admin page
+      self.questions.theme = [];
+      for (var i = 0; i < response.data.length; i++) {
+        var theme = response.data[i].theme;
+        var arr = self.questions.theme
+        if (themeExists(arr, theme) == false) {
+          self.questions.theme.push(theme);
+        }
+      }
+      function themeExists(arr, theme) {
+        return arr.some(function(arrVal) {
+          return theme === arrVal
+        })
+      }
     });
   }
 
