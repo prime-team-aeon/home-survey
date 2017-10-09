@@ -64,6 +64,14 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         }
     }
 
+    self.clearCalc = function(){
+        self.yearToGet = null;
+        self.propertiesToGet = [];
+        self.selectAllProperties = false;
+        self.calculation = null;
+        
+    }
+
     // remove property from list of properties to get from db
     self.deleteProperty = function (property) {
         console.log('deleteProperty', property);
@@ -95,6 +103,7 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
             default:
                 console.log('arc.runCalc NYI');
         }
+
 
 
     }

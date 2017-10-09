@@ -14,7 +14,7 @@
 
   <div ng-include="'views/partials/sidenav.html'"></div>
 
-  <div id="admin-reporting-controls" layout="column" layout-align="start centr">
+  <div id="admin-reporting-controls" layout="column" layout-align="start center" layout-margin>
 
     <md-input-container>
       <md-select placeholder="Choose Year" ng-model="arc.yearToGet">
@@ -57,9 +57,11 @@
 
     <md-button class="md-primary md-raised" ng-click="arc.runCalc(arc.calculation)">Chart!</md-button>
 
+    <md-button class="md-warn md-raised" ng-click="arc.clearCalc()">Clear</md-button>
+    
   </div>
 
-  <div id="admin-reporting-values-container" layout="column" layout-align="start start">
+  <div id="admin-reporting-values-container" layout="column" layout-align="start start" layout-margin>
     <div id="admin-reporting-properties">
       <h3>Year:</h3>
       <span>{{arc.yearToGet}}</span>
@@ -77,7 +79,8 @@
     </div>
 
     <div id="admin-reporting-all-properties" ng-show="arc.selectAllProperties">
-      <h3>All Properties</h3>
+      <h3>Properties</h3>
+      <span>All</span>
     </div>
 
     <div id="admin-reporting-calc-container" layout="column" layout-align="start start">
@@ -85,8 +88,8 @@
       <span>{{arc.calculation}}</span>
     </div>
   </div>
-  <div class="chart-container">
-    <canvas id="myChart" width="400" height="400"></canvas>
 
+  <div class="chart-container" layout="row" layout-margin>
+    <canvas id="myChart" width="400" height="400"></canvas>
   </div>
 </div>
