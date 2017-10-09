@@ -144,7 +144,11 @@ rau koj tus nai saib vaj tse ces koj tau txais $10. Ua tsaug!'),
 ('answer1', 'Strongly agree', 'Completamente de acuerdo', 'Aad Baan Ugu Raacsanahay', 'Txaus pom zoo'),
 ('answer2', 'Agree', 'De acuerdo', 'Waan Ku Raacsanahay', 'Pom zoo'),
 ('answer3', 'Disagree', 'En desacuerdo', 'Waan Diiddanahay', 'Tsis pom zoo'),
-('answer4', 'Strongly disagree', 'Definitivamente en desacuerdo', 'Aad baan u Diiddanahay', 'Txaus tsis pom zoo');
+('answer4', 'Strongly disagree', 'Definitivamente en desacuerdo', 'Aad baan u Diiddanahay', 'Txaus tsis pom zoo'),
+('log out', 'Log Out', 'Ka Bax', 'Cerrar la session','Tua Tawm Mus'),
+('write your answer here', 'Write your answer here.', 'Halkan ku qor jawaabtaada.','Escriba su respuesta aquí.', 'Sau koj lo lus teb rau ntawm no.'),
+('sure you want to cancel', 'Are you sure you want to cancel? This cannot be undone.', 'Ma iska hubtaa in aad joojiso? Arrintan kama noqon kartid.', '¿Está seguro de que quiere cancelar? No podrá recuperar la información.', 'Koj puas xav muab tso tseg tiag? Qhov no rov thim ua dua tsis tau lawm.'),
+('sure you want to submit', 'Are you sure you want to submit?', 'Ma iska hubtaa in aad rabto inaad dirto? Arrintan kama noqon kartid.', '¿Está seguro de que quiere completar y enviar? Ya no podrá regresar.', 'Koj puas xav muab xa mus tiag? Qhov no rov thim ua dua tsis tau lawm.');
 
 INSERT INTO questions
     (question_number,

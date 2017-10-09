@@ -7,8 +7,10 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     var self = this;
 
     self.allProperties = {}; // holds all unit/property combos    
-    self.newProperty = {};
-    self.users = {};
+    self.newProperty = {}; // data bound to the property and input fields in the Add New Property section
+    self.uniqueProperties = []; // stores an array of unique properties 
+    self.users = {}; // stores all administrators, site manager
+
 
     self.chartData = {}; // holds data to be charted
 
@@ -28,6 +30,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     // add a new property to the database
     self.addNewProperty = function (property, unit) {
 
+        // Runs the POST request if the user has entered both and property and unit
         if (property && unit) {
             $http({
                 method: 'POST',
@@ -39,12 +42,13 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             }).then(function (response) {
                 $mdToast.show(
                     $mdToast.simple()
-                    .textContent('Property has been added.')
-                    .hideDelay(2000)
+                        .textContent('Property has been added.')
+                        .hideDelay(2000)
                 );
-                self.newProperty = {};
-                self.getAllProperties();
+                self.newProperty = {}; // sets new property and unit input boxes to empty
+                self.getAllProperties(); // reload all properties to include the new property and unit
             });
+            // Alert the user they need to enter in both a property and unit number into the input fields
         } else {
             $mdToast.show(
                 $mdToast.simple()
@@ -110,7 +114,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     }
 
 
-    // Delete a properties unit request sent to the server
+    // Function called from a button on the /admin-properties page that deletes a property/unit combination from the occupancy table
     self.deleteUnit = function (occupancyId) {
 
         $http({
@@ -122,42 +126,41 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         }).then(function (response) {
             $mdToast.show(
                 $mdToast.simple()
-                .textContent('Unit has been deleted.')
-                .hideDelay(2000)
+                    .textContent('Unit has been deleted.')
+                    .hideDelay(2000)
             );
-            self.getAllProperties();
+            self.getAllProperties(); // reload all properties to not include property/unit that was deleted
         });
     }
 
 
-    // delete a user from the database
+    // Delete a user from delete button the user section in admin
     self.deleteUser = function (username) {
 
         $http.delete('/user-roles/' + username).then(function (response) {
             if (response.status == 200) {
                 $mdToast.show(
                     $mdToast.simple()
-                    .textContent('User deleted.')
-                    .hideDelay(2000)
+                        .textContent('User deleted.')
+                        .hideDelay(2000)
                 );
             } else {
                 $mdToast.show(
                     $mdToast.simple()
-                    .textContent('Deletion unsuccessful.')
-                    .hideDelay(2000)
+                        .textContent('Deletion unsuccessful.')
+                        .hideDelay(2000)
                 );
             }
-            self.getUsers();
+            self.getUsers(); // get a fresh list of users
         });
     }
 
 
-    // get list of all property/unit combos from db
+    // GET request for all occupancy information from the occupancy table
     self.getAllProperties = function () {
         $http.get('/user-roles/allProperties/').then(function (response) {
 
-            // get the properties
-            self.uniqueProperties = [];
+            // forEach loop that stores an array of unique property names in the occupancy table
             response.data.forEach(function (occupancy) {
 
                 self.uniqueProperties = response.data.map(function (occupancy) {
@@ -170,8 +173,9 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
             });
 
+            // stores all occupancy information from the occupancy table via the GET property request
             self.allProperties = response.data;
-            $location.path('/admin-properties');
+
         });
     }
 
@@ -192,20 +196,24 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         })
     }
 
-    // get list of properties from db
+    // GET request for properties from the db
     self.getProperties = function () {
+
+        // set a variable to get the current uyear
         let thisYear = new Date();
         thisYear = thisYear.getFullYear();
+
         $http.get('/user-roles/properties/' + thisYear).then(function (response) {
-            console.log('getProperties response', response);
+
+            // sets propertyList to an array with the unique property names in the occupancy table
             for (var i = 0; i < response.data.length; i++) {
                 self.propertyList.list.push(response.data[i].property);
             }
         });
     }
 
-    
-    // get users username, active, and role status
+
+    // GET request for all users (username, active, and role status) from the users table
     self.getUsers = function () {
         $http({
             method: 'GET',
@@ -216,7 +224,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     };
 
 
-    // authorize or deauthorize a site manager for a property
+    // Authorize or Deauthorize a site manager for a property
     self.manageAuth = function (userId, property, route) {
         var authInfo = {
             id: userId,
@@ -241,9 +249,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     };
 
 
-    // Send an unit occupied status update to the admin service
+    // PUT request to update the occupied status of a unit 
     self.updateOccupied = function (property) {
-        console.log('updateOccupied service property', property);
         $http({
             method: 'PUT',
             url: '/admin/updateOccupied',
@@ -254,7 +261,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     }
 
 
-    // Update the user's role PUT request
+    // Updates a user role from the database
     self.updateUserRole = function (user) {
         $http({
             method: 'PUT',
@@ -264,10 +271,9 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 role: user.newRole
             }
         }).then(function (response) {
-            self.getUsers();
+            self.getUsers(); // get a fresh list of users with updates role
         });
     };
-
 
 
     //--------------------------------------
@@ -276,7 +282,4 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     self.getProperties(); // build propertyList immediately
 
-
-    
 }]);
-    
