@@ -61,11 +61,26 @@
     }
 
     .cancelbtn-container>.md-raised {
-        background-color: #c8e6c9
+        background-color: #d8e6c9
     }
 
     #logout-button {
         float: right;
+        padding:10px;
+        margin-top:25px;
+        margin-left:40px;
+        font-size: 150%;
+        
+
+        
+    }
+    #instructionsButton{
+    padding:10px;
+    margin-top:25px;
+    margin-left:60px;
+    font-size: 150%;
+    background-color: #d8e6c9
+
     }
     /* Admin Side Nav Styling */
 
@@ -103,6 +118,7 @@
         opacity: 0.5;
         z-index: 100;
         pointer-events: none;
+       
     }
 
     body {
@@ -113,6 +129,7 @@
     @media (min-width: 600px) {
         md-sidenav {
             max-width: 250px;
+            
         }
     }
 
@@ -127,12 +144,17 @@
     }
 
     .header-survey-container {
-        max-height: 70px;
-        border-bottom: green solid 5px;
+        max-height: 120px;
+        border-bottom: #d8e6c9 solid 3px;
+        
     }
 
     .self-identify-input {
         margin-bottom: 0;
+    }
+    #headerImage{
+    margin-top:8px;
+    margin-left:8px;
     }
 
     .cell-link {
