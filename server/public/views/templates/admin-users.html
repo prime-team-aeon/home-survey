@@ -1,71 +1,111 @@
 <md-toolbar>
     <div class="md-toolbar-tools">
-        <md-button ng-click="ac.openLeftMenu()" hide-gt-sm>
-            Menu
+        <md-button class="md-icon-button" ng-click="ac.openLeftMenu()" hide-gt-sm>
+            <i class="material-icons">menu</i>
         </md-button>
-        <h2 md-truncate flex>Aeon Home Survey Admin</h2>
-        <md-button ng-href="#/logout">
-            Logout Need to Get This Working
+        <h2 md-truncate flex>Aeon Home Survey</h2>
+        <md-button ng-click="ac.UserService.logout()">
+            Logout
         </md-button>
     </div>
 </md-toolbar>
-<div layout="row" class="full-height">
+<div layout="row" class="full-height" ng-cloak>
 
     <div ng-include="'views/partials/sidenav.html'"></div>
 
     <md-content flex layout-padding>
 
         <div layout="column">
-            <h1>User Management</h1>
+            <div layout="row" ng-show="!ac.selectedSiteManager">
+                <div flex="75">
+                    <h1>User Management</h1>
+                </div>
+                <div flex="25">
+                    <md-input-container>
+                        <input ng-model="searchUser" placeholder="Search Users">
+                    </md-input-container>
+                </div>
+            </div>
 
-            <section id="users-status-container">
-                <h1>Users</h1>
-                <md-card ng-repeat="user in ac.AdminService.users">
-                    <md-card-content>
-                        <h3>{{ user.username }} (
-                            <span ng-if="user.active">Active</span>
-                            <span ng-if="!user.active">Inactive</span>)</h3>
-                        <p>Role: {{user.role}}</p>
+            <!-- Table listing all users -->
+            <md-table-container ng-if="!ac.selectedSiteManager">
+                <table md-table multiple ng-model="ac.selectedUser" md-progress="promise">
+                    <thead md-head md-order="myOrder" md-on-reorder="ac.getUsers">
+                        <tr md-row>
+                            <th md-column md-order-by="username">Username</th>
+                            <th md-column md-order-by="role">Update Role</th>
+                            <th md-column md-order-by="active">Update Active Status</th>
+                            <th md-column>Site Manager Admin</th>
+                            <th md-column></th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row md-select="user" md-select-id="username" md-auto-select ng-repeat="user in filteredUsers = (ac.AdminService.users.list | filter: {username: searchUser}) | orderBy: myOrder"
+                            aria-label="users">
+                            <td md-cell>{{user.username}}</td>
+                            <td md-cell>
+                                <md-select ng-model="user.role" ng-change="ac.AdminService.updateUserRole(user)" aria-label="role">
+                                    <md-option value="Not Assigned">Not Assigned</md-option>
+                                    <md-option value="Administrator">Administrator</md-option>
+                                    <md-option value="Site Manager">Site Manager</md-option>
+                                    <md-option value="Resident">Resident</md-option>
+                                </md-select>
+                            </td>
+                            <td md-cell>
+                                </md-select>
+                                <md-select ng-model="user.active" ng-change="ac.AdminService.toggleActive(user)" aria-label="role">
+                                    <md-option value="true">Active</md-option>
+                                    <md-option value="false">Inactive</md-option>
+                                </md-select>
+                            </td>
+                            <td md-cell>
+                                <md-button class="cell-link" ng-if="user.role === 'Site Manager'" ng-click="ac.selectedSiteManager = user.username">Property Authorizations</md-button>
+                            </td>
+                            <td md-cell>
+                                <md-button class="md-icon-button" ng-click="ac.deleteUser(user)">
+                                    <i class="material-icons">delete</i>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
 
-                        <md-input-container>
-                            <label>Update User Role</label>
-                            <md-select ng-model="user.newRole">
-                                <md-option value="Not Assigned">Not Assigned</md-option>
-                                <md-option value="Administrator">Administrator</md-option>
-                                <md-option value="Site Manager">Site Manager</md-option>
-                                <md-option value="Resident">Resident</md-option>
-                            </md-select>
-                        </md-input-container>
+            <!-- Message if search users return zero results -->
+            <p ng-if="!(ac.AdminService.users.list | filter: searchUser).length" ng-cloak>No users found.</p>
 
-                        <md-input-container>
-                            <md-button class="md-raised md-accent" ng-click="ac.AdminService.updateUserRole(user)">Update Role</md-button>
-                        </md-input-container>
-
-                        <md-input-container ng-if="user.role == 'Site Manager'">
-                            <div ng-repeat="property in user.properties">
-                                <span>{{property}}</span>
-                                <md-button ng-click="ac.manageAuth(user, property, 'deauth')">Deauthorize</md-button>
-                            </div>
-                        </md-input-container>
-
-                        <md-input-container ng-if="user.role == 'Site Manager'">
-                            <label>Authorize Property</label>
-                            <md-select ng-model="user.propertyToEdit">
-                                <md-option ng-repeat="property in ac.propertyList.list" ng-value="property">{{property}}</md-option>
-                            </md-select>
-                            <md-button class="md-raised md-accent" ng-click="ac.manageAuth(user, user.propertyToEdit, 'auth')">Add Authorization</md-button>
-                        </md-input-container>
-
-                        <md-input-container class="md-block">
-                            <md-switch md-invert ng-change="ac.AdminService.toggleActive(user)" ng-model="user.active">Toggle Account Status</md-switch>
-                        </md-input-container>
-
-                        <md-input-container>
-                            <md-button class="md-raised md-warn" ng-click="ac.deleteUser(user)">Delete User</md-button>
-                        </md-input-container>
-                    </md-card-content>
-                </md-card>
-            </section>
+            <!-- Site Manager admin -->
+            <div ng-repeat="user in ac.AdminService.users.list" ng-if="user.role == 'Site Manager' && user.username == ac.selectedSiteManager">
+                <md-button ng-click="ac.selectedSiteManager = ''">Go Back to All Users</md-button>
+                <h1>Site Manager: {{user.username}}</h1>
+                <md-input-container>
+                    <label>Authorize Property</label>
+                    <md-select ng-model="user.propertyToEdit">
+                        <md-option ng-repeat="property in ac.propertyList.list" ng-value="property">{{property}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-button class="md-raised md-accent" ng-click="ac.manageAuth(user, user.propertyToEdit, 'auth')">Add Authorization</md-button>
+                <md-table-container>
+                    <table md-table multiple ng-model="ac.selectedUser" md-progress="promise">
+                        <thead md-head md-order="query.order" md-on-reorder="ac.getUsers">
+                            <tr md-row>
+                                <th md-column>Properties</th>
+                                <th md-column>Deauthorize Property</th>
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row md-select="property" md-select-id="property" md-auto-select ng-repeat="property in user.properties" aria-label="users">
+                                <td md-cell>{{property}}</td>
+                                <td md-cell>
+                                    <md-button class="md-icon-button" ng-click="ac.manageAuth(user, property, 'deauth')">
+                                        <i class="material-icons">delete</i>
+                                    </md-button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+            </div>
         </div>
     </md-content>
 
