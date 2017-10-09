@@ -89,10 +89,6 @@
         height: 100%;
     }
 
-    .sidenavbg {
-        background: #eee;
-    }
-
     md-sidenav md-content,
     md-sidenav.full-height {
         background: #f1f1f1;
@@ -161,4 +157,36 @@
     margin-left:8px;
     }
 
-   
+    .cell-link {
+        font-size: 16px;
+        text-transform: none;
+        margin-left: 0;
+    }
+
+    table.md-table th.md-column {
+        color: #844444;
+        font-size: 16px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    table.md-table th.md-column.md-active, table.md-table th.md-column.md-active md-icon {
+    color: #844444;
+}
+
+#admin-theme-select {
+    width: 17%;
+}
+    table.md-table td.md-cell {
+        color: #222;
+        font-size: 16px;
+        border-top: 1px rgba(0, 0, 0, 0.12) solid;
+    }
+
+    .md-select-menu-container.md-table-select .md-text {
+        font-size: 16px;
+    }
+
+    .md-select-value>span:not(.md-select-icon) {
+        flex: initial;
+    }

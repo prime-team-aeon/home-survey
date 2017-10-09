@@ -6,8 +6,16 @@
     <div class ="span text-center" >
         <md-button class="md-raised md-" id="instructionsButton" ng-click="sc.help()">{{sc.surveyObject.instructions}}</md-button>
     </div>
+
     
     <div class ="span text-center" >
         <md-button class="md-raised md-" id="logout-button" md-nav-item ng-click="sc.UserService.logout()" name="logout">Logout{{sc.surveyObject.logout}}</md-button>
+
+    <div flex="25">
+        <md-button class="md-raised md-primary" id="instructionsButton" ng-click="sc.help()">{{sc.surveyObject.instructions}}</md-button>
+    </div>
+    <div flex="25">
+        <md-button class="md-raised md-primary" id="logout-button" md-nav-item ng-click="sc.UserService.logout()" name="logout">{{sc.surveyObject.logout}}</md-button>
+
     </div>
 </div>
