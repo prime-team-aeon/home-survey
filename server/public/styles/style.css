@@ -152,6 +152,9 @@
     color: #844444;
 }
 
+#admin-theme-select {
+    width: 17%;
+}
     table.md-table td.md-cell {
         color: #222;
         font-size: 16px;
