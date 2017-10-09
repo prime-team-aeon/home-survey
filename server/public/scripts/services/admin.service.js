@@ -8,7 +8,6 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     self.allProperties = {}; // holds all unit/property combos    
     self.newProperty = {}; // data bound to the property and input fields in the Add New Property section
-    self.uniqueProperties = []; // stores an array of unique properties 
     self.users = {
         list: []
     }; // stores all administrators, site manager
@@ -19,6 +18,11 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     self.propertyList = {
         list: []
     };
+
+    // Used for the selected Property on the admin-properties page
+    self.displaySelectedProperty = {
+        list: []
+    }; 
 
 
     //--------------------------------------
@@ -131,20 +135,20 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     // GET request for all occupancy information from the occupancy table
     self.getAllProperties = function () {
-        $http.get('/user-roles/allProperties/').then(function (response) {
+        $http.get('/user-roles/allProperties/').then(function (response) {            
 
             // forEach loop that stores an array of unique property names in the occupancy table
-            response.data.forEach(function (occupancy) {
+            // response.data.forEach(function (occupancy) {
 
-                self.uniqueProperties = response.data.map(function (occupancy) {
-                    return occupancy.property
-                });
+            //     self.uniqueProperties = response.data.map(function (occupancy) {
+            //         return occupancy.property
+            //     });
 
-                self.uniqueProperties = self.uniqueProperties.filter(function (property, index) {
-                    return self.uniqueProperties.indexOf(property) == index;
-                });
+            //     self.uniqueProperties = self.uniqueProperties.filter(function (property, index) {
+            //         return self.uniqueProperties.indexOf(property) == index;
+            //     });
 
-            });
+            // });
 
             // stores all occupancy information from the occupancy table via the GET property request
             self.allProperties = response.data;
@@ -152,23 +156,44 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         });
     }
 
+    // get the selected property on the admin properties edit page
+    self.getSelectedProperty = function(selectedProperty) {
+        $http({
+            method: 'GET',
+            url: 'admin/selectedProperty',
+            params: {
+                selectedProperty: selectedProperty
+            }
+        }).then(function(response){
+            console.log('response', response.data); 
+        });
+        // self.displaySelectedProperty.list = []
+
+        // for (var i = 0; i < self.allProperties.length; i++) {
+        //     if (self.allProperties[i].property === selectedProperty) {
+        //         self.displaySelectedProperty.list.push(self.allProperties[i])
+        //     }
+        // } 
+        
+    }
+
     // get a list of occupancy data for the admin site manager page
     self.getSiteManagerProperties = function() {
         $http.get('/user-roles/allProperties/').then(function (response) {
 
             // get the properties
-            self.siteManagerUniqueProperties = [];
-            response.data.forEach(function (occupancy) {
+            // self.siteManagerUniqueProperties = [];
+            // response.data.forEach(function (occupancy) {
 
-                self.siteManagerUniqueProperties = response.data.map(function (occupancy) {
-                    return occupancy.property
-                });
+            //     self.siteManagerUniqueProperties = response.data.map(function (occupancy) {
+            //         return occupancy.property
+            //     });
 
-                self.siteManagerUniqueProperties = self.siteManagerUniqueProperties.filter(function (property, index) {
-                    return self.siteManagerUniqueProperties.indexOf(property) == index;
-                });
+            //     self.siteManagerUniqueProperties = self.siteManagerUniqueProperties.filter(function (property, index) {
+            //         return self.siteManagerUniqueProperties.indexOf(property) == index;
+            //     });
 
-            });
+            // });
 
             self.siteManagerProperties = response.data;
 

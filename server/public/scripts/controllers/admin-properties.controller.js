@@ -7,7 +7,9 @@ myApp.controller('AdminPropertiesController', ['AdminService', 'UserService', '$
 
     self.allProperties = AdminService.allProperties; // list of all property information from the occupancy table
 
-    self.uniqueProperties = AdminService.uniqueProperties;
+    self.propertyList = AdminService.propertyList;
+
+    self.displaySelectedProperty = AdminService.displaySelectedProperty;
 
     //--------------------------------------
     //-------------FUNCTIONS----------------
@@ -32,5 +34,9 @@ myApp.controller('AdminPropertiesController', ['AdminService', 'UserService', '$
     self.openLeftMenu = function () {
         $mdSidenav('left').toggle();
     };
+
+    self.getSelectedProperty = function(selectedProperty) {
+        AdminService.getSelectedProperty(selectedProperty);        
+    }
     
 }]);

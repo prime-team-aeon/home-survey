@@ -148,4 +148,37 @@ router.put('/updateOccupied', function (req, res) {
     }
 });
 
+// GET a selected property from the admin edit properties page
+router.get('/selectedProperty', function (req, res) {
+    console.log('selectedProperty', req.body);
+    
+    if (req.isAuthenticated()) {
+        if (req.user.role == 'Administrator') {
+            pool.connect(function (err, client, done) {
+                if (err) {
+                    console.log('error connecting to db', err);
+                    res.sendStatus(500);
+                } else {
+                    //query
+                    client.query('SELECT * FROM occupancy WHERE ;', [req.user.id], function (err, data) {
+                        done();
+                        if (err) {
+                            console.log('query error', err);
+                        } else {
+                            res.send(data.rows);
+                        }
+                    });
+                }
+            });
+        } else {
+            //not admin role
+            res.sendStatus(403);
+        }
+    } else {
+        //not authorized
+        res.sendStatus(403);
+    }
+
+});
+
 module.exports = router;
