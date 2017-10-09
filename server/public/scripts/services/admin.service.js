@@ -89,6 +89,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         }
     }
 
+    // takes a DOM HTML5 <canvas> element and builds a chart in it based on the data that's in self.gottenData
     self.buildDemographicsChart = function(chartTarget){
         self.howLongData = [0,0,0,0,0,0];
 
@@ -120,8 +121,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 self.ethnicityData[ethnicityAnswer]++;
             }
 
-            // 1,2,3 (string),null, 
             switch(genderAnswer){
+                // 1,2,3 (string),null, 
                 case '1':
                     self.genderData[1]++;
                     break;
@@ -175,32 +176,6 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 
             }
         });
-    }
-
-    self.buildTestChart = function(){
-        self.chartData.list = [0,0,0,0,0];
-        for (var i = 0; i < self.gottenData.list.length; i++) {
-            switch(self.gottenData.list[i].answer1){
-                // 1,2,3,4,null
-                case 1:
-                    self.chartData.list[1]++;
-                    break;
-                case 2:
-                    self.chartData.list[2]++;
-                    break;
-                case 3:
-                    self.chartData.list[3]++;
-                    break;
-                case 4:
-                    self.chartData.list[4]++;
-                    break;
-                default:
-                    self.chartData.list[0]++;
-                    break;
-            } 
-        }
-        console.log('AdminService.chartData.list', self.chartData.list);
-        
     }
 
 
@@ -423,3 +398,33 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     self.getProperties(); // build propertyList immediately
 
 }]);
+
+
+
+
+
+    // self.buildTestChart = function(){
+    //     self.chartData.list = [0,0,0,0,0];
+    //     for (var i = 0; i < self.gottenData.list.length; i++) {
+    //         switch(self.gottenData.list[i].answer1){
+    //             // 1,2,3,4,null
+    //             case 1:
+    //                 self.chartData.list[1]++;
+    //                 break;
+    //             case 2:
+    //                 self.chartData.list[2]++;
+    //                 break;
+    //             case 3:
+    //                 self.chartData.list[3]++;
+    //                 break;
+    //             case 4:
+    //                 self.chartData.list[4]++;
+    //                 break;
+    //             default:
+    //                 self.chartData.list[0]++;
+    //                 break;
+    //         } 
+    //     }
+    //     console.log('AdminService.chartData.list', self.chartData.list);
+        
+    // }
