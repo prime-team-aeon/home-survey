@@ -19,8 +19,7 @@
       <h1>Admin: Edit Questions Page</h1>
 
       <section id="admin-questions-container">
-        <div ng-repeat="question in ac.questions.list">
-          <span>{{question.question_number}}</span>
+        <div ng-repeat="question in ac.questions.list" layout = "row">
           <md-button type="button" class="md-primary md-raised" ng-click="ac.updateQuestion(question)">Update #{{question.question_number}}</md-button>
           <md-input-container>
             <label>English</label>
@@ -38,10 +37,15 @@
             <label>Hmong</label>
             <input ng-model="question.hmong">
           </md-input-container>
-          <md-input-container>
+
+          <md-input-container id = "admin-theme-select">
             <label>Theme</label>
-            <input ng-model="question.theme">
+            <md-select ng-model="question.theme">
+              <md-option ng-repeat="questionForTheme in ac.questions.theme" ng-value="questionForTheme.theme">{{questionForTheme}} </md-option>
+            </md-select>
           </md-input-container>
+         
+
         </div>
       </section>
     </div>

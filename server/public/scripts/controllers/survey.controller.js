@@ -24,12 +24,11 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
   self.cancelSurvey = function (showAlert = true) {
     if (showAlert) {
       var confirm = $mdDialog.confirm()
-        .title('Confirm Cancel Survey')
-        .textContent('Do you want to cancel this survey? This cannot be undone!')
+        .textContent(self.surveyObject.surecancel)
         .ariaLabel('confirm cancel survey dialog')
         .targetEvent(event)
-        .ok('Cancel Survey')
-        .cancel('Go Back');
+        .ok(self.surveyObject.cancel)
+        .cancel(self.surveyObject.goback);
 
       $mdDialog.show(confirm).then(function () {
         SurveyService.wipeSurveyClean();
@@ -92,11 +91,11 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
   self.submitSurvey = function () {
     var confirm = $mdDialog.confirm()
       .title('Confirm Survey Submission')
-      .textContent('Do you want to submit your survey? This cannot be undone!')
+      .textContent(self.surveyObject.suresubmit)
       .ariaLabel('confirm survey dialog')
       .targetEvent(event)
-      .ok('Confirm')
-      .cancel('Cancel');
+      .ok(self.surveyObject.continue)
+      .cancel(self.surveyObject.cancel);
 
     $mdDialog.show(confirm).then(function () {
       SurveyService.submitSurvey();
