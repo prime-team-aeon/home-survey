@@ -20,7 +20,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     };
 
     // Used for the selected Property on the admin-properties page
-    self.displaySelectedProperty = {
+    self.selectedPropertyToEdit = {
         list: []
     }; 
 
@@ -106,7 +106,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     .textContent('Unit has been deleted.')
                     .hideDelay(2000)
             );
-            self.getAllProperties(); // reload all properties to not include property/unit that was deleted
+            self.getSelectedProperty(self.selectedPropertyToEdit.list[0].property);
         });
     }
 
@@ -137,19 +137,6 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     self.getAllProperties = function () {
         $http.get('/user-roles/allProperties/').then(function (response) {            
 
-            // forEach loop that stores an array of unique property names in the occupancy table
-            // response.data.forEach(function (occupancy) {
-
-            //     self.uniqueProperties = response.data.map(function (occupancy) {
-            //         return occupancy.property
-            //     });
-
-            //     self.uniqueProperties = self.uniqueProperties.filter(function (property, index) {
-            //         return self.uniqueProperties.indexOf(property) == index;
-            //     });
-
-            // });
-
             // stores all occupancy information from the occupancy table via the GET property request
             self.allProperties = response.data;
 
@@ -157,7 +144,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     }
 
     // get the selected property on the admin properties edit page
-    self.getSelectedProperty = function(selectedProperty) {
+    self.getSelectedProperty = function(selectedProperty) {        
         $http({
             method: 'GET',
             url: 'admin/selectedProperty',
@@ -165,15 +152,9 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 selectedProperty: selectedProperty
             }
         }).then(function(response){
-            console.log('response', response.data); 
+            self.showSelectedProperty = true;
+            self.selectedPropertyToEdit.list = response.data;
         });
-        // self.displaySelectedProperty.list = []
-
-        // for (var i = 0; i < self.allProperties.length; i++) {
-        //     if (self.allProperties[i].property === selectedProperty) {
-        //         self.displaySelectedProperty.list.push(self.allProperties[i])
-        //     }
-        // } 
         
     }
 

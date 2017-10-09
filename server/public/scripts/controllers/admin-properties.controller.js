@@ -9,7 +9,7 @@ myApp.controller('AdminPropertiesController', ['AdminService', 'UserService', '$
 
     self.propertyList = AdminService.propertyList;
 
-    self.displaySelectedProperty = AdminService.displaySelectedProperty;
+    self.selectedPropertyToEdit = AdminService.selectedPropertyToEdit;
 
     //--------------------------------------
     //-------------FUNCTIONS----------------

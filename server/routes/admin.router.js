@@ -150,7 +150,6 @@ router.put('/updateOccupied', function (req, res) {
 
 // GET a selected property from the admin edit properties page
 router.get('/selectedProperty', function (req, res) {
-    console.log('selectedProperty', req.body);
     
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator') {
@@ -160,7 +159,7 @@ router.get('/selectedProperty', function (req, res) {
                     res.sendStatus(500);
                 } else {
                     //query
-                    client.query('SELECT * FROM occupancy WHERE ;', [req.user.id], function (err, data) {
+                    client.query('SELECT * FROM occupancy WHERE property=$1;', [req.query.selectedProperty], function (err, data) {
                         done();
                         if (err) {
                             console.log('query error', err);

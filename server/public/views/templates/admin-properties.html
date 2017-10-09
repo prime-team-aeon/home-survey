@@ -9,15 +9,16 @@
         </md-button>
     </div>
 </md-toolbar>
-<div layout="row" class="full-height">
+<div layout="row" class="full-height" ng-cloak>
 
     <div ng-include="'views/partials/sidenav.html'"></div>
 
     <md-content flex layout-padding>
 
         <div layout="column">
+
             <div layout="row">
-                <div flex="50">
+                <div flex>
                     <h1>Add a Property/Unit</h1>
                     <md-input-container>
                         <label>Property Name</label>
@@ -36,31 +37,31 @@
                     <md-input-container>
                         <label>Select a Property</label>
                         <md-select ng-model="apc.selectedProperty" placeholder="Select a Property">
-                            <md-option ng-value="property" ng-repeat="property in apc.propertyList.list">{{ property }}</md-option>
+                            <md-option ng-value="property" ng-repeat="property in apc.AdminService.propertyList.list">{{ property }}</md-option>
                         </md-select>
                     </md-input-container>
-                    <md-button ng-change="apc.getSelectedProperty(apc.selectedProperty)">Submit</md-button>
+                    <md-button class="md-raised md-primary" ng-click="apc.getSelectedProperty(apc.selectedProperty)">Submit</md-button>
                 </div>
             </div>
-            <!-- <div layout="row" ng-if="apc.selectedProperty">
+            <div layout="row" ng-if="apc.AdminService.showSelectedProperty">
                 <div flex>
-                    <h1>{{apc.selectedProperty}}</h1>
+                    <h3>{{apc.selectedPropertyToEdit.list[0].property}}</h3>
                     <md-table-container>
                         <table md-table multiple ng-model="apc.selectedProperty" md-progress="promise">
                             <thead md-head md-order="myOrder">
                                 <tr md-row>
-                                    <th md-column md-order-by="unit">Unit #</th>
-                                    <th md-column md-order-by="occupied">Occupied Status</th>
+                                    <th md-column md-order-by="unit">Unit</th>
+                                    <th md-column md-order-by="occupied">Occupied</th>
                                     <th md-column></th>
                                 </tr>
                             </thead>
                             <tbody md-body>
-                                <tr md-row md-select="user" md-select-id="username" md-auto-select ng-repeat="property in apc.displaySelectedProperty.list | orderBy: 'unit'"
+                                <tr md-row md-select="property" md-select-id="property" md-auto-select ng-repeat="property in apc.selectedPropertyToEdit.list | orderBy: myOrder"
                                     aria-label="users">
                                     <td md-cell>{{property.unit}}</td>
                                     <td md-cell>
-                                        <md-checkbox ng-model="property.occupied" ng-change="apc.AdminService.updateOccupied(property)" aria-label="occupied status"></md-checkbox>
-                                    </td>
+                                    <md-checkbox ng-model="property.occupied" ng-change="apc.AdminService.updateOccupied(property)">Occupied</md-checkbox>
+                                </td>
                                     <td md-cell>
                                         <md-button class="md-icon-button" ng-click="apc.AdminService.deleteUnit(property.id)">
                                             <i class="material-icons">delete</i>
@@ -71,7 +72,7 @@
                         </table>
                     </md-table-container>
                 </div>
-            </div> -->
+            </div>
 
         </div>
     </md-content>
