@@ -13,12 +13,28 @@
 
   <div ng-include="'views/partials/sidenav.html'"></div>
 
-  <md-button class="md-primary" ng-click="arc.chartTest()">Chart!</md-button>
-  
 </div>
 
+<!-- 
+  select properties (multi-select)
+    also: select "all"
+  select year
+    multi-year may be easy with spread op
+    also: select "all"
+  select calculation
+    need to define calculations
+  button: make chart
+    take properties array and year, send the data off, then build the chart
+-->
+
+<div id="admin-reporting-controls">
+  <md-button class="md-primary" ng-click="arc.chartTest()">Chart!</md-button>
+  <md-select>
+    <md-option></md-option>
+  </md-select>
+</div>
 <div>
-    <canvas id="myChart" width="400" height="400"></canvas>
-    
+  <canvas id="myChart" width="400" height="400"></canvas>
+
 </div>
 {{arc.chartData}}
