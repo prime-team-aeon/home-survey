@@ -24,12 +24,11 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
   self.cancelSurvey = function (showAlert = true) {
     if (showAlert) {
       var confirm = $mdDialog.confirm()
-        .title('Confirm Cancel Survey')
-        .textContent('Do you want to cancel this survey? This cannot be undone!')
+        .textContent(self.surveyObject.surecancel)
         .ariaLabel('confirm cancel survey dialog')
         .targetEvent(event)
-        .ok('Cancel Survey')
-        .cancel('Go Back');
+        .ok(self.surveyObject.cancel)
+        .cancel(self.surveyObject.goback);
 
       $mdDialog.show(confirm).then(function () {
         SurveyService.wipeSurveyClean();
@@ -72,7 +71,19 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
 
   // takes hard-coded question_id and answer values from the user/DOM and puts them in surveyAnswers.list
   self.respond = function (question_id, answer) {
-    SurveyService.surveyAnswers.list[question_id - 1].answer = answer;
+    
+    // If question is #25 gender and answer is self-identify, include the input repsonse in surveyAnswers
+    if (question_id === 25) {
+      if(answer === 3) {
+        SurveyService.surveyAnswers.list[question_id - 1].answer = answer + ' (' + self.selfIdentify + ')';
+      } else {
+        self.selfIdentify = '';
+        SurveyService.surveyAnswers.list[question_id - 1].answer = answer;
+      }
+    } else {
+      SurveyService.surveyAnswers.list[question_id - 1].answer = answer;
+    }
+    
   }
 
 
@@ -80,11 +91,11 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
   self.submitSurvey = function () {
     var confirm = $mdDialog.confirm()
       .title('Confirm Survey Submission')
-      .textContent('Do you want to submit your survey? This cannot be undone!')
+      .textContent(self.surveyObject.suresubmit)
       .ariaLabel('confirm survey dialog')
       .targetEvent(event)
-      .ok('Confirm')
-      .cancel('Cancel');
+      .ok(self.surveyObject.continue)
+      .cancel(self.surveyObject.cancel);
 
     $mdDialog.show(confirm).then(function () {
       SurveyService.submitSurvey();
@@ -102,8 +113,12 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
     SurveyService.beginSurvey(property, unit);
   }
 
-  self.UserService=UserService;
+  self.UserService = UserService;
 
+  // handle the window unload event
+  window.addEventListener("beforeunload", function (event) {
+    event.returnValue = "Reloading will erase all your answers. Are you sure?"
+  });
 
 
 });

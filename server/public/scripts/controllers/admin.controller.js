@@ -1,4 +1,4 @@
-myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$mdDialog', '$mdSidenav', '$location', function (CsvService, AdminService, $scope, $mdDialog, $mdSidenav, $location) {
+myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService', 'SiteManagerService', '$scope', '$mdDialog', '$mdSidenav', '$location', function (CsvService, AdminService, UserService, SiteManagerService, $scope, $mdDialog, $mdSidenav, $location) {
 
   //--------------------------------------
   //-------------VARIABLES----------------
@@ -20,7 +20,9 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
   self.validInput = false;
 
   self.questions = CsvService.questions;
-  self.propertyList = AdminService.propertyList;
+  self.propertyList = AdminService.propertyList;  
+
+  self.selectedUser = []; // used for the user md-data-table
 
 
   //--------------------------------------
@@ -40,13 +42,17 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
 
     $mdDialog.show(confirm).then(function () {
       AdminService.deleteUser(user.username);
-    }, function () {});
+    }, function () {}); // blank function is to do nothing when 'cancel' is chosen. otherwise md generates console warnings
   }
-
 
   // exports all responses for the chosen year to a csv and starts the download
   self.exportAllResponses = function () {
     CsvService.exportAllResponses(self.yearToAdd);
+  }
+
+  // get all occupancy data for the admin site manager page
+  self.getSiteManagerProperties = function() {
+    AdminService.getSiteManagerProperties();
   }
 
 
@@ -71,17 +77,28 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
     AdminService.manageAuth(user.id, property, route);
   }
 
-
-  // called by the UPLOAD CSV button, sends the chosen file and the year to the service for POSTing to the server. Hides the upload button to avoid weird double-click errors
-  self.startUpload = function () {
-    CsvService.uploadCsv(self.userInput, self.yearToAdd);
-    self.validInput = false;
-  }
-
   // Toggle Sidenav
   self.openLeftMenu = function () {
     $mdSidenav('left').toggle();
   };
+
+  // called by the UPLOAD CSV button, sends the chosen file and the year to the service for POSTing to the server. Hides the upload button to avoid weird double-click errors
+  self.startUpload = function () {
+    var confirm = $mdDialog.confirm()
+    .title('Confirm Upload')
+    .textContent('Uploading data will OVERWRITE the selected year\'s occupancy data. Are you sure?')
+    .ariaLabel('upload confirm dialog')
+    .targetEvent(event)
+    .ok('Overwrite')
+    .cancel('Cancel');
+
+  $mdDialog.show(confirm).then(function () {
+    CsvService.uploadCsv(self.userInput, self.yearToAdd);
+    self.validInput = false;
+  }, function () {});
+
+  }
+
 
 
   //--------------UPDATE QUESTIONS---------------
@@ -130,4 +147,11 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', '$scope', '$m
   AdminService.getUsers();
   self.users = AdminService.users;
 
+  self.UserService = UserService // connects admin controller to user service
+  self.SiteManagerService = SiteManagerService // connects admin controller to site manager service
+
+  // Get the site manager Properties on load
+  self.getSiteManagerProperties();
+
+ 
 }]);

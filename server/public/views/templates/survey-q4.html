@@ -1,10 +1,11 @@
-<header ng-include="'/views/partials/header.html'"></header>
+<header ng-include="'/views/partials/header-survey.html'"></header>
 <div ng-include="'views/partials/nav.survey.html'"></div>
-
+<div id="bg" alt=""><img src="../../assets/tree-transparent-opacity30-800w.png" alt="Smiley face" height="42" width="42"></div>
 
 <div class="container" layout="row" layout-align="space-around center">
     <div class="progressbar">
-        <i class="material-icons md-48">looks_one</i>
+        
+<i class="material-icons">face</i>
         <i class="material-icons md-48">looks_two</i>
         <i class="material-icons md-48">looks_3</i>
         <i class="material-icons md-48">looks_4</i>
@@ -18,8 +19,8 @@
 <section class="survey-question">
     <p>21. {{sc.surveyObject[21]}}</p>
 
-    <md-input-container>
-        <label>Write your answer here</label>
+    <md-input-container class="md-block" flex>
+        <label>{{sc.surveyObject.writeanswer}}</label>
         <input id="question-21-input" type="text" ng-model="sc.surveyAnswers.list[20].answer">
     </md-input-container>
 </section>
@@ -27,8 +28,8 @@
 <section class="survey-question">
     <p>22. {{sc.surveyObject[22]}}</p>
 
-    <md-input-container>
-        <label>Write your answer here</label>
+    <md-input-container class="md-block" flex>
+        <label>{{sc.surveyObject.writeanswer}}</label>
         <input id="question-22-input" type="text" ng-model="sc.surveyAnswers.list[21].answer">
     </md-input-container>
 </section>

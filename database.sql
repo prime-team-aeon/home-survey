@@ -38,39 +38,6 @@ CREATE TABLE occupancy
     occupied BOOLEAN,
     year INT NOT NULL
 );
-CREATE TABLE responses2017
-(
-    id SERIAL PRIMARY KEY,
-    property TEXT NOT NULL,
-    language TEXT NOT NULL,
-    answer1 TEXT NOT NULL,
-    answer2 TEXT NOT NULL,
-    answer3 TEXT NOT NULL,
-    answer4 TEXT NOT NULL,
-    answer5 TEXT NOT NULL,
-    answer6 TEXT NOT NULL,
-    answer7 TEXT NOT NULL,
-    answer8 TEXT NOT NULL,
-    answer9 TEXT NOT NULL,
-    answer10 TEXT NOT NULL,
-    answer11 TEXT NOT NULL,
-    answer12 TEXT NOT NULL,
-    answer13 TEXT NOT NULL,
-    answer14 TEXT NOT NULL,
-    answer15 TEXT NOT NULL,
-    answer16 TEXT NOT NULL,
-    answer17 TEXT NOT NULL,
-    answer18 TEXT NOT NULL,
-    answer19 TEXT NOT NULL,
-    answer20 TEXT NOT NULL,
-    answer21 TEXT NOT NULL,
-    answer22 TEXT NOT NULL,
-    answer23 TEXT NOT NULL,
-    answer24 TEXT NOT NULL,
-    answer25 TEXT NOT NULL,
-    answer26 TEXT NOT NULL,
-    answer27 TEXT NOT NULL
-);
 CREATE TABLE occupancy_users
 (
     occupancy_property TEXT NOT NULL,
@@ -142,7 +109,11 @@ rau koj tus nai saib vaj tse ces koj tau txais $10. Ua tsaug!'),
 ('answer1', 'Strongly agree', 'Completamente de acuerdo', 'Aad Baan Ugu Raacsanahay', 'Txaus pom zoo'),
 ('answer2', 'Agree', 'De acuerdo', 'Waan Ku Raacsanahay', 'Pom zoo'),
 ('answer3', 'Disagree', 'En desacuerdo', 'Waan Diiddanahay', 'Tsis pom zoo'),
-('answer4', 'Strongly disagree', 'Definitivamente en desacuerdo', 'Aad baan u Diiddanahay', 'Txaus tsis pom zoo');
+('answer4', 'Strongly disagree', 'Definitivamente en desacuerdo', 'Aad baan u Diiddanahay', 'Txaus tsis pom zoo'),
+('log out', 'Log Out', 'Ka Bax', 'Cerrar la session','Tua Tawm Mus'),
+('write your answer here', 'Write your answer here.', 'Halkan ku qor jawaabtaada.','Escriba su respuesta aquí.', 'Sau koj lo lus teb rau ntawm no.'),
+('sure you want to cancel', 'Are you sure you want to cancel? This cannot be undone.', 'Ma iska hubtaa in aad joojiso? Arrintan kama noqon kartid.', '¿Está seguro de que quiere cancelar? No podrá recuperar la información.', 'Koj puas xav muab tso tseg tiag? Qhov no rov thim ua dua tsis tau lawm.'),
+('sure you want to submit', 'Are you sure you want to submit?', 'Ma iska hubtaa in aad rabto inaad dirto? Arrintan kama noqon kartid.', '¿Está seguro de que quiere completar y enviar? Ya no podrá regresar.', 'Koj puas xav muab xa mus tiag? Qhov no rov thim ua dua tsis tau lawm.');
 
 INSERT INTO questions
     (question_number,
