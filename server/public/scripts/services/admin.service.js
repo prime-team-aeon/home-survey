@@ -181,12 +181,12 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
 
     // take in an array of years and an array of properties, and get the matching dataset from the server
-    self.getData = function(year, properties) {
+    self.getData = function(years, properties) {
         $http({
             method: 'GET',
             url: '/admin/data', 
             params: {
-                year: year,
+                years: years,
                 properties: properties
             }
         }).then(function(response){

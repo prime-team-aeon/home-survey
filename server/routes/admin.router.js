@@ -10,25 +10,27 @@ router.get('/data', function (req, res) {
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator') {
             var properties = req.query.properties;
-            var year = req.query.year;
-            console.log('GET /survey/data', ...properties, year);
+            var years = req.query.years;
+            console.log('GET /survey/data', ...properties, years);
+
+            var yearBlingString = "";
+
+            // start at 1 because pg wants $1, $2, etc in sequence
+            for (var i = 1; i < (years.length + 1); i++) { 
+                yearBlingString += "$" + (i) + ",";
+            }
+
+            yearBlingString = yearBlingString.slice(0, -1);
 
             var propBlingString = "";
+            var propBlingLength = i + properties.length;
 
-            for (var i = 0; i < properties.length; i++) {
-                propBlingString += "$" + (i + 2) + ",";
+            // continue sequence from yearBlingString
+            for (i; i < propBlingLength; i++) {
+                propBlingString += "$" + (i) + ",";
             }
 
             propBlingString = propBlingString.slice(0, -1);
-
-            // var yearBlingString = "";
-
-            // for (var i = 0; i < years.length; i++) {
-            //     yearBlingString += "$" + (i + 1) + ",";
-            // }
-
-            // yearBlingString = yearBlingString.slice(0, -1);
-
 
             // var propertyString = "";
 
@@ -49,23 +51,23 @@ router.get('/data', function (req, res) {
             // query like:
             // SELECT * FROM responses WHERE property IN ('The Jourdain', '1822 Park') AND year IN (2017);
 
-            queryString = 'SELECT * FROM responses WHERE year IN ($1) AND property IN (' + propBlingString + ')';
+            queryString = 'SELECT * FROM responses WHERE year IN (' + yearBlingString + ') AND property IN (' + propBlingString + ')';
 
             console.log('queryString', queryString);
-            
+
 
             pool.connect(function (err, client, done) {
                 if (err) {
                     console.log('db connect error', err);
                     res.sendStatus(500);
                 } else {
-                    client.query(queryString, [year, ...properties], function (err, data) {
+                    client.query(queryString, [...years, ...properties], function (err, data) {
                         if (err) {
                             console.log('data select query error', err);
                             res.sendStatus(500);
                         } else {
                             // console.log('data.rows', data.rows);
-                            
+
                             res.send(data.rows);
                         }
                     });

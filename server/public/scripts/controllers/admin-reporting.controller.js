@@ -15,7 +15,7 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         AdminService.getData(years, properties);
     }
 
-    self.getData(2017, ['1822 Park', 'The Jourdain']);
+    self.getData([2017, 2018], ['1822 Park', 'The Jourdain']);
 
     var ctx = document.getElementById("myChart").getContext("2d");
 
