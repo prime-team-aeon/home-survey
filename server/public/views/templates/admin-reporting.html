@@ -33,6 +33,7 @@
         </md-not-found>
       </md-autocomplete>
     </form>
+    <md-button class="md-raised" ng-click="arc.selectAllProperties = !arc.selectAllProperties" ng-class="{'md-accent': arc.selectAllProperties}">Select All Properties</md-button>
     <md-select placeholder="Choose Calculation" ng-model="calculation" ng-change="arc.runCalc(calculation)">
       <md-option ng-repeat="calc in arc.calcList">{{calc}}</md-option>
     </md-select>
@@ -44,7 +45,7 @@
       {{arc.yearToGet}}
     </div>
 
-    <div id="admin-reporting-properties">
+    <div id="admin-reporting-properties" ng-show="!arc.selectAllProperties">
       <div class="admin-reporting-property" ng-repeat="property in arc.propertiesToGet">
         {{property}}
         <md-button class="md-warn" ng-click="arc.deleteProperty(property)">
@@ -66,8 +67,8 @@
   button: make chart
     take properties array and year, send the data off, then build the chart
 -->
-
-<div>
+{{arc.selectAllProperties}}
+<div class="chart-container">
   <canvas id="myChart" width="400" height="400"></canvas>
 
 </div>
