@@ -15,36 +15,35 @@
 
   <div id="admin-reporting-controls" layout="column" layout-align="start start">
     <md-button class="md-primary md-raised" ng-click="arc.chartTest()">Chart!</md-button>
-    <md-select placeholder="Choose Year" ng-model="newYear" ng-change="arc.addYear(newYear)">
+    <md-select placeholder="Choose Year" ng-model="arc.yearToGet">
       <md-option ng-repeat="year in arc.yearsArray">{{year}}</md-option>
     </md-select>
     <md-select placeholder="Choose Property" ng-model="newProperty" ng-change="arc.addProperty(newProperty)">
       <md-option ng-repeat="property in arc.propertyList.list">{{property}}</md-option>
     </md-select>
     <form ng-submit="$event.preventDefault()">
-        <md-autocomplete md-selected-item="arc.typedProperty" md-selected-item-change="arc.addProperty(arc.typedProperty);"  md-search-text-change="arc.searchTextChange(arc.searchText)" md-search-text="arc.searchText"
-            md-selected-item-change="arc.selectedItemChange(property)" md-items="property in arc.propertyList.list | filter: arc.searchText"
-            md-item-text="item" md-min-length="0" placeholder="Type a property name">
-            <md-item-template>
-                <span md-highlight-text="arc.searchText" md-highlight-flags="^i">{{property}}</span>
-            </md-item-template>
-            <md-not-found>
-                No properties matching "{{arc.searchText}}" were found.
-            </md-not-found>
-        </md-autocomplete>
+      <md-autocomplete md-selected-item="arc.typedProperty" md-selected-item-change="arc.addProperty(arc.typedProperty);" md-search-text-change="arc.searchTextChange(arc.searchText)"
+        md-search-text="arc.searchText" md-selected-item-change="arc.selectedItemChange(property)" md-items="property in arc.propertyList.list | filter: arc.searchText"
+        md-item-text="item" md-min-length="0" placeholder="...or type a property name">
+        <md-item-template>
+          <span md-highlight-text="arc.searchText" md-highlight-flags="^i">{{property}}</span>
+        </md-item-template>
+        <md-not-found>
+          No properties matching "{{arc.searchText}}" were found.
+        </md-not-found>
+      </md-autocomplete>
     </form>
+    <md-select placeholder="Choose Calculation" ng-model="calculation" ng-change="arc.runCalc(calculation)">
+      <md-option ng-repeat="calc in arc.calcList">{{calc}}</md-option>
+    </md-select>
 
   </div>
 
   <div id="admin-reporting-values-container" layout="column" layout-align="start start">
-    <div id="admin-reporting-years">
-      <div class="admin-reporting-year" ng-repeat="year in arc.yearsToGet">
-        {{year}}
-        <md-button class="md-warn" ng-click="arc.deleteYear(year)">
-          Delete
-        </md-button>
-      </div>
+    <div id="admin-reporting-properties">
+      {{arc.yearToGet}}
     </div>
+
     <div id="admin-reporting-properties">
       <div class="admin-reporting-property" ng-repeat="property in arc.propertiesToGet">
         {{property}}
@@ -72,4 +71,4 @@
   <canvas id="myChart" width="400" height="400"></canvas>
 
 </div>
-yearsToGet: {{arc.yearsToGet}} {{arc.chartData}}
+{{arc.AdminService.genderData}}

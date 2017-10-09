@@ -4,33 +4,40 @@ var passport = require('passport');
 var path = require('path');
 var pool = require('../modules/pool.js');
 
-// get a dataset for reporting purposes. takes in an array of properties and an array of years, and sends back the matching dataset
+// get a dataset for reporting purposes. takes in an array of properties and a year, and sends back the matching dataset
 router.get('/data', function (req, res) {
 
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator') {
             var properties = req.query.properties;
-            var years = req.query.years;
-            console.log('GET /survey/data', ...properties, years);
+            var year = req.query.year;
+            console.log('GET /admin/data', properties, year);
+            console.log('typeof properties', typeof properties);
+            
 
-            var yearBlingString = "";
+            // var yearBlingString = "";
 
-            // start at 1 because pg wants $1, $2, etc in sequence
-            for (var i = 1; i < (years.length + 1); i++) { 
-                yearBlingString += "$" + (i) + ",";
-            }
+            // // start at 1 because pg wants $1, $2, etc in sequence
+            // for (var i = 1; i < (year.length + 1); i++) { 
+            //     yearBlingString += "$" + (i) + ",";
+            // }
 
-            yearBlingString = yearBlingString.slice(0, -1);
+            // yearBlingString = yearBlingString.slice(0, -1);
 
             var propBlingString = "";
-            var propBlingLength = i + properties.length;
 
-            // continue sequence from yearBlingString
-            for (i; i < propBlingLength; i++) {
-                propBlingString += "$" + (i) + ",";
+            if(typeof properties === 'string'){
+                propBlingString = "$2"
+            } else {
+                // properties is an array
+                for (var i = 0; i < properties.length; i++) {
+                    propBlingString += "$" + (i + 2) + ",";
+                }
+                propBlingString = propBlingString.slice(0, -1);
+                
             }
 
-            propBlingString = propBlingString.slice(0, -1);
+
 
             // var propertyString = "";
 
@@ -51,7 +58,7 @@ router.get('/data', function (req, res) {
             // query like:
             // SELECT * FROM responses WHERE property IN ('The Jourdain', '1822 Park') AND year IN (2017);
 
-            queryString = 'SELECT * FROM responses WHERE year IN (' + yearBlingString + ') AND property IN (' + propBlingString + ')';
+            queryString = 'SELECT * FROM responses WHERE year IN ($1) AND property IN (' + propBlingString + ')';
 
             console.log('queryString', queryString);
 
@@ -60,8 +67,19 @@ router.get('/data', function (req, res) {
                 if (err) {
                     console.log('db connect error', err);
                     res.sendStatus(500);
+                } else if (typeof properties === 'string'){
+                    client.query(queryString, [year, properties], function (err, data) {
+                        if (err) {
+                            console.log('data select query error', err);
+                            res.sendStatus(500);
+                        } else {
+                            // console.log('data.rows', data.rows);
+
+                            res.send(data.rows);
+                        }
+                    });
                 } else {
-                    client.query(queryString, [...years, ...properties], function (err, data) {
+                    client.query(queryString, [year, ...properties], function (err, data) {
                         if (err) {
                             console.log('data select query error', err);
                             res.sendStatus(500);

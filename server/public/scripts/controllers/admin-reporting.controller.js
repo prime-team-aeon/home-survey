@@ -1,43 +1,50 @@
 myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$timeout', '$mdSidenav', '$log', function (AdminService, $mdDialog, $timeout, $mdSidenav, $log) {
+
+
+    //--------------------------------------
+    //-------------VARIABLES----------------
+    //--------------------------------------
+
+
     var self = this;
 
     self.AdminService = AdminService;
 
+    // List of calculations we support for reporting
+    self.calcList = [
+        "Demographics Report",
+        "Basic Questions"
+    ]
+
     self.chartData = AdminService.chartData; // actual data is in .list property, which is an array of objects
 
-    self.yearsToGet = [];
-    self.propertiesToGet = [];
 
     const START_YEAR = 2010;
     var thisYear = new Date();
     thisYear = thisYear.getFullYear();
     self.yearsArray = [];
 
-    for (var i = START_YEAR; i <= thisYear; i++) {
+    for (var i = thisYear; i >= START_YEAR ; i--) {
         self.yearsArray.push(i);
     }
 
+    self.propertiesToGet = [];
+    
     self.propertyList = AdminService.propertyList; // list of unique properties in .list
+
+    var ctx = document.getElementById("myChart").getContext("2d");
+    
+
+
+    //--------------------------------------
+    //-------------FUNCTIONS----------------
+    //--------------------------------------
+
 
     // Toggle Sidenav
     self.openLeftMenu = function () {
         $mdSidenav('left').toggle();
     };
-
-    // take in an array of years and an array of properties, and get the matching dataset from the server
-    self.getData = function (years, properties) {
-        AdminService.getData(years, properties);
-    }
-
-    self.getData([2017, 2018], ['1822 Park', 'The Jourdain']);
-
-    var ctx = document.getElementById("myChart").getContext("2d");
-
-    // add year to list of years to get from db
-    self.addYear = function(newYear){
-        console.log('addYear', newYear);
-        self.yearsToGet.push(newYear);
-    }
 
     // add property to list of properties to get from db
     self.addProperty = function(newProperty){
@@ -61,13 +68,6 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
                 }
             }
         }        
-    }
-
-    // remove year from list of years to get from db
-    self.deleteYear = function(year){
-        console.log('deleteYear', year);
-        var index = self.yearsToGet.indexOf(year);
-        self.yearsToGet.splice(index,1);
     }
 
     // remove property from list of properties to get from db
@@ -123,4 +123,52 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     }
 
+    self.runCalc = function(calc){
+        console.log('arc.runCalc', calc);
+        switch(calc){
+            case "Demographics Report":
+            domElement = ctx; // where we're going to build the chart
+            AdminService.getData(self.yearToGet, self.propertiesToGet, 'demographics', domElement);
+            // var genderPieChart = new Chart(ctx, {
+            //     type: 'pie',
+            //     data: {
+            //         labels: ["Male", "Female", "Self-Identify"],
+            //         datasets: [{
+            //             label: 'Gender',
+            //             data: AdminService.genderData,
+            //             backgroundColor: [
+            //                 'rgba(255, 99, 132, 0.2)',
+            //                 'rgba(54, 162, 235, 0.2)',
+            //                 'rgba(255, 206, 86, 0.2)'
+            //             ],
+            //             borderColor: [
+            //                 'rgba(255,99,132,1)',
+            //                 'rgba(54, 162, 235, 1)',
+            //                 'rgba(255, 206, 86, 1)'
+            //             ],
+            //             borderWidth: 1
+            //         }]
+            //     },
+            //     options: {
+                    
+            //     }
+            // });
+    
+                break;
+            default:
+                console.log('arc.runCalc NYI');
+        }
+
+        
+    }
+
+
+
+
+    //--------------------------------------
+    //-------------RUNTIME CODE-------------
+    //--------------------------------------
+
+    // self.getData([2017, 2018], ['1822 Park', 'The Jourdain']);
+    
 }]);
