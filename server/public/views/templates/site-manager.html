@@ -27,7 +27,7 @@
                 </div>
             </div>
             <md-divider></md-divider>
-            <div layout="row" ng-repeat="property in smc.SiteManagerService.properties.list | filter: smc.SiteManagerService.selectedProperty">
+            <div layout="row" ng-repeat="property in smc.SiteManagerService.properties.list | filter: smc.SiteManagerService.selectedProperty" ng-class-odd="'striped'">
                 <div flex="25">
                     <p>{{property.unit}}</p>
                 </div>
