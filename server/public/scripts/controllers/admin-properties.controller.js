@@ -3,7 +3,7 @@ myApp.controller('AdminPropertiesController', ['AdminService', 'UserService', '$
 
     self.UserService = UserService;
     self.AdminService = AdminService; // connects AdminService to the AdminPropertiesController
-    AdminService.getAllProperties();
+    // AdminService.getAllProperties();
 
     self.allProperties = AdminService.allProperties; // list of all property information from the occupancy table
 

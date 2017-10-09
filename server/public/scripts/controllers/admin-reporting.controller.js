@@ -5,6 +5,20 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     self.chartData = AdminService.chartData; // actual data is in .list property, which is an array of objects
 
+    self.yearsToGet = [];
+    self.propertiesToGet = [];
+
+    const START_YEAR = 2010;
+    var thisYear = new Date();
+    thisYear = thisYear.getFullYear();
+    self.yearsArray = [];
+
+    for (var i = START_YEAR; i <= thisYear; i++) {
+        self.yearsArray.push(i);
+    }
+
+    self.propertyList = AdminService.propertyList; // list of unique properties in .list
+
     // Toggle Sidenav
     self.openLeftMenu = function () {
         $mdSidenav('left').toggle();
@@ -19,6 +33,51 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     var ctx = document.getElementById("myChart").getContext("2d");
 
+    // add year to list of years to get from db
+    self.addYear = function(newYear){
+        console.log('addYear', newYear);
+        self.yearsToGet.push(newYear);
+    }
+
+    // add property to list of properties to get from db
+    self.addProperty = function(newProperty){
+        console.log('addProperty', newProperty);
+
+        if(newProperty != undefined){
+            console.log('defined');
+            
+            if(newProperty.length > 0){
+                // look for duplicate
+                console.log('length > 0');
+                
+                var index = self.propertiesToGet.indexOf(newProperty);
+                console.log('index', index);
+                
+                if (index == -1){
+                    console.log('index ok');
+                    
+                    self.propertiesToGet.push(newProperty);
+                    self.typedProperty = null;                
+                }
+            }
+        }        
+    }
+
+    // remove year from list of years to get from db
+    self.deleteYear = function(year){
+        console.log('deleteYear', year);
+        var index = self.yearsToGet.indexOf(year);
+        self.yearsToGet.splice(index,1);
+    }
+
+    // remove property from list of properties to get from db
+    self.deleteProperty = function(property){
+        console.log('deleteProperty', property);
+        var index = self.propertiesToGet.indexOf(property);
+        self.propertiesToGet.splice(index,1);
+    }
+
+    // build test chart
     self.chartTest = function () {
         console.log('arc.chartTest()');
 
