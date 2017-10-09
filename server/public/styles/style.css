@@ -74,6 +74,12 @@
 
         
     }
+    #logout-button-nav{
+     float: right;
+        padding:10px;
+        margin-left:40px;
+        font-size: 150%;   
+    }
     #instructionsButton{
     padding:10px;
     margin-top:25px;

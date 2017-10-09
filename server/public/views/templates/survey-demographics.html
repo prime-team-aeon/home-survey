@@ -1,5 +1,8 @@
-<header ng-include="'/views/partials/header.html'"></header>
+<header ng-include="'/views/partials/header-survey.html'"></header>
 <div ng-include="'views/partials/nav.survey.html'"></div>
+<div id="bg" alt="">
+    <img src="../../assets/tree-transparent-opacity30-800w.png" alt="Aeon Tree Img" height="42" width="42">
+</div>
 
 <div class="container" layout="row" layout-align="space-around center">
     <div class="progressbar">
@@ -74,7 +77,7 @@
     </div>
 
     <div>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-q4")'>{{sc.surveyObject.goback}}</md-button>
+        <md-button id="goBackButton" class="md-raised md" ng-click='sc.go("/survey-q4")'>{{sc.surveyObject.goback}}</md-button>
         <md-button class="md-raised md-primary" ng-click='sc.submitSurvey()'>{{sc.surveyObject.submit}}</md-button>
     </div>
 
