@@ -13,13 +13,6 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
   self.surveyLanguage = SurveyService.surveyLanguage; // the user-selected language
   self.surveyObject = SurveyService.surveyObject; // holds the translated questions for display
 
-  const PATHS_TO_WARN = [
-    "/survey-demographics",
-    "survey-q1",
-    "survey-q2",
-    "survey-q3",
-    "survey-q4"
-  ]
 
 
 
