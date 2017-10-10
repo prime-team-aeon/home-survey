@@ -44,7 +44,7 @@
                             aria-label="users">
                             <td md-cell>{{user.username}}</td>
                             <td md-cell>
-                                <md-select ng-model="user.role" ng-change="ac.AdminService.updateUserRole(user)" aria-label="role">
+                                <md-select ng-model="user.role" ng-change="ac.AdminService.updateUserRole(user)" aria-label="role" ng-disabled="user.username == ac.UserService.userObject.userName">
                                     <md-option value="Not Assigned">Not Assigned</md-option>
                                     <md-option value="Administrator">Administrator</md-option>
                                     <md-option value="Site Manager">Site Manager</md-option>
@@ -53,7 +53,7 @@
                             </td>
                             <td md-cell>
                                 </md-select>
-                                <md-select ng-model="user.active" ng-change="ac.AdminService.toggleActive(user)" aria-label="role">
+                                <md-select ng-model="user.active" ng-change="ac.AdminService.toggleActive(user)" aria-label="role" ng-disabled="user.username == ac.UserService.userObject.userName">
                                     <md-option value="true">Active</md-option>
                                     <md-option value="false">Inactive</md-option>
                                 </md-select>
