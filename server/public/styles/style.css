@@ -244,3 +244,15 @@
         border: 2px solid green;
         border-radius: 10px;
     }
+
+    .redText{
+        color:#690707
+    }
+
+    .yellowText{
+        color: #BD9F1B
+    }
+
+    .greenText{
+        color: #0B7A0B
+    }

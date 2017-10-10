@@ -157,5 +157,7 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
     AdminService.getSelectedSiteProperty(selectedProperty);        
   }
 
+  self.responseRate = AdminService.responseRate;
  
+  AdminService.getResponseRate(['all']);
 }]);
