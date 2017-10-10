@@ -241,12 +241,13 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     }
 
     // get the selected property on the admin site manager properties edit page
-    self.getSelectedSiteProperty = function(selectedProperty) { 
+    self.getSelectedSiteProperty = function(selectedProperty, year) { 
         $http({
             method: 'GET',
             url: 'admin/selectedProperty',
             params: {
-                selectedProperty: selectedProperty
+                selectedProperty: selectedProperty,
+                year: year
             }
         }).then(function(response){
             self.selectedSiteManagerProperty.list = response.data;
@@ -347,6 +348,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             data: property
         }).then(function (response) {
             self.getSelectedEditProperty(self.selectedEditProperty.list[0].property, self.selectedEditProperty.list[0].year);
+            self.getSelectedEditProperty(self.selectedSiteManagerProperty.list[0].property, self.selectedSiteManagerProperty.list[0].year);
         })
     }
 
