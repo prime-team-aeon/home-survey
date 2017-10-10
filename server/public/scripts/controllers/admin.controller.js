@@ -132,7 +132,7 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   //--------------------------------------
   //-------------RUNTIME CODE-------------
   //--------------------------------------
-
+  
   // build yearsArray - this is what's shown in the select. Starts at START_YEAR and ends at that plus NUM_FUTURE_YEARS
   for (i = START_YEAR; i < (self.thisYear + NUM_FUTURE_YEARS); i++) {
     self.yearsArray.push(i);
