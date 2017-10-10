@@ -154,7 +154,8 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   self.SiteManagerService = SiteManagerService; // connects admin controller to site manager service
 
   self.getSelectedSiteProperty = function(selectedProperty) {
-    AdminService.getSelectedSiteProperty(selectedProperty);        
+    AdminService.getSelectedSiteProperty(selectedProperty);
+    AdminService.getResponseRate([selectedProperty]);
   }
 
   self.responseRate = AdminService.responseRate;

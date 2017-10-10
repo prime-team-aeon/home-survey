@@ -12,7 +12,7 @@
         <div ng-if="smc.SiteManagerService.selectedProperty">
             <h2>{{smc.SiteManagerService.selectedProperty}}</h2>
             <div class="response-rate-container">
-                <h2>Overall Response Rate: <span class="response-rate" ng-class="{'redText': smc.responseRate.rate < 50, 'yellowText': (smc.responseRate.rate >= 50) && (smc.responseRate.rate < 70), 'greenText': (smc.responseRate.rate >= 70)}">{{smc.responseRate.rate}}%</span></h2>
+                <h2>Response Rate: <span class="response-rate" ng-class="{'redText': smc.responseRate.rate < 50, 'yellowText': (smc.responseRate.rate >= 50) && (smc.responseRate.rate < 70), 'greenText': (smc.responseRate.rate >= 70)}">{{smc.responseRate.rate}}%</span></h2>
             </div>
 
             <div layout="row">
