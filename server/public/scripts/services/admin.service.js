@@ -13,6 +13,12 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     }; // stores all administrators, site manager
 
 
+    self.chartData = {}; // holds data to be charted
+
+    self.gottenData = {}; // holds data gotten from the server for reporting
+
+    self.chartsArray = []; // holds pointers to the charts we've built so that we can .destroy() them later
+
     // stores list of properties from the database
     // one entry per property. for building selectors
     self.propertyList = {
@@ -95,6 +101,97 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         }
     }
 
+    // takes a DOM HTML5 <canvas> element and builds a chart in it based on the data that's in self.gottenData
+    self.buildDemographicsChart = function(chartTarget){
+        self.howLongData = [0,0,0,0,0,0];
+
+        self.ethnicityData = [0,0,0,0,0,0,0,0];
+
+        self.genderData = [0,0,0,0];
+        self.genderStrings = [];
+
+        self.ageData = [0,0,0,0,0,0,0];
+
+        self.incomeData = [0,0,0,0,0,0,0,0,0];
+
+        for (var i = 0; i < self.gottenData.list.length; i++) {
+            let howLongAnswer = self.gottenData.list[i].answer23;
+            let ethnicityAnswer = self.gottenData.list[i].answer24;
+            let genderAnswer = self.gottenData.list[i].answer25;
+            let ageAnswer = self.gottenData.list[i].answer26;
+            let incomeAnswer = self.gottenData.list[i].answer26;
+            
+            if((howLongAnswer == undefined) || (howLongAnswer == null)){
+                self.howLongData[0]++;
+            } else {
+                self.howLongData[howLongAnswer]++;
+            }
+
+            if((ethnicityAnswer == undefined) || (ethnicityAnswer == null)){
+                self.ethnicityData[0]++;
+            } else {
+                self.ethnicityData[ethnicityAnswer]++;
+            }
+
+            switch(genderAnswer){
+                // 1,2,3 (string),null, 
+                case '1':
+                    self.genderData[1]++;
+                    break;
+                case '2':
+                    self.genderData[2]++;
+                    break;
+                case '3':
+                    self.genderData[3]++;
+                    self.genderStrings.push(genderAnswer);
+                    break;
+                default:
+                    self.genderData[0]++;
+            }
+
+            if((ageAnswer == undefined) || (ageAnswer == null)){
+                self.ageData[0]++;
+            } else {
+                self.ageData[ageAnswer]++;
+            }
+
+
+            if((incomeAnswer == undefined) || (incomeAnswer == null)){
+                self.incomeData[0]++;
+            } else {
+                self.incomeData[incomeAnswer]++;
+            }
+
+        } // end for loop going through surveys
+
+        var genderPieChart = new Chart(chartTarget, {
+            type: 'pie',
+            data: {
+                labels: ["Male", "Female", "Self-Identify"],
+                datasets: [{
+                    label: 'Gender',
+                    data: self.genderData,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                
+            }
+        });
+
+        self.chartsArray.push(genderPieChart);
+    }
+
 
     // Function called from a button on the /admin-properties page that deletes a property/unit combination from the occupancy table
     self.deleteUnit = function (occupancyId) {
@@ -138,6 +235,14 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     }
 
 
+    self.destroyAllCharts = function(){
+        for (var i = 0; i < self.chartsArray.length; i++) {
+            console.log('i', i);
+            
+            self.chartsArray[i].destroy();      
+        }
+    }
+
     // GET request for all occupancy information from the occupancy table
     self.getAllProperties = function () {
         $http.get('/user-roles/allProperties/').then(function (response) {            
@@ -174,6 +279,35 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             self.selectedSiteManagerProperty.list = response.data;
         });
         
+    }
+
+    // take in a year and an array of properties, and get the matching dataset from the server
+    self.getData = function(year, properties, chartFunction, domElement) {
+        console.log('getData year, properties, callback', year, properties, chartFunction);
+        
+        $http({
+            method: 'GET',
+            url: '/admin/data', 
+            params: {
+                year: year,
+                properties: properties
+            }
+        }).then(function(response){
+            self.gottenData.list = response.data;
+            console.log('self.gottenData.list', self.gottenData.list);
+
+            // now we actually build the chart
+            
+            switch(chartFunction){
+                case 'demographics':
+                    self.buildDemographicsChart(domElement);
+                    break;
+                default:
+                    console.log('admin service buildChart got bad callback:', chartFunction);
+                    return;
+            }
+    
+        })
     }
 
     // GET request for properties from the db
@@ -266,3 +400,33 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     self.getProperties(); // build propertyList immediately
 
 }]);
+
+
+
+
+
+    // self.buildTestChart = function(){
+    //     self.chartData.list = [0,0,0,0,0];
+    //     for (var i = 0; i < self.gottenData.list.length; i++) {
+    //         switch(self.gottenData.list[i].answer1){
+    //             // 1,2,3,4,null
+    //             case 1:
+    //                 self.chartData.list[1]++;
+    //                 break;
+    //             case 2:
+    //                 self.chartData.list[2]++;
+    //                 break;
+    //             case 3:
+    //                 self.chartData.list[3]++;
+    //                 break;
+    //             case 4:
+    //                 self.chartData.list[4]++;
+    //                 break;
+    //             default:
+    //                 self.chartData.list[0]++;
+    //                 break;
+    //         } 
+    //     }
+    //     console.log('AdminService.chartData.list', self.chartData.list);
+        
+    // }

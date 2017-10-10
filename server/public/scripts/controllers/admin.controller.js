@@ -150,8 +150,8 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   AdminService.getUsers();
   self.users = AdminService.users;
 
-  self.UserService = UserService // connects admin controller to user service
-  self.SiteManagerService = SiteManagerService // connects admin controller to site manager service
+  self.UserService = UserService; // connects admin controller to user service
+  self.SiteManagerService = SiteManagerService; // connects admin controller to site manager service
 
   self.getSelectedSiteProperty = function(selectedProperty) {
     AdminService.getSelectedSiteProperty(selectedProperty);        

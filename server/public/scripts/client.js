@@ -124,7 +124,16 @@ myApp.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
           return UserService.getUser('Administrator');
         }
       }
-    })    
+    })
+    .when('/admin-reporting', {
+      templateUrl: '/views/templates/admin-reporting.html',
+      controller: 'AdminReportingController as arc',
+      resolve: {
+        getUser: function (UserService) {
+          return UserService.getUser('Administrator');
+        }
+      }
+    })  
     .when('/admin-users', {
       templateUrl: '/views/templates/admin-users.html',
       controller: 'AdminController as ac',

@@ -196,3 +196,8 @@
     .md-select-value>span:not(.md-select-icon) {
         flex: initial;
     }
+
+    #admin-reporting-propselect-container{
+        border: 2px solid green;
+        border-radius: 10px;
+    }
