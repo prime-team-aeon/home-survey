@@ -1,9 +1,9 @@
 <md-toolbar>
   <div class="md-toolbar-tools">
-    <md-button ng-click="ac.openLeftMenu()" hide-gt-sm>
-      Menu
+    <md-button class="md-icon-button" ng-click="ac.openLeftMenu()" hide-gt-sm>
+      <i class="material-icons">menu</i>
     </md-button>
-    <h2 md-truncate flex>Aeon Home Survey Admin</h2>
+    <h2 md-truncate flex>Aeon Home Survey</h2>
     <md-button ng-click="ac.UserService.logout()">
       Logout
     </md-button>
@@ -16,6 +16,11 @@
   <md-content flex layout-padding>
 
     <div layout="column">
+
+      <div class="response-rate-container">
+        <h2>Overall Response Rate: <span class="response-rate" ng-class="{'redText': ac.responseRate.rate < 50, 'yellowText': (ac.responseRate.rate >= 50) && (ac.responseRate.rate < 70), 'greenText': (ac.responseRate.rate >= 70)}" >{{ac.responseRate.rate}}%</span></h2>
+      </div>
+
       <h1>Import/Export Occupancy CSV</h1>
 
       <section id="admin-upload-container">
@@ -26,7 +31,8 @@
         <label for="admin-file-input" class="md-button md-raised">Choose File</label>
 
         <md-input-container>
-          <md-select ng-model="ac.yearToAdd" placeholder="Year to Add">
+          <label>Year to Add</label>
+          <md-select ng-model="ac.yearToAdd">
             <md-option ng-value="year" ng-repeat="year in ac.yearsArray">{{year}}</md-option>
           </md-select>
         </md-input-container>
@@ -38,6 +44,7 @@
       <section id="admin-export-container">
         <h1>Export Survey Response Data</h1>
         <md-input-container>
+          <label>Year</label>
           <md-select ng-model="ac.yearToAdd">
             <md-option ng-value="year" ng-repeat="year in ac.yearsArray">{{year}}</md-option>
           </md-select>

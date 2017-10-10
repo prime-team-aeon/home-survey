@@ -131,7 +131,6 @@ router.get('/data/:number', function (req, res) {
     }
 });
 */
-// end debug
 
 router.get('/begin', function (req, res) {
     if (req.isAuthenticated()) {

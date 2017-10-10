@@ -1,7 +1,7 @@
 <md-toolbar>
     <div class="md-toolbar-tools">
-        <md-button ng-click="ac.openLeftMenu()" hide-gt-sm>
-            Menu
+        <md-button class="md-icon-button" ng-click="ac.openLeftMenu()" hide-gt-sm>
+            <i class="material-icons">menu</i>
         </md-button>
         <h2 md-truncate flex>Aeon Home Survey Admin</h2>
         <md-button ng-click="ac.UserService.logout()">
@@ -22,15 +22,27 @@
                     <h1>Site Manager Admin</h1>
                     <md-input-container>
                         <label>Select a Property</label>
-                        <md-select ng-model="ac.selectedProperty" placeholder="Select a Property">
+                        <md-select ng-model="ac.selectedProperty">
                             <md-option ng-value="property" ng-repeat="property in ac.AdminService.propertyList.list">{{ property }}</md-option>
                         </md-select>
                     </md-input-container>
-                    <md-button class="md-raised md-primary" ng-click="ac.getSelectedSiteProperty(ac.selectedProperty)">Submit</md-button>
+
+                    <md-input-container>
+                        <label>Select a Year</label>
+                        <md-select ng-model="ac.selectedYear">
+                            <md-option ng-value="year" ng-repeat="year in ac.yearsArray">{{ year }}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    
+                    <md-button class="md-raised md-primary" ng-click="ac.getSelectedSiteProperty(ac.selectedProperty, ac.selectedYear)">Submit</md-button>
+                    <div class="response-rate-container">
+                        <h2>Response Rate: <span class="response-rate" ng-class="{'redText': ac.responseRate.rate < 50, 'yellowText': (ac.responseRate.rate >= 50) && (ac.responseRate.rate < 70), 'greenText': (ac.responseRate.rate >= 70)}">{{ac.responseRate.rate}}%</span></h2>
+                    </div>
                 </div>
             </div>
             <div layout="row" ng-if="ac.selectedSiteManagerProperty.list[0].property">
                 <div flex>
+                    <h3>{{ac.selectedSiteManagerProperty.list[0].property}} ({{ac.selectedSiteManagerProperty.list[0].year}})</h3>
                     <md-table-container>
                         <table md-table multiple ng-model="ac.selectedSiteManagerProperty">
                             <thead md-head md-order="ac.mySiteManagerOrder">
@@ -48,15 +60,14 @@
                                     <td md-cell>{{property.property}}</td>
                                     <td md-cell>{{property.unit}}</td>
                                     <td md-cell>
-                                        <span ng-if="property.occupied">Yes</span>
-                                        <span ng-if="!property.occupied">No</span>
+                                        <md-checkbox ng-model="property.occupied" ng-change="ac.AdminService.updateOccupied(property)" aria-label="Occupied"></md-checkbox>
                                     </td>
                                     <td md-cell>
                                         <span ng-if="property.responded">Yes</span>
                                         <span ng-if="!property.responded">No</span>
                                     </td>
                                     <td md-cell>
-                                    <md-checkbox ng-model="property.paid" ng-change="ac.SiteManagerService.updatePaid(property)" aria-label="paid"></md-checkbox>
+                                        <md-checkbox ng-model="property.paid" ng-change="ac.SiteManagerService.updatePaid(property)" aria-label="paid"></md-checkbox>
                                     </td>
                                 </tr>
                             </tbody>
