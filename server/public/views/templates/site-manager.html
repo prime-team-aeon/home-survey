@@ -5,12 +5,16 @@
         <h1>Site Manager</h1>
         <md-input-container>
             <label>Select a Property</label>
-            <md-select ng-model="smc.SiteManagerService.selectedProperty" placeholder="Select a Property">
+            <md-select ng-model="smc.SiteManagerService.selectedProperty" placeholder="Select a Property" ng-change="smc.getResponseRate(smc.SiteManagerService.selectedProperty)">
                 <md-option ng-value="property" ng-repeat="property in smc.SiteManagerService.selectProperties">{{ property }}</md-option>
             </md-select>
         </md-input-container>
         <div ng-if="smc.SiteManagerService.selectedProperty">
             <h2>{{smc.SiteManagerService.selectedProperty}}</h2>
+            <div class="response-rate-container">
+                <h2>Response Rate: <span class="response-rate" ng-class="{'redText': smc.responseRate.rate < 50, 'yellowText': (smc.responseRate.rate >= 50) && (smc.responseRate.rate < 70), 'greenText': (smc.responseRate.rate >= 70)}">{{smc.responseRate.rate}}%</span></h2>
+            </div>
+
             <div layout="row">
                 <div flex="25">
                     <h3>Unit #</p>
@@ -26,7 +30,8 @@
                 </div>
             </div>
             <md-divider></md-divider>
-            <div layout="row" ng-repeat="property in smc.SiteManagerService.properties.list | filter: smc.SiteManagerService.selectedProperty" ng-class-odd="'striped'">
+            <div layout="row" ng-repeat="property in smc.SiteManagerService.properties.list | filter: smc.SiteManagerService.selectedProperty"
+                ng-class-odd="'striped'">
                 <div flex="25">
                     <p>{{property.unit}}</p>
                 </div>

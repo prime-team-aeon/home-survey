@@ -9,6 +9,13 @@ myApp.controller('SiteManagerController', ['SiteManagerService', function (SiteM
     // connects SiteManagerService to the SiteManagerController
     self.SiteManagerService = SiteManagerService; 
 
+    self.responseRate = SiteManagerService.responseRate;
+
+    self.getResponseRate = function(property){
+        property = [property];
+        SiteManagerService.getResponseRate(property);
+    }
+
 
     //--------------------------------------
     //-------------RUNTIME CODE-------------
