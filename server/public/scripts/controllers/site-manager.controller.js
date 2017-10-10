@@ -9,6 +9,7 @@ myApp.controller('SiteManagerController', ['SiteManagerService', function (SiteM
     // connects SiteManagerService to the SiteManagerController
     self.SiteManagerService = SiteManagerService; 
 
+
     //--------------------------------------
     //-------------RUNTIME CODE-------------
     //--------------------------------------
