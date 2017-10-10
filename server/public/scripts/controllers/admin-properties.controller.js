@@ -14,18 +14,17 @@ myApp.controller('AdminPropertiesController', ['AdminService', 'UserService', '$
     // default orderby column in edit properties
     self.orderByColumn = 'unit';
 
+    self.yearsToSelect = {
+        list: [2017, 2018, 2019, 2020]
+    }
+
     //--------------------------------------
     //-------------FUNCTIONS----------------
     //--------------------------------------
 
-    // Called from the Add Property button on the /admin-property page. Sends a nee property and unit number to the admin service
+    // Called from the Add Property button on the /admin-property page. Sends a new property and unit number to the admin service
     self.addNewProperty = function () {
         AdminService.addNewProperty(AdminService.newProperty.name, AdminService.newProperty.unit);
-    }
-    
-    // Send a new property function to the admin service
-    self.addNewUnit = function () {
-        AdminService.addNewUnit(AdminService.newUnit.name, self.selectedItem);
     }
 
     // Called from a checkbox on the /admin-properties page. Sends unit occupied status update to the admin service
@@ -38,8 +37,8 @@ myApp.controller('AdminPropertiesController', ['AdminService', 'UserService', '$
         $mdSidenav('left').toggle();
     };
 
-    self.getSelectedEditProperty = function(selectedProperty) {
-        AdminService.getSelectedEditProperty(selectedProperty);        
+    self.getSelectedEditProperty = function(selectedProperty, year) {
+        AdminService.getSelectedEditProperty(selectedProperty, year);        
     }
     
 }]);

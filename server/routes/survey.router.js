@@ -6,7 +6,7 @@ var pool = require('../modules/pool.js');
 
 // DEBUG - generate random survey data
 
-/*
+
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (1 + max - min) + min);
 }
@@ -130,8 +130,7 @@ router.get('/data/:number', function (req, res) {
         res.status(400).send('bad year param');
     }
 });
-*/
-// end debug
+
 
 router.get('/begin', function (req, res) {
     if (req.isAuthenticated()) {
