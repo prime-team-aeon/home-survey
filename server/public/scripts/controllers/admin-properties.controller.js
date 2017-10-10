@@ -3,20 +3,26 @@ myApp.controller('AdminPropertiesController', ['AdminService', 'UserService', '$
 
     self.UserService = UserService;
     self.AdminService = AdminService; // connects AdminService to the AdminPropertiesController
-    // AdminService.getAllProperties();
 
     self.allProperties = AdminService.allProperties; // list of all property information from the occupancy table
 
-    self.propertyList = AdminService.propertyList;
+    self.propertyList = AdminService.propertyList; // List of distinct properties for the select dropdown
 
-    self.selectedEditProperty = AdminService.selectedEditProperty;
+    self.selectedEditProperty = AdminService.selectedEditProperty; // Property selected by user to edit
 
     // default orderby column in edit properties
     self.orderByColumn = 'unit';
 
-    self.yearsToSelect = {
-        list: [2017, 2018, 2019, 2020]
-    }
+    // magic numbers for building the year selector
+    const START_YEAR = 2010;
+    const NUM_FUTURE_YEARS = 3;
+
+    // get the current year so the select defaults to it
+    let now = new Date();
+    self.thisYear = now.getFullYear();
+
+    self.yearsArray = [];
+    self.yearToAdd = self.thisYear;
 
     //--------------------------------------
     //-------------FUNCTIONS----------------
@@ -37,8 +43,18 @@ myApp.controller('AdminPropertiesController', ['AdminService', 'UserService', '$
         $mdSidenav('left').toggle();
     };
 
-    self.getSelectedEditProperty = function(selectedProperty, year) {
-        AdminService.getSelectedEditProperty(selectedProperty, year);        
+    // Send the selected property and year to the AdminService to GET the selected year
+    self.getSelectedEditProperty = function (selectedProperty, year) {
+        AdminService.getSelectedEditProperty(selectedProperty, year);
     }
-    
+
+    //--------------------------------------
+    //-------------RUNTIME CODE-------------
+    //--------------------------------------
+
+    // build yearsArray - this is what's shown in the select. Starts at START_YEAR and ends at that plus NUM_FUTURE_YEARS
+    for (i = START_YEAR; i < (self.thisYear + NUM_FUTURE_YEARS); i++) {
+        self.yearsArray.push(i);
+    }
+
 }]);

@@ -43,7 +43,7 @@
                     <md-input-container>
                         <label>Select a Year</label>
                         <md-select ng-model="apc.selectedYear">
-                            <md-option ng-value="year" ng-repeat="year in apc.yearsToSelect.list">{{ year }}</md-option>
+                            <md-option ng-value="year" ng-repeat="year in apc.yearsArray">{{ year }}</md-option>
                         </md-select>
                     </md-input-container>
                     <md-button class="md-raised md-primary" ng-click="apc.getSelectedEditProperty(apc.selectedProperty, apc.selectedYear)">Submit</md-button>
