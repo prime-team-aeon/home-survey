@@ -114,10 +114,11 @@ router.post('/new-unit', function (req, res) {
                     console.log('Error connecting to database', errDatabase);
                     res.sendStatus(500);
                 } else {
-                    client.query('INSERT INTO occupancy (property, unit, year) VALUES ($1, $2, $3)', [
+                    client.query('INSERT INTO occupancy (property, unit, year, occupied) VALUES ($1, $2, $3, $4)', [
                             req.body.property,
                             req.body.unit,
-                            thisYear
+                            thisYear,
+                            true
                         ],
                         function (errQuery, data) {
                             done();
@@ -208,7 +209,6 @@ router.put('/updateOccupied', function (req, res) {
 
 // GET a selected property from the admin edit properties page
 router.get('/selectedProperty', function (req, res) {
-
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator') {
             pool.connect(function (err, client, done) {
@@ -217,11 +217,13 @@ router.get('/selectedProperty', function (req, res) {
                     res.sendStatus(500);
                 } else {
                     //query
-                    client.query('SELECT * FROM occupancy WHERE property=$1;', [req.query.selectedProperty], function (err, data) {
+                    client.query('SELECT * FROM occupancy WHERE property=$1 AND year=$2;', [req.query.selectedProperty, req.query.year], function (err, data) {
                         done();
                         if (err) {
                             console.log('query error', err);
                         } else {
+                            console.log('data.row', data.rows);
+                            
                             res.send(data.rows);
                         }
                     });

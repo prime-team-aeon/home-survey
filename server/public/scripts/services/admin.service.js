@@ -61,42 +61,13 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     .hideDelay(2000)
                 );
                 self.newProperty = {}; // sets new property and unit input boxes to empty
-                self.getAllProperties(); // reload all properties to include the new property and unit
+                self.getProperties(); // reload all properties to include the new property and unit
             });
             // Alert the user they need to enter in both a property and unit number into the input fields
         } else {
             $mdToast.show(
                 $mdToast.simple()
                 .textContent('Please enter in both a property name')
-                .hideDelay(2000)
-            );
-        }
-    }
-
-    // add a new property unit to the database
-    self.addNewUnit = function (unit, property) {
-
-        if (unit) {
-            $http({
-                method: 'POST',
-                url: '/admin/new-unit',
-                data: {
-                    property: property,
-                    unit: unit
-                }
-            }).then(function (response) {
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent('Unit has been added.')
-                    .hideDelay(2000)
-                );
-                self.newUnit = {};
-                self.getAllProperties();
-            });
-        } else {
-            $mdToast.show(
-                $mdToast.simple()
-                .textContent('Please enter in a unit name')
                 .hideDelay(2000)
             );
         }
@@ -209,7 +180,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 .textContent('Unit has been deleted.')
                 .hideDelay(2000)
             );
-            self.getSelectedEditProperty(self.selectedEditProperty.list[0].property);
+            self.getProperties();
+            self.getSelectedEditProperty(self.selectedEditProperty.list[0].property, self.selectedEditProperty.list[0].year);
         });
     }
 
@@ -271,12 +243,13 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     }
 
     // get the selected property on the admin properties edit page
-    self.getSelectedEditProperty = function (selectedProperty) {
+    self.getSelectedEditProperty = function(selectedProperty, year) {                 
         $http({
             method: 'GET',
             url: 'admin/selectedProperty',
             params: {
-                selectedProperty: selectedProperty
+                selectedProperty: selectedProperty,
+                year: year
             }
         }).then(function (response) {
             self.selectedEditProperty.list = response.data;
@@ -285,12 +258,13 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     }
 
     // get the selected property on the admin site manager properties edit page
-    self.getSelectedSiteProperty = function (selectedProperty) {
+    self.getSelectedSiteProperty = function(selectedProperty, year) { 
         $http({
             method: 'GET',
             url: 'admin/selectedProperty',
             params: {
-                selectedProperty: selectedProperty
+                selectedProperty: selectedProperty,
+                year: year
             }
         }).then(function (response) {
             self.selectedSiteManagerProperty.list = response.data;
@@ -329,7 +303,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     // GET request for properties from the db
     self.getProperties = function () {
-
+        self.propertyList.list = [];
         // set a variable to get the current uyear
         let thisYear = new Date();
         thisYear = thisYear.getFullYear();
@@ -340,6 +314,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             for (var i = 0; i < response.data.length; i++) {
                 self.propertyList.list.push(response.data[i].property);
             }
+            
         });
     }
 
@@ -389,7 +364,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             url: '/admin/updateOccupied',
             data: property
         }).then(function (response) {
-            self.getSelectedEditProperty(self.selectedEditProperty.list[0].property);
+            self.getSelectedEditProperty(self.selectedEditProperty.list[0].property, self.selectedEditProperty.list[0].year);
+            self.getSelectedSiteProperty(self.selectedSiteManagerProperty.list[0].property, self.selectedSiteManagerProperty.list[0].year);
         })
     }
 
