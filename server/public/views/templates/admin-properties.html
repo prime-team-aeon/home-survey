@@ -45,7 +45,7 @@
             </div>
             <div layout="row" ng-if="apc.AdminService.showSelectedProperty">
                 <div flex>
-                    <h3>{{apc.selectedPropertyToEdit.list[0].property}}</h3>
+                    <h3>{{apc.selectedProperty.list[0].property}}</h3>
                     <md-table-container>
                         <table md-table multiple ng-model="apc.selectedProperty" md-progress="promise">
                             <thead md-head md-order="myOrder">
@@ -56,7 +56,7 @@
                                 </tr>
                             </thead>
                             <tbody md-body>
-                                <tr md-row md-select="property" md-select-id="property" md-auto-select ng-repeat="property in apc.selectedPropertyToEdit.list | orderBy: myOrder"
+                                <tr md-row md-select="property" md-select-id="property" md-auto-select ng-repeat="property in apc.selectedProperty.list | orderBy: myOrder"
                                     aria-label="users">
                                     <td md-cell>{{property.unit}}</td>
                                     <td md-cell>

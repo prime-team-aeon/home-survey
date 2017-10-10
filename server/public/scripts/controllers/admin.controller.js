@@ -150,8 +150,5 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   self.UserService = UserService // connects admin controller to user service
   self.SiteManagerService = SiteManagerService // connects admin controller to site manager service
 
-  // Get the site manager Properties on load
-  self.getSiteManagerProperties();
-
  
 }]);
