@@ -7,7 +7,12 @@ myApp.controller('AdminPropertiesController', ['AdminService', 'UserService', '$
 
     self.allProperties = AdminService.allProperties; // list of all property information from the occupancy table
 
-    self.uniqueProperties = AdminService.uniqueProperties;
+    self.propertyList = AdminService.propertyList;
+
+    self.selectedEditProperty = AdminService.selectedEditProperty;
+
+    // default orderby column in edit properties
+    self.orderByColumn = 'unit';
 
     //--------------------------------------
     //-------------FUNCTIONS----------------
@@ -32,5 +37,9 @@ myApp.controller('AdminPropertiesController', ['AdminService', 'UserService', '$
     self.openLeftMenu = function () {
         $mdSidenav('left').toggle();
     };
+
+    self.getSelectedEditProperty = function(selectedProperty) {
+        AdminService.getSelectedEditProperty(selectedProperty);        
+    }
     
 }]);

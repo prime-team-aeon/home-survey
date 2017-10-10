@@ -8,7 +8,6 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     self.allProperties = {}; // holds all unit/property combos    
     self.newProperty = {}; // data bound to the property and input fields in the Add New Property section
-    self.uniqueProperties = []; // stores an array of unique properties 
     self.users = {
         list: []
     }; // stores all administrators, site manager
@@ -19,6 +18,16 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     self.propertyList = {
         list: []
     };
+
+    // Used for the selected Property on the admin-properties page
+    self.selectedEditProperty = {
+        list: []
+    }; 
+    
+    // Used for the selected Property on the admin-site-manager page
+    self.selectedSiteManagerProperty = {
+        list: []
+    }; 
 
 
     //--------------------------------------
@@ -102,7 +111,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     .textContent('Unit has been deleted.')
                     .hideDelay(2000)
             );
-            self.getAllProperties(); // reload all properties to not include property/unit that was deleted
+            self.getSelectedEditProperty(self.selectedEditProperty.list[0].property);
         });
     }
 
@@ -131,20 +140,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     // GET request for all occupancy information from the occupancy table
     self.getAllProperties = function () {
-        $http.get('/user-roles/allProperties/').then(function (response) {
-
-            // forEach loop that stores an array of unique property names in the occupancy table
-            response.data.forEach(function (occupancy) {
-
-                self.uniqueProperties = response.data.map(function (occupancy) {
-                    return occupancy.property
-                });
-
-                self.uniqueProperties = self.uniqueProperties.filter(function (property, index) {
-                    return self.uniqueProperties.indexOf(property) == index;
-                });
-
-            });
+        $http.get('/user-roles/allProperties/').then(function (response) {            
 
             // stores all occupancy information from the occupancy table via the GET property request
             self.allProperties = response.data;
@@ -152,40 +148,33 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         });
     }
 
-    // get a list of occupancy data for the admin site manager page
-    self.getSiteManagerProperties = function() {
-        $http.get('/user-roles/allProperties/').then(function (response) {
-
-            // get the properties
-            self.siteManagerUniqueProperties = [];
-            response.data.forEach(function (occupancy) {
-
-                self.siteManagerUniqueProperties = response.data.map(function (occupancy) {
-                    return occupancy.property
-                });
-
-                self.siteManagerUniqueProperties = self.siteManagerUniqueProperties.filter(function (property, index) {
-                    return self.siteManagerUniqueProperties.indexOf(property) == index;
-                });
-
-            });
-
-            self.siteManagerProperties = response.data;
-
-            self.occupiedUnits = self.siteManagerProperties.filter(function(property){                
-                return property.occupied;
-            });
-            
-            self.respondedUnits = self.siteManagerProperties.filter(function(property){                
-                return property.responded;
-            });
-
-            self.numberOfOccupiedUnits = self.occupiedUnits.length;
-            self.numberOfRespondedUnits = self.respondedUnits.length;             
-            
+    // get the selected property on the admin properties edit page
+    self.getSelectedEditProperty = function(selectedProperty) { 
+        $http({
+            method: 'GET',
+            url: 'admin/selectedProperty',
+            params: {
+                selectedProperty: selectedProperty
+            }
+        }).then(function(response){
+            self.selectedEditProperty.list = response.data;
         });
+        
     }
 
+    // get the selected property on the admin site manager properties edit page
+    self.getSelectedSiteProperty = function(selectedProperty) { 
+        $http({
+            method: 'GET',
+            url: 'admin/selectedProperty',
+            params: {
+                selectedProperty: selectedProperty
+            }
+        }).then(function(response){
+            self.selectedSiteManagerProperty.list = response.data;
+        });
+        
+    }
 
     // GET request for properties from the db
     self.getProperties = function () {
@@ -249,7 +238,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             url: '/admin/updateOccupied',
             data: property
         }).then(function (response) {
-            self.getAllProperties();
+            self.getSelectedEditProperty(self.selectedEditProperty.list[0].property);
         })
     }
 
