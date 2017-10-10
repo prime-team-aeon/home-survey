@@ -248,7 +248,7 @@ router.get('/responses', function (req, res) {
 
             if (properties == 'all') {
                 queryString = 'SELECT COUNT(*) FROM occupancy WHERE responded=$1';
-                secondQueryString = 'SELECT COUNT(*) FROM occupancy WHERE occupied=true';
+                secondQueryString = 'SELECT COUNT(*) FROM occupancy WHERE occupied=$1';
                 properties = '';
             } else {
                 var propBlingString = "";
@@ -265,9 +265,13 @@ router.get('/responses', function (req, res) {
                 }
 
                 queryString = 'SELECT COUNT(*) FROM occupancy WHERE responded=$1 AND property IN (' + propBlingString + ')';
-                secondQueryString = 'SELECT COUNT(*) FROM occupancy WHERE occupied=true AND property IN (' + propBlingString + ')';
+                secondQueryString = 'SELECT COUNT(*) FROM occupancy WHERE occupied=$1 AND property IN (' + propBlingString + ')';
 
             }
+
+            console.log('queryString', queryString);
+            console.log('secondQueryString', secondQueryString);
+            
 
             pool.connect(function (err, client, done) {
                 if (err) {
@@ -283,7 +287,7 @@ router.get('/responses', function (req, res) {
                             // data.rows[0].count is a string of how many responses we have
                             let responses = data.rows[0].count;
                             pool.connect(function (err, client, done) {
-                                client.query(secondQueryString, function (err, data) {
+                                client.query(secondQueryString, [true,...properties], function (err, data) {
                                     done();
                                     if (err) {
                                         console.log('data count2 query error', err);
