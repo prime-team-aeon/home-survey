@@ -1,4 +1,4 @@
-myApp.controller('SurveyController', function (AdminService, SurveyService, UserService, $location, $window, $mdDialog) {
+myApp.controller('SurveyController', function (AdminService, SurveyService, UserService, $location, $window, $mdDialog, $scope) {
 
   //--------------------------------------
   //-------------VARIABLES----------------
@@ -12,6 +12,7 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
   self.surveyAnswers = SurveyService.surveyAnswers; // holds the user's answers
   self.surveyLanguage = SurveyService.surveyLanguage; // the user-selected language
   self.surveyObject = SurveyService.surveyObject; // holds the translated questions for display
+
 
 
 
@@ -33,7 +34,7 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
       $mdDialog.show(confirm).then(function () {
         SurveyService.wipeSurveyClean();
         self.go('/survey-language');
-      }, function () { });
+      }, function () {});
     } else {
       SurveyService.wipeSurveyClean();
       self.go('/survey-language');
@@ -50,7 +51,7 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
   // called primarily from prev/next buttons on DOM, sends user to the passed address and resets their scroll to the top of the page
   self.go = function (hash) {
     $location.path(hash);
-    $window.scrollTo(0, 0);
+    window.setTimeout(function() {window.scrollTo(0,0);}, 0);
   }
 
 
@@ -65,16 +66,16 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
 
     $mdDialog.show(confirm).then(function () {
       SurveyService.help();
-    }, function () { });
+    }, function () {});
   }
 
 
   // takes hard-coded question_id and answer values from the user/DOM and puts them in surveyAnswers.list
   self.respond = function (question_id, answer) {
-    
+
     // If question is #25 gender and answer is self-identify, include the input repsonse in surveyAnswers
     if (question_id === 25) {
-      if(answer === 3) {
+      if (answer === 3) {
         SurveyService.surveyAnswers.list[question_id - 1].answer = answer + ' (' + self.selfIdentify + ')';
       } else {
         self.selfIdentify = '';
@@ -83,14 +84,13 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
     } else {
       SurveyService.surveyAnswers.list[question_id - 1].answer = answer;
     }
-    
+
   }
 
 
   // displays a confirmation dialog, and if confirmed invokes the service's submitSurvey function to store responses in the db
   self.submitSurvey = function () {
     var confirm = $mdDialog.confirm()
-      .title('Confirm Survey Submission')
       .textContent(self.surveyObject.suresubmit)
       .ariaLabel('confirm survey dialog')
       .targetEvent(event)
@@ -99,7 +99,7 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
 
     $mdDialog.show(confirm).then(function () {
       SurveyService.submitSurvey();
-    }, function () { });
+    }, function () {});
   }
 
 
@@ -116,9 +116,16 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
   self.UserService = UserService;
 
   // handle the window unload event
-  window.addEventListener("beforeunload", function (event) {
+  function unloadWarning(event) {
     event.returnValue = "Reloading will erase all your answers. Are you sure?"
+  }
+
+  window.addEventListener("beforeunload", unloadWarning);
+
+  $scope.$on("$destroy", function () {
+    window.removeEventListener('beforeunload', unloadWarning);
   });
+
 
 
 });
