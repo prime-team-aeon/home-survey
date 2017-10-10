@@ -23,13 +23,11 @@ myApp.service('SiteManagerService', ['$http', function ($http) {
 
     // Update the property paid column in the database 
     self.updatePaid = function(property) {
-        console.log('property', property);
         $http({
             method: 'PUT',
             url: '/site-manager/updatePaid',
             data: property
         }).then(function(response){
-            console.log('updatePaid response', response);
             self.getUserProperties();
         })
         
