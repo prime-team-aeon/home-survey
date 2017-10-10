@@ -172,7 +172,6 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             }
         }).then(function(response){
             self.selectedSiteManagerProperty.list = response.data;
-            console.log(self.selectedSiteManagerProperty);
         });
         
     }
