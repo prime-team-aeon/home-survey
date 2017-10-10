@@ -1,5 +1,5 @@
-<header ng-include="'/views/partials/header.html'"></header>
-<div ng-include="'views/partials/nav.html'"></div>
+<header ng-include="'/views/partials/header-logout-button.html'"></header>
+
 <div id="bg" alt=""><img src="../../assets/tree-transparent-opacity30-800w.png" alt="Smiley face" height="42" width="42"></div>
 
 <div layout="column" layout-align="center center">
@@ -12,7 +12,7 @@
 </div>
 
 <div layout="row" layout-align="center center">
-<md-button class="md-raised md-primary" ng-href="#/survey-language">{{sc.surveyObject.goback}}</md-button>
+<md-button id="goBackButton" class="md-raised md" ng-href="#/survey-language">{{sc.surveyObject.goback}}</md-button>
 <md-button class=" md-raised md-primary" ng-click='sc.go("/survey-q1")'>{{sc.surveyObject.begin}}</md-button>
 
 </div>
