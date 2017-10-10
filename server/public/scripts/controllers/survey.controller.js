@@ -51,7 +51,7 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
   // called primarily from prev/next buttons on DOM, sends user to the passed address and resets their scroll to the top of the page
   self.go = function (hash) {
     $location.path(hash);
-    $window.scrollTo(0, 0);
+    window.setTimeout(function() {window.scrollTo(0,0);}, 0);
   }
 
 
