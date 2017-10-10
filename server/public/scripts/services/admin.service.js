@@ -20,7 +20,12 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     };
 
     // Used for the selected Property on the admin-properties page
-    self.selectedProperty = {
+    self.selectedEditProperty = {
+        list: []
+    }; 
+    
+    // Used for the selected Property on the admin-site-manager page
+    self.selectedSiteManagerProperty = {
         list: []
     }; 
 
@@ -106,7 +111,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     .textContent('Unit has been deleted.')
                     .hideDelay(2000)
             );
-            self.getSelectedProperty(self.selectedProperty.list[0].property);
+            self.getSelectedEditProperty(self.selectedEditProperty.list[0].property);
         });
     }
 
@@ -144,7 +149,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     }
 
     // get the selected property on the admin properties edit page
-    self.getSelectedProperty = function(selectedProperty) { 
+    self.getSelectedEditProperty = function(selectedProperty) { 
         $http({
             method: 'GET',
             url: 'admin/selectedProperty',
@@ -152,8 +157,22 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 selectedProperty: selectedProperty
             }
         }).then(function(response){
-            self.showSelectedProperty = true;
-            self.selectedProperty.list = response.data;
+            self.selectedEditProperty.list = response.data;
+        });
+        
+    }
+
+    // get the selected property on the admin site manager properties edit page
+    self.getSelectedSiteProperty = function(selectedProperty) { 
+        $http({
+            method: 'GET',
+            url: 'admin/selectedProperty',
+            params: {
+                selectedProperty: selectedProperty
+            }
+        }).then(function(response){
+            self.selectedSiteManagerProperty.list = response.data;
+            console.log(self.selectedSiteManagerProperty);
         });
         
     }
@@ -220,7 +239,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             url: '/admin/updateOccupied',
             data: property
         }).then(function (response) {
-            self.getAllProperties();
+            self.getSelectedEditProperty(self.selectedEditProperty.list[0].property);
         })
     }
 

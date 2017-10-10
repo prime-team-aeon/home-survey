@@ -22,6 +22,9 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   self.questions = CsvService.questions;
   self.propertyList = AdminService.propertyList;  
 
+  self.selectedSiteManagerProperty = AdminService.selectedSiteManagerProperty;
+  self.mySiteManagerOrder = 'unit'; // default site manager property order
+
   self.selectedUser = []; // used for the user md-data-table
 
 
@@ -149,6 +152,10 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
 
   self.UserService = UserService // connects admin controller to user service
   self.SiteManagerService = SiteManagerService // connects admin controller to site manager service
+
+  self.getSelectedSiteProperty = function(selectedProperty) {
+    AdminService.getSelectedSiteProperty(selectedProperty);        
+  }
 
  
 }]);

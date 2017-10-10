@@ -40,15 +40,15 @@
                             <md-option ng-value="property" ng-repeat="property in apc.AdminService.propertyList.list">{{ property }}</md-option>
                         </md-select>
                     </md-input-container>
-                    <md-button class="md-raised md-primary" ng-click="apc.getSelectedProperty(apc.selectedProperty)">Submit</md-button>
+                    <md-button class="md-raised md-primary" ng-click="apc.getSelectedEditProperty(apc.selectedProperty)">Submit</md-button>
                 </div>
             </div>
-            <div layout="row" ng-if="apc.AdminService.showSelectedProperty">
+            <div layout="row" ng-if="apc.selectedEditProperty.list[0]">
                 <div flex>
-                    <h3>{{apc.selectedProperty.list[0].property}}</h3>
+                    <h3>{{apc.selectedEditProperty.list[0].property}}</h3>
                     <md-table-container>
-                        <table md-table multiple ng-model="apc.selectedProperty" md-progress="promise">
-                            <thead md-head md-order="myOrder">
+                        <table md-table multiple ng-model="apc.selectedProperty">
+                            <thead md-head md-order="apc.orderByColumn">
                                 <tr md-row>
                                     <th md-column md-order-by="unit">Unit</th>
                                     <th md-column md-order-by="occupied">Occupied</th>
@@ -56,7 +56,7 @@
                                 </tr>
                             </thead>
                             <tbody md-body>
-                                <tr md-row md-select="property" md-select-id="property" md-auto-select ng-repeat="property in apc.selectedProperty.list | orderBy: myOrder"
+                                <tr md-row md-select="property" md-select-id="property" md-auto-select ng-repeat="property in apc.selectedEditProperty.list | orderBy: apc.orderByColumn"
                                     aria-label="users">
                                     <td md-cell>{{property.unit}}</td>
                                     <td md-cell>

@@ -26,14 +26,14 @@
                             <md-option ng-value="property" ng-repeat="property in ac.AdminService.propertyList.list">{{ property }}</md-option>
                         </md-select>
                     </md-input-container>
-                    <md-button class="md-raised md-primary" ng-click="ac.AdminService.getSelectedProperty(ac.selectedProperty)">Submit</md-button>
+                    <md-button class="md-raised md-primary" ng-click="ac.getSelectedSiteProperty(ac.selectedProperty)">Submit</md-button>
                 </div>
             </div>
-            <div layout="row">
+            <div layout="row" ng-if="ac.selectedSiteManagerProperty.list[0].property">
                 <div flex>
                     <md-table-container>
-                        <table md-table multiple ng-model="ac.selectedProperty" md-progress="promise">
-                            <thead md-head md-order="myOrder">
+                        <table md-table multiple ng-model="ac.selectedSiteManagerProperty">
+                            <thead md-head md-order="ac.mySiteManagerOrder">
                                 <tr md-row>
                                     <th md-column md-order-by="property">Property</th>
                                     <th md-column md-order-by="unit">Unit</th>
@@ -43,7 +43,7 @@
                                 </tr>
                             </thead>
                             <tbody md-body>
-                                <tr md-row md-select="property" md-select-id="property" md-auto-select ng-repeat="property in ac.AdminService.selectedProperty.list | orderBy: myOrder"
+                                <tr md-row md-select="property" md-select-id="property" md-auto-select ng-repeat="property in ac.selectedSiteManagerProperty.list | orderBy: ac.mySiteManagerOrder"
                                     aria-label="users">
                                     <td md-cell>{{property.property}}</td>
                                     <td md-cell>{{property.unit}}</td>
