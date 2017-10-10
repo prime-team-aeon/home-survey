@@ -9,19 +9,16 @@ myApp.controller('SiteManagerController', ['SiteManagerService', 'UserService', 
     // connects SiteManagerService to the SiteManagerController
     self.SiteManagerService = SiteManagerService; 
 
-<<<<<<< HEAD
     self.logout = function () {
         UserService.logout();
         
     };
-=======
     self.responseRate = SiteManagerService.responseRate;
 
     self.getResponseRate = function(property){
         property = [property];
         SiteManagerService.getResponseRate(property);
     }
->>>>>>> master
 
 
     //--------------------------------------
