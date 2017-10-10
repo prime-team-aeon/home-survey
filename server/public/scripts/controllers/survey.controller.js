@@ -90,7 +90,6 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
   // displays a confirmation dialog, and if confirmed invokes the service's submitSurvey function to store responses in the db
   self.submitSurvey = function () {
     var confirm = $mdDialog.confirm()
-      .title('Confirm Survey Submission')
       .textContent(self.surveyObject.suresubmit)
       .ariaLabel('confirm survey dialog')
       .targetEvent(event)
