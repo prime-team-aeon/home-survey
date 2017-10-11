@@ -1,4 +1,4 @@
-myApp.controller('SiteManagerController', ['SiteManagerService', function (SiteManagerService) {
+myApp.controller('SiteManagerController', ['SiteManagerService', 'UserService', function (SiteManagerService, UserService) {
 
     //--------------------------------------
     //-------------VARIABLES----------------
@@ -9,6 +9,10 @@ myApp.controller('SiteManagerController', ['SiteManagerService', function (SiteM
     // connects SiteManagerService to the SiteManagerController
     self.SiteManagerService = SiteManagerService; 
 
+    self.logout = function () {
+        UserService.logout();
+        
+    };
     self.responseRate = SiteManagerService.responseRate;
 
     self.getResponseRate = function(property){
