@@ -14,7 +14,7 @@ router.get('/data', function (req, res) {
 
             var propBlingString = "";
 
-            if(typeof properties === 'string'){
+            if (typeof properties === 'string') {
                 propBlingString = "$2"
             } else {
                 // properties is an array
@@ -30,8 +30,9 @@ router.get('/data', function (req, res) {
                 if (err) {
                     console.log('db connect error', err);
                     res.sendStatus(500);
-                } else if (typeof properties === 'string'){
+                } else if (typeof properties === 'string') {
                     client.query(queryString, [year, properties], function (err, data) {
+                        done();
                         if (err) {
                             console.log('data select query error', err);
                             res.sendStatus(500);
@@ -41,6 +42,7 @@ router.get('/data', function (req, res) {
                     });
                 } else {
                     client.query(queryString, [year, ...properties], function (err, data) {
+                        done();
                         if (err) {
                             console.log('data select query error', err);
                             res.sendStatus(500);
@@ -207,8 +209,6 @@ router.put('/updateOccupied', function (req, res) {
 
 // GET a selected property from the admin edit properties page
 router.get('/selectedProperty', function (req, res) {
-    console.log('req.query', req.query);
-    
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator') {
             pool.connect(function (err, client, done) {
@@ -229,6 +229,87 @@ router.get('/selectedProperty', function (req, res) {
                     });
                 }
             });
+        } else {
+            //not admin role
+            res.sendStatus(403);
+        }
+    } else {
+        //not authorized
+        res.sendStatus(403);
+    }
+
+});
+
+// return the response rate for a passed array of properties (or 'all')
+router.get('/responses', function (req, res) {
+    // req.params.properties is either a string ('all') or an array of properties
+
+    if (req.isAuthenticated()) {
+        if (req.user.role == 'Administrator' || req.user.role == 'Site Manager') {
+            var properties = req.query.properties;
+
+            if (properties == 'all') {
+                queryString = 'SELECT COUNT(*) FROM occupancy WHERE responded=$1';
+                secondQueryString = 'SELECT COUNT(*) FROM occupancy WHERE occupied=$1';
+                properties = '';
+            } else {
+                var propBlingString = "";
+
+                if (typeof properties === 'string') {
+                    propBlingString = "$2";
+                    properties = [properties];
+                } else {
+                    // properties is an array
+                    for (var i = 0; i < properties.length; i++) {
+                        propBlingString += "$" + (i + 2) + ",";
+                    }
+                    propBlingString = propBlingString.slice(0, -1);
+                }
+
+                queryString = 'SELECT COUNT(*) FROM occupancy WHERE responded=$1 AND property IN (' + propBlingString + ')';
+                secondQueryString = 'SELECT COUNT(*) FROM occupancy WHERE occupied=$1 AND property IN (' + propBlingString + ')';
+
+            }
+
+            console.log('queryString', queryString);
+            console.log('secondQueryString', secondQueryString);
+            
+
+            pool.connect(function (err, client, done) {
+                if (err) {
+                    console.log('db connect error', err);
+                    res.sendStatus(500);
+                } else {
+                    client.query(queryString, [true, ...properties], function (err, data) {
+                        done();
+                        if (err) {
+                            console.log('data count query error', err);
+                            res.sendStatus(500);
+                        } else {
+                            // data.rows[0].count is a string of how many responses we have
+                            let responses = data.rows[0].count;
+                            pool.connect(function (err, client, done) {
+                                client.query(secondQueryString, [true,...properties], function (err, data) {
+                                    done();
+                                    if (err) {
+                                        console.log('data count2 query error', err);
+                                        res.sendStatus(500);
+                                    } else if (data.rows[0].count > 0) {
+                                        // data.rows[0].count is a string of how many occupied units we have
+                                        let occupied = data.rows[0].count;
+                                        let responseRate = responses / occupied;
+                                        res.send(responseRate.toString());
+                                    } else {
+                                        res.send('no occupied units found');
+                                    }
+                                });
+                            });
+                        }
+                    });
+                }
+            });
+
+
         } else {
             //not admin role
             res.sendStatus(403);

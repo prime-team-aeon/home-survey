@@ -22,17 +22,22 @@
                     <h1>Site Manager Admin</h1>
                     <md-input-container>
                         <label>Select a Property</label>
-                        <md-select ng-model="ac.selectedProperty" placeholder="Select a Property">
+                        <md-select ng-model="ac.selectedProperty">
                             <md-option ng-value="property" ng-repeat="property in ac.AdminService.propertyList.list">{{ property }}</md-option>
                         </md-select>
                     </md-input-container>
+
                     <md-input-container>
                         <label>Select a Year</label>
                         <md-select ng-model="ac.selectedYear">
                             <md-option ng-value="year" ng-repeat="year in ac.yearsArray">{{ year }}</md-option>
                         </md-select>
                     </md-input-container>
+                    
                     <md-button class="md-raised md-primary" ng-click="ac.getSelectedSiteProperty(ac.selectedProperty, ac.selectedYear)">Submit</md-button>
+                    <div class="response-rate-container">
+                        <h2>Response Rate: <span class="response-rate" ng-class="{'redText': ac.responseRate.rate < 50, 'yellowText': (ac.responseRate.rate >= 50) && (ac.responseRate.rate < 70), 'greenText': (ac.responseRate.rate >= 70)}">{{ac.responseRate.rate}}%</span></h2>
+                    </div>
                 </div>
             </div>
             <div layout="row" ng-if="ac.selectedSiteManagerProperty.list[0].property">
@@ -62,7 +67,7 @@
                                         <span ng-if="!property.responded">No</span>
                                     </td>
                                     <td md-cell>
-                                    <md-checkbox ng-model="property.paid" ng-change="ac.SiteManagerService.updatePaid(property)" aria-label="paid"></md-checkbox>
+                                        <md-checkbox ng-model="property.paid" ng-change="ac.SiteManagerService.updatePaid(property)" aria-label="paid"></md-checkbox>
                                     </td>
                                 </tr>
                             </tbody>

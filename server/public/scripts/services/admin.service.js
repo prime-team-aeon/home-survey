@@ -6,6 +6,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     var self = this;
 
+    self.responseRate = {rate: 0}; // holds the response rate retrieved from the db
     self.allProperties = {}; // holds all unit/property combos    
     self.newProperty = {}; // data bound to the property and input fields in the Add New Property section
     self.users = {
@@ -28,12 +29,12 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     // Used for the selected Property on the admin-properties page
     self.selectedEditProperty = {
         list: []
-    }; 
-    
+    };
+
     // Used for the selected Property on the admin-site-manager page
     self.selectedSiteManagerProperty = {
         list: []
-    }; 
+    };
 
 
     //--------------------------------------
@@ -56,8 +57,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             }).then(function (response) {
                 $mdToast.show(
                     $mdToast.simple()
-                        .textContent('Property has been added.')
-                        .hideDelay(2000)
+                    .textContent('Property has been added.')
+                    .hideDelay(2000)
                 );
                 self.newProperty = {}; // sets new property and unit input boxes to empty
                 self.getProperties(); // reload all properties to include the new property and unit
@@ -73,17 +74,17 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     }
 
     // takes a DOM HTML5 <canvas> element and builds a chart in it based on the data that's in self.gottenData
-    self.buildDemographicsChart = function(chartTarget){
-        self.howLongData = [0,0,0,0,0,0];
+    self.buildDemographicsChart = function (chartTarget) {
+        self.howLongData = [0, 0, 0, 0, 0, 0];
 
-        self.ethnicityData = [0,0,0,0,0,0,0,0];
+        self.ethnicityData = [0, 0, 0, 0, 0, 0, 0, 0];
 
-        self.genderData = [0,0,0,0];
+        self.genderData = [0, 0, 0, 0];
         self.genderStrings = [];
 
-        self.ageData = [0,0,0,0,0,0,0];
+        self.ageData = [0, 0, 0, 0, 0, 0, 0];
 
-        self.incomeData = [0,0,0,0,0,0,0,0,0];
+        self.incomeData = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         for (var i = 0; i < self.gottenData.list.length; i++) {
             let howLongAnswer = self.gottenData.list[i].answer23;
@@ -91,20 +92,20 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             let genderAnswer = self.gottenData.list[i].answer25;
             let ageAnswer = self.gottenData.list[i].answer26;
             let incomeAnswer = self.gottenData.list[i].answer26;
-            
-            if((howLongAnswer == undefined) || (howLongAnswer == null)){
+
+            if ((howLongAnswer == undefined) || (howLongAnswer == null)) {
                 self.howLongData[0]++;
             } else {
                 self.howLongData[howLongAnswer]++;
             }
 
-            if((ethnicityAnswer == undefined) || (ethnicityAnswer == null)){
+            if ((ethnicityAnswer == undefined) || (ethnicityAnswer == null)) {
                 self.ethnicityData[0]++;
             } else {
                 self.ethnicityData[ethnicityAnswer]++;
             }
 
-            switch(genderAnswer){
+            switch (genderAnswer) {
                 // 1,2,3 (string),null, 
                 case '1':
                     self.genderData[1]++;
@@ -120,14 +121,14 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     self.genderData[0]++;
             }
 
-            if((ageAnswer == undefined) || (ageAnswer == null)){
+            if ((ageAnswer == undefined) || (ageAnswer == null)) {
                 self.ageData[0]++;
             } else {
                 self.ageData[ageAnswer]++;
             }
 
 
-            if((incomeAnswer == undefined) || (incomeAnswer == null)){
+            if ((incomeAnswer == undefined) || (incomeAnswer == null)) {
                 self.incomeData[0]++;
             } else {
                 self.incomeData[incomeAnswer]++;
@@ -156,7 +157,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 }]
             },
             options: {
-                
+
             }
         });
 
@@ -176,8 +177,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         }).then(function (response) {
             $mdToast.show(
                 $mdToast.simple()
-                    .textContent('Unit has been deleted.')
-                    .hideDelay(2000)
+                .textContent('Unit has been deleted.')
+                .hideDelay(2000)
             );
             self.getProperties();
             self.getSelectedEditProperty(self.selectedEditProperty.list[0].property, self.selectedEditProperty.list[0].year);
@@ -192,14 +193,14 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             if (response.status == 200) {
                 $mdToast.show(
                     $mdToast.simple()
-                        .textContent('User deleted.')
-                        .hideDelay(2000)
+                    .textContent('User deleted.')
+                    .hideDelay(2000)
                 );
             } else {
                 $mdToast.show(
                     $mdToast.simple()
-                        .textContent('Deletion unsuccessful.')
-                        .hideDelay(2000)
+                    .textContent('Deletion unsuccessful.')
+                    .hideDelay(2000)
                 );
             }
             self.getUsers(); // get a fresh list of users
@@ -207,22 +208,38 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     }
 
 
-    self.destroyAllCharts = function(){
+    self.destroyAllCharts = function () {
         for (var i = 0; i < self.chartsArray.length; i++) {
             console.log('i', i);
-            
-            self.chartsArray[i].destroy();      
+
+            self.chartsArray[i].destroy();
         }
     }
 
     // GET request for all occupancy information from the occupancy table
     self.getAllProperties = function () {
-        $http.get('/user-roles/allProperties/').then(function (response) {            
+        $http.get('/user-roles/allProperties/').then(function (response) {
 
             // stores all occupancy information from the occupancy table via the GET property request
             self.allProperties = response.data;
 
         });
+    }
+
+    // takes an array of properties, or the string 'all', and returns the response rate for that dataset
+    self.getResponseRate = function (properties) {
+        $http.get('/admin/responses', {
+                params: {
+                    properties: properties
+                }
+            })
+            .then(function (response) {
+                self.responseRate.rate = +response.data;
+                self.responseRate.rate = self.responseRate.rate.toFixed(4);
+                self.responseRate.rate = self.responseRate.rate * 100;
+                console.log('responseRate.rate', self.responseRate.rate);
+                
+            });
     }
 
     // get the selected property on the admin properties edit page
@@ -234,10 +251,10 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 selectedProperty: selectedProperty,
                 year: year
             }
-        }).then(function(response){            
+        }).then(function (response) {
             self.selectedEditProperty.list = response.data;
         });
-        
+
     }
 
     // get the selected property on the admin site manager properties edit page
@@ -249,30 +266,30 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 selectedProperty: selectedProperty,
                 year: year
             }
-        }).then(function(response){
+        }).then(function (response) {
             self.selectedSiteManagerProperty.list = response.data;
         });
-        
+
     }
 
     // take in a year and an array of properties, and get the matching dataset from the server
-    self.getData = function(year, properties, chartFunction, domElement) {
+    self.getData = function (year, properties, chartFunction, domElement) {
         console.log('getData year, properties, callback', year, properties, chartFunction);
-        
+
         $http({
             method: 'GET',
-            url: '/admin/data', 
+            url: '/admin/data',
             params: {
                 year: year,
                 properties: properties
             }
-        }).then(function(response){
+        }).then(function (response) {
             self.gottenData.list = response.data;
             console.log('self.gottenData.list', self.gottenData.list);
 
             // now we actually build the chart
-            
-            switch(chartFunction){
+
+            switch (chartFunction) {
                 case 'demographics':
                     self.buildDemographicsChart(domElement);
                     break;
@@ -280,7 +297,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     console.log('admin service buildChart got bad callback:', chartFunction);
                     return;
             }
-    
+
         })
     }
 
@@ -329,7 +346,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     // Update the users active status PUT request
     self.toggleActive = function (user) {
         console.log('heres the user', user);
-        
+
         $http({
             method: 'PUT',
             url: '/user-roles/active',
@@ -348,7 +365,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             data: property
         }).then(function (response) {
             self.getSelectedEditProperty(self.selectedEditProperty.list[0].property, self.selectedEditProperty.list[0].year);
-            self.getSelectedEditProperty(self.selectedSiteManagerProperty.list[0].property, self.selectedSiteManagerProperty.list[0].year);
+            self.getSelectedSiteProperty(self.selectedSiteManagerProperty.list[0].property, self.selectedSiteManagerProperty.list[0].year);
         })
     }
 
@@ -381,28 +398,28 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
 
 
-    // self.buildTestChart = function(){
-    //     self.chartData.list = [0,0,0,0,0];
-    //     for (var i = 0; i < self.gottenData.list.length; i++) {
-    //         switch(self.gottenData.list[i].answer1){
-    //             // 1,2,3,4,null
-    //             case 1:
-    //                 self.chartData.list[1]++;
-    //                 break;
-    //             case 2:
-    //                 self.chartData.list[2]++;
-    //                 break;
-    //             case 3:
-    //                 self.chartData.list[3]++;
-    //                 break;
-    //             case 4:
-    //                 self.chartData.list[4]++;
-    //                 break;
-    //             default:
-    //                 self.chartData.list[0]++;
-    //                 break;
-    //         } 
-    //     }
-    //     console.log('AdminService.chartData.list', self.chartData.list);
-        
-    // }
+// self.buildTestChart = function(){
+//     self.chartData.list = [0,0,0,0,0];
+//     for (var i = 0; i < self.gottenData.list.length; i++) {
+//         switch(self.gottenData.list[i].answer1){
+//             // 1,2,3,4,null
+//             case 1:
+//                 self.chartData.list[1]++;
+//                 break;
+//             case 2:
+//                 self.chartData.list[2]++;
+//                 break;
+//             case 3:
+//                 self.chartData.list[3]++;
+//                 break;
+//             case 4:
+//                 self.chartData.list[4]++;
+//                 break;
+//             default:
+//                 self.chartData.list[0]++;
+//                 break;
+//         } 
+//     }
+//     console.log('AdminService.chartData.list', self.chartData.list);
+
+// }
