@@ -60,7 +60,20 @@ myApp.service('CsvService', function ($http, $location, $mdToast) {
     });
 
   }
+  // ----------------------------------- //
+  // ------------ IMPORTANT ------------ //
+  // ----------------------------------- //
 
+  /* The following assumptions about the incoming file must be true for this to work:
+    a. There is a single header row (adjust in csv.router.js const `OCCUPANCY_IGNORE_ROWS`)
+
+    b. The columns are as follows:
+      1. Property Name
+      2. Occupancy (keyed off whether the string 'Occupied' appears in that element)
+      3. Unit Number (trims all characters except alphanumeric, -, and _)
+
+    c. There are exactly 3 columns
+  */
 
   // called ultimately by the [UPLOAD] button on admin.html. Parses the imported file and sends it up to the server.
   self.uploadCsv = function (file, year) {
@@ -71,9 +84,18 @@ myApp.service('CsvService', function ($http, $location, $mdToast) {
       
       // scrub the data
       for (var j = 0; j < parsed.data[i].length; j++) {
-        parsed.data[i][j] = parsed.data[i][j].replace(/(?!\w|\s|-)./g, '') // remove all non-alphanumeric characters except whitespace, -, and _
+        // search the 'occupied' field for whether it contains the text 'occupied' or not, and set it to true/false based on that
+        if(j===1){
+          if(parsed.data[i][j].search('Occupied') >= 0){
+            parsed.data[i][j] = true;
+          } else{
+            parsed.data[i][j] = false;
+          }
+        } else {
+          parsed.data[i][j] = parsed.data[i][j].replace(/(?!\w|\s|-)./g, '') // remove all non-alphanumeric characters except whitespace, -, and _
           .replace(/\s+/g, ' ') // replace all multiple-whitespace patterns with a single space
           .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2'); // remove all trailing and leading whitespace
+        }
       }
 
       // add the passed-in year to the data row

@@ -7,7 +7,7 @@ var pool = require('../modules/pool.js');
 // Handles CSV upload from admin view
 router.post('/upload/:year', function (req, res) {
 
-  const OCCUPANCY_ROW_LENGTH = 3;
+  const OCCUPANCY_ROW_LENGTH = 4;
   const OCCUPANCY_IGNORE_ROWS = 1; // number of rows to ignore at top of imported .csv
   const START_YEAR = 2010; // startpoint for valid year param range
   const END_YEAR = 2100; // endpoint for valid year param range
@@ -29,22 +29,32 @@ router.post('/upload/:year', function (req, res) {
                 res.sendStatus(500);
               } else {
                 var unitsArray = req.body.data;
-                var queryString = 'INSERT INTO occupancy (property, unit, year) VALUES (';
+                console.log('unitsArray[3]', unitsArray[3]);
+                
+                var queryString = 'INSERT INTO occupancy (property, occupied, unit, year) VALUES (';
 
                 // SQL query looks like:
-                // INSERT INTO occupancy (name, message) VALUES ($1, $2, $3), ($4,$5,$6), [...];
+                // INSERT INTO occupancy (property, occupied, unit, year) VALUES ($1, $2, $3, $4), ($5,$6,$7,$8), [...];
 
                 var explodedArray = [];
 
                 // assuming header row, push any valid row into the explodedArray and build out the query string
                 for (var i = OCCUPANCY_IGNORE_ROWS; i < unitsArray.length; i++) {
                   if (unitsArray[i].length === OCCUPANCY_ROW_LENGTH) {
+
+                    // unitsArray[i] is one row of data, something like
+                    // ['1822 Park', 'Occupied No Notice', 03, 2017]
                     for (var j = 0; j < unitsArray[i].length; j++) {
-                      queryString += '$' + (j + ((i - 1) * 3) + 1) + ',';
+                      queryString += '$' + (j + ((i - 1) * 4) + 1) + ',';
                       explodedArray.push(unitsArray[i][j]);
                     }
                     queryString = queryString.slice(0, -1);
                     queryString += '),(';
+                    if (i == 3) {
+                      console.log('unitsArray[i]', unitsArray[i]);
+                      console.log('queryString', queryString);
+                    }
+
                   }
                 }
 
