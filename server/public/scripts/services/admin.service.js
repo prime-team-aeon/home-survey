@@ -6,7 +6,9 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     var self = this;
 
-    self.responseRate = {rate: 0}; // holds the response rate retrieved from the db
+    self.responseRate = {
+        rate: 0
+    }; // holds the response rate retrieved from the db
     self.allProperties = {}; // holds all unit/property combos    
     self.newProperty = {}; // data bound to the property and input fields in the Add New Property section
     self.users = {
@@ -57,8 +59,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             }).then(function (response) {
                 $mdToast.show(
                     $mdToast.simple()
-                        .textContent('Property has been added.')
-                        .hideDelay(2000)
+                    .textContent('Property has been added.')
+                    .hideDelay(2000)
                 );
                 self.newProperty = {}; // sets new property and unit input boxes to empty
                 self.getProperties(); // reload all properties to include the new property and unit
@@ -67,101 +69,441 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         } else {
             $mdToast.show(
                 $mdToast.simple()
-                    .textContent('Please enter in both a property name')
-                    .hideDelay(2000)
+                .textContent('Please enter in both a property name')
+                .hideDelay(2000)
             );
         }
     }
 
-    // takes a DOM HTML5 <canvas> element and builds a chart in it based on the data that's in self.gottenData
-    self.buildDemographicsChart = function (chartTarget) {
-        self.howLongData = [0, 0, 0, 0, 0, 0];
+    // takes a DOM HTML5 <canvas> element and builds a chart in it based on the chartType data and what's in self.gottenData
+    self.buildChart = function (chartTarget, chartType) {
 
-        self.ethnicityData = [0, 0, 0, 0, 0, 0, 0, 0];
+        console.log('buildChart', chartType);
+        self.destroyAllCharts();
 
-        self.genderData = [0, 0, 0, 0];
-        self.genderStrings = [];
+        if (chartType === 'Gender') {
+            self.genderData = [0, 0, 0, 0];
+            self.genderStrings = [];
 
-        self.ageData = [0, 0, 0, 0, 0, 0, 0];
+            for (var i = 0; i < self.gottenData.list.length; i++) {
 
-        self.incomeData = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+                let genderAnswer = self.gottenData.list[i].answer25;
 
-        for (var i = 0; i < self.gottenData.list.length; i++) {
-            let howLongAnswer = self.gottenData.list[i].answer23;
-            let ethnicityAnswer = self.gottenData.list[i].answer24;
-            let genderAnswer = self.gottenData.list[i].answer25;
-            let ageAnswer = self.gottenData.list[i].answer26;
-            let incomeAnswer = self.gottenData.list[i].answer26;
-
-            if ((howLongAnswer == undefined) || (howLongAnswer == null)) {
-                self.howLongData[0]++;
-            } else {
-                self.howLongData[howLongAnswer]++;
+                switch (genderAnswer) {
+                    // 1,2,3 (string),null, 
+                    case '1':
+                        self.genderData[1]++;
+                        break;
+                    case '2':
+                        self.genderData[2]++;
+                        break;
+                    case '3':
+                        self.genderData[3]++;
+                        self.genderStrings.push(genderAnswer);
+                        break;
+                    default:
+                        self.genderData[0]++;
+                }
             }
 
-            if ((ethnicityAnswer == undefined) || (ethnicityAnswer == null)) {
-                self.ethnicityData[0]++;
-            } else {
-                self.ethnicityData[ethnicityAnswer]++;
+            var genderPieChart = new Chart(chartTarget, {
+                type: 'pie',
+                data: {
+                    labels: ["No Response", "Male", "Female", "Self-Identify"],
+                    datasets: [{
+                        label: 'Gender',
+                        data: self.genderData,
+                        backgroundColor: [
+                            '#aaaaaa',
+                            '#c8e6c9',
+                            '#a5d6a7',
+                            '#81c784',
+                        ],
+                        borderColor: [
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+
+                }
+            });
+
+            self.chartsArray.push(genderPieChart);
+
+        } else if (chartType === 'How Long') {
+            self.howLongData = [0, 0, 0, 0, 0, 0];
+
+            for (var i = 0; i < self.gottenData.list.length; i++) {
+                let howLongAnswer = self.gottenData.list[i].answer23;
+                if ((howLongAnswer == undefined) || (howLongAnswer == null)) {
+                    self.howLongData[0]++;
+                } else {
+                    self.howLongData[howLongAnswer]++;
+                }
             }
 
-            switch (genderAnswer) {
-                // 1,2,3 (string),null, 
-                case '1':
-                    self.genderData[1]++;
-                    break;
-                case '2':
-                    self.genderData[2]++;
-                    break;
-                case '3':
-                    self.genderData[3]++;
-                    self.genderStrings.push(genderAnswer);
-                    break;
-                default:
-                    self.genderData[0]++;
+            var howLongPieChart = new Chart(chartTarget, {
+                type: 'pie',
+                data: {
+                    labels: ["No Response", "1-3 Months", "4-11 Months", "1-3 Years", "3-5 Years", "5+ Years"],
+                    datasets: [{
+                        label: 'How Long Have You Lived Here?',
+                        data: self.howLongData,
+                        backgroundColor: [
+                            '#aaaaaa',
+                            '#c8e6c9',
+                            '#81c784',
+                            '#4caf50',
+                            '#388e3c',
+                            '#1b5e20',
+                        ],
+                        borderColor: [
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+
+                }
+            });
+
+            self.chartsArray.push(howLongPieChart);
+
+        } else if (chartType === 'Ethnicity') {
+            self.ethnicityData = [0, 0, 0, 0, 0, 0, 0, 0];
+
+            for (var i = 0; i < self.gottenData.list.length; i++) {
+                let ethnicityAnswer = self.gottenData.list[i].answer24;
+
+                if ((ethnicityAnswer == undefined) || (ethnicityAnswer == null)) {
+                    self.ethnicityData[0]++;
+                } else {
+                    self.ethnicityData[ethnicityAnswer]++;
+                }
             }
 
-            if ((ageAnswer == undefined) || (ageAnswer == null)) {
-                self.ageData[0]++;
-            } else {
-                self.ageData[ageAnswer]++;
+            var ethnicityPieChart = new Chart(chartTarget, {
+                type: 'pie',
+                data: {
+                    labels: ["No Response", "American Indian", "African Immigrant (Somali, Nigerian, Eritrean, other)", "Asian / Pacific Islander", "Black / African American", "Caucasian / White", "Hispanic / Latino", "Other"],
+                    datasets: [{
+                        label: 'What Ethnicity Best Describes You?',
+                        data: self.ethnicityData,
+                        backgroundColor: [
+                            '#aaaaaa',
+                            '#c8e6c9',
+                            '#a5d6a7',
+                            '#81c784',
+                            '#4caf50',
+                            '#388e3c',
+                            '#1b5e20',
+                            '#003300'
+                        ],
+                        borderColor: [
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+
+                }
+            });
+
+            self.chartsArray.push(ethnicityPieChart);
+
+        } else if (chartType === 'Age') {
+            self.ageData = [0, 0, 0, 0, 0, 0, 0];
+
+            for (var i = 0; i < self.gottenData.list.length; i++) {
+                let ageAnswer = self.gottenData.list[i].answer26;
+
+                if ((ageAnswer == undefined) || (ageAnswer == null)) {
+                    self.ageData[0]++;
+                } else {
+                    self.ageData[ageAnswer]++;
+                }
             }
 
+            var agePieChart = new Chart(chartTarget, {
+                type: 'pie',
+                data: {
+                    labels: ["No Response", "Under 18", "18-25", "26-35", "36-45", "46-55", "Over 55"],
+                    datasets: [{
+                        label: 'How Old Are You?',
+                        data: self.ageData,
+                        backgroundColor: [
+                            '#aaaaaa',
+                            '#c8e6c9',
+                            '#a5d6a7',
+                            '#81c784',
+                            '#4caf50',
+                            '#388e3c',
+                            '#1b5e20'
+                        ],
+                        borderColor: [
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
 
-            if ((incomeAnswer == undefined) || (incomeAnswer == null)) {
-                self.incomeData[0]++;
-            } else {
-                self.incomeData[incomeAnswer]++;
+                }
+            });
+
+            self.chartsArray.push(agePieChart);
+
+        } else if (chartType === 'Income') {
+            self.incomeData = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+            for (var i = 0; i < self.gottenData.list.length; i++) {
+
+                let incomeAnswer = self.gottenData.list[i].answer26;
+
+                if ((incomeAnswer == undefined) || (incomeAnswer == null)) {
+                    self.incomeData[0]++;
+                } else {
+                    self.incomeData[incomeAnswer]++;
+                }
             }
 
-        } // end for loop going through surveys
+            var incomePieChart = new Chart(chartTarget, {
+                type: 'pie',
+                data: {
+                    labels: ["No Response", "Less than $800/mo. (Less than $9,600/yr.)", "$801 - 1,300/mo. ($9601 - 15,600/yr.)", "$1,301 - 1,800/mo. ($15,601 - 21,600/yr.)", "$1,801 - 2,300/mo. ($21,601 - 27,600/yr.)", "$2,301 - 2,800/mo. ($27,601 - 33,600/yr.)", "$2,801 - 3,300/mo. ($33,601 - 39,600/yr.)", "$3,301 - 3,800/mo. ($39,601 - 45,600/yr.)", "More than $3,800/mo. (More than 45,600/yr.)"],
+                    datasets: [{
+                        label: 'What Is Your Income Level?',
+                        data: self.incomeData,
+                        backgroundColor: [
+                            '#aaaaaa',
+                            '#c8e6c9',
+                            '#a5d6a7',
+                            '#81c784',
+                            '#66bb6a',
+                            '#4caf50',
+                            '#388e3c',
+                            '#1b5e20',
+                            '#003300'
+                        ],
+                        borderColor: [
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
 
-        var genderPieChart = new Chart(chartTarget, {
-            type: 'pie',
-            data: {
-                labels: ["Male", "Female", "Self-Identify"],
-                datasets: [{
-                    label: 'Gender',
-                    data: self.genderData,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
+                }
+            });
 
+            self.chartsArray.push(incomePieChart);
+
+        } else if (chartType === 'Scores') {
+
+            /* SCORE DEFINITIONS
+
+                Engagement = average of questions 5-13
+                Safety = average of questions 1-4
+                Ownership = average of questions 14-15, 20
+                Staff Performance = average of questions 16-18
+                Home Score = average of Safety, Engagement, and Ownership
+
+            */
+
+            // engagement, safety, ownership, staff performance, home
+            self.scoreData = [0, 0, 0, 0, 0]; // holds the actual data for the chart. eventually.
+            var scoreTotals = [
+                [0, 0],
+                [0, 0],
+                [0, 0],
+                [0, 0],
+            ]; //[total points, #of responses]
+
+            var engagementResult = 0;
+            var engagementTotal = 0;
+
+            for (var i = 0; i < self.gottenData.list.length; i++) {
+
+                // Engagement = average of questions 5-13
+
+                let engagementAnswers = [
+                    self.gottenData.list[i].answer5,
+                    self.gottenData.list[i].answer6,
+                    self.gottenData.list[i].answer7,
+                    self.gottenData.list[i].answer8,
+                    self.gottenData.list[i].answer9,
+                    self.gottenData.list[i].answer10,
+                    self.gottenData.list[i].answer11,
+                    self.gottenData.list[i].answer12,
+                    self.gottenData.list[i].answer13
+                ]
+
+                for (let j = 0; j < engagementAnswers.length; j++) {
+                    if (engagementAnswers[j]) {
+                        scoreTotals[0][0] += engagementAnswers[j];
+                        scoreTotals[0][1]++;
+                    }
+                }
+
+                // Safety = average of questions 1-4
+
+                let safetyAnswers = [
+                    self.gottenData.list[i].answer1,
+                    self.gottenData.list[i].answer2,
+                    self.gottenData.list[i].answer3,
+                    self.gottenData.list[i].answer4
+                ]
+
+                for (let j = 0; j < safetyAnswers.length; j++) {
+                    if (safetyAnswers[j]) {
+                        scoreTotals[1][0] += safetyAnswers[j];
+                        scoreTotals[1][1]++;
+                    }
+                }
+
+                // Ownership = average of questions 14-15, 20
+
+                let ownershipAnswers = [
+                    self.gottenData.list[i].answer14,
+                    self.gottenData.list[i].answer15,
+                    self.gottenData.list[i].answer20
+                ]
+
+                for (let j = 0; j < ownershipAnswers.length; j++) {
+                    if (ownershipAnswers[j]) {
+                        scoreTotals[2][0] += ownershipAnswers[j];
+                        scoreTotals[2][1]++;
+                    }
+                }
+
+                // Staff Performance = average of questions 16-18
+
+                let staffAnswers = [
+                    self.gottenData.list[i].answer16,
+                    self.gottenData.list[i].answer17,
+                    self.gottenData.list[i].answer18
+                ]
+
+                for (let j = 0; j < staffAnswers.length; j++) {
+                    if (staffAnswers[j]) {
+                        scoreTotals[3][0] += staffAnswers[j];
+                        scoreTotals[3][1]++;
+                    }
+                }
             }
-        });
 
-        self.chartsArray.push(genderPieChart);
+            /* so now scoreTotals looks like this:
+               
+                [[engagementTotalPoints, engagementResponses],
+                [safetyTotalPoints, safetyResponses],
+                [ownershipTotalPoints, ownershipResponses],
+                [staffTotalPoints, staffResponses],
+
+                note: homeScore will be calculated and added directly to the scoreData array
+            */
+
+            // finally actually put the averages in the display array
+            // we're also going to be sneaky and calculate homeScore at the same time
+
+            let positiveScores = 0;
+
+            for (let j = 0; j< scoreTotals.length; j++){
+                if(scoreTotals[j][1] > 0){
+                    // non-zero divisor
+                    self.scoreData[j] = scoreTotals[j][0] / scoreTotals[j][1];
+                    positiveScores++;
+                    self.scoreData[self.scoreData.length-1] += self.scoreData[j];
+                } // else it remains 0
+            }
+
+            /* so scoreData is now:
+
+                [engagementAverage,
+                safetyAverage,
+                ownershipAverage,
+                staffAverage,
+                homeScoreTotal]
+
+                next: divide homeScore by the number of non-zero averages
+
+            */
+
+            // Home Score = average of Safety, Engagement, and Ownership
+
+            if(positiveScores > 0){
+                self.scoreData[self.scoreData.length-1] = self.scoreData[self.scoreData.length-1] / positiveScores;
+            }
+
+            // VICTORY! (hopefully)
+
+            console.log('scoreData',self.scoreData);
+            
+            var scorePieChart = new Chart(chartTarget, {
+                type: 'bar',
+                data: {
+                    labels: ["Engagement", "Safety", "Ownership", "Staff Performance", "Home Score"],
+                    datasets: [{
+                        label: 'Scores',
+                        data: self.scoreData,
+                        backgroundColor: [
+                            '#c8e6c9',
+                            '#a5d6a7',
+                            '#66bb6a',
+                            '#388e3c',
+                            '#003300'
+                        ],
+                        borderColor: [
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+
+                }
+            });
+
+            self.chartsArray.push(scorePieChart);
+
+        }
     }
 
 
@@ -177,8 +519,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         }).then(function (response) {
             $mdToast.show(
                 $mdToast.simple()
-                    .textContent('Unit has been deleted.')
-                    .hideDelay(2000)
+                .textContent('Unit has been deleted.')
+                .hideDelay(2000)
             );
             self.getProperties();
             self.getSelectedEditProperty(self.selectedEditProperty.list[0].property, self.selectedEditProperty.list[0].year);
@@ -193,14 +535,14 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             if (response.status == 200) {
                 $mdToast.show(
                     $mdToast.simple()
-                        .textContent('User deleted.')
-                        .hideDelay(2000)
+                    .textContent('User deleted.')
+                    .hideDelay(2000)
                 );
             } else {
                 $mdToast.show(
                     $mdToast.simple()
-                        .textContent('Deletion unsuccessful.')
-                        .hideDelay(2000)
+                    .textContent('Deletion unsuccessful.')
+                    .hideDelay(2000)
                 );
             }
             self.getUsers(); // get a fresh list of users
@@ -229,10 +571,10 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     // takes an array of properties, or the string 'all', and returns the response rate for that dataset
     self.getResponseRate = function (properties) {
         $http.get('/admin/responses', {
-            params: {
-                properties: properties
-            }
-        })
+                params: {
+                    properties: properties
+                }
+            })
             .then(function (response) {
                 self.responseRate.rate = +response.data;
                 self.responseRate.rate = self.responseRate.rate.toFixed(4);
@@ -288,15 +630,19 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             console.log('self.gottenData.list', self.gottenData.list);
 
             // now we actually build the chart
+            self.buildChart(domElement, chartFunction);
 
-            switch (chartFunction) {
-                case 'demographics':
-                    self.buildDemographicsChart(domElement);
-                    break;
-                default:
-                    console.log('admin service buildChart got bad callback:', chartFunction);
-                    return;
-            }
+            // switch (chartFunction) {
+            //     case 'gender':
+            //         self.buildDemographicsChart(domElement, 'gender');
+            //         break;
+            //     case 'howLong':
+            //         self.buildDemographicsChart(domElement, 'howLong');
+            //         break;
+            //     default:
+            //         console.log('admin service buildChart got bad callback:', chartFunction);
+            //         return;
+            // }
 
         })
     }
