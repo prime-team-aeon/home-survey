@@ -21,8 +21,8 @@ var adminRouter = require('./routes/admin.router');
 var port = process.env.PORT || 5000;
 
 // Body parser middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // Serve back static files
 app.use(express.static('./server/public'));
