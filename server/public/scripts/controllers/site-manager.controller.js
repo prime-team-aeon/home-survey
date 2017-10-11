@@ -19,6 +19,8 @@ myApp.controller('SiteManagerController', ['SiteManagerService', 'UserService', 
 
     self.propertyList = SiteManagerService.propertyList;
 
+    self.properties = SiteManagerService.properties;
+
     // magic numbers for building the year selector
     const START_YEAR = 2015;
     const NUM_FUTURE_YEARS = 1;
@@ -47,6 +49,11 @@ myApp.controller('SiteManagerController', ['SiteManagerService', 'UserService', 
     self.getProperty = function(property, year) {        
         SiteManagerService.getProperty(property.property, year);   
     }
+
+    // Called from a checkbox on the /admin-properties page. Sends unit occupied status update to the admin service
+    self.updateOccupied = function (property) {        
+        SiteManagerService.updateOccupied(property);
+    }
     
     //--------------------------------------
     //-------------RUN TIME CODE----------------
@@ -56,6 +63,8 @@ myApp.controller('SiteManagerController', ['SiteManagerService', 'UserService', 
     for (i = START_YEAR; i < (self.thisYear + NUM_FUTURE_YEARS); i++) {
         self.yearsArray.push(i);
     }
+
+    self.yearsArray = self.yearsArray.reverse();
 
     SiteManagerService.getPropertyList();
     

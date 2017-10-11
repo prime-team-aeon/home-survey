@@ -79,7 +79,7 @@ router.put('/updatePaid', function (req, res) {
                     console.log('Error connecting to database', errDatabase);
                     res.sendStatus(500);
                 } else {
-                    client.query('UPDATE occupancy SET paid=$1 WHERE id=$2;', [
+                    client.query('UPDATE occupancy SET paid=$1 WHERE id=$2 RETURNING *;', [
                         req.body.paid,
                         req.body.id
                     ],
@@ -89,7 +89,7 @@ router.put('/updatePaid', function (req, res) {
                                 console.log('Error making database query', errQuery);
                                 res.sendStatus(500);
                             } else {
-                                res.sendStatus(201);
+                                res.send(data.rows);
                             }
                         });
                 }

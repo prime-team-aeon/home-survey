@@ -1,4 +1,4 @@
-myApp.service('SiteManagerService', ['$http', function ($http) {
+myApp.service('SiteManagerService', ['$http', '$mdToast', function ($http, $mdToast) {
     var self = this;
 
     self.propertyList = {
@@ -33,7 +33,7 @@ myApp.service('SiteManagerService', ['$http', function ($http) {
                 year: year
             }
         }).then(function (response) {
-            console.log('yaaaaay', response.data);
+            self.properties.list = response.data;
         })
     };
 
@@ -60,9 +60,20 @@ myApp.service('SiteManagerService', ['$http', function ($http) {
             url: '/site-manager/updatePaid',
             data: property
         }).then(function (response) {
-            self.getUserProperties();
+            self.getProperty(response.data[0].property, response.data[0].year);
         })
 
+    }
+
+    // PUT request to update the occupied status of a unit 
+    self.updateOccupied = function (property) {        
+        $http({
+            method: 'PUT',
+            url: '/admin/updateOccupied',
+            data: property
+        }).then(function (response) {
+            self.getProperty(response.data[0].property, response.data[0].year);
+        })
     }
 
 }]);
