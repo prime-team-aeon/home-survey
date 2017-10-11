@@ -1,19 +1,12 @@
-<div layout="row" class="header-survey-container">
-    <div class="span text-center">
+<div layout="row" class="header-survey-container" layout-align="space-between center">
+    <div flex>
         <div id="headerImage">
-            <img src="../../assets/Website-logo-transparent.png" alt="Aeon logo" style="height: 100px; width: 200px;">
+            <img src="../../assets/Website-logo-transparent.png" alt="Aeon logo">
         </div>
     </div>
-
-    <div class="span text-center">
+    <div flex>
         <md-button class="md-raised md-" id="instructionsButton" ng-click="sc.help()">{{sc.surveyObject.instructions}}</md-button>
-    </div>
-
-
-    <div class="span text-center">
         <md-button class="md-raised md-" id="logout-button" md-nav-item ng-click="sc.UserService.logout()" name="logout">{{sc.surveyObject.logout}}</md-button>
     </div>
-
-
 
 </div>
