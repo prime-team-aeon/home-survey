@@ -79,9 +79,9 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     self.buildChart = function (chartTarget, chartType) {
 
         console.log('buildChart', chartType);
-        
+        self.destroyAllCharts();
 
-        if (chartType === 'gender') {
+        if (chartType === 'Gender') {
             self.genderData = [0, 0, 0, 0];
             self.genderStrings = [];
 
@@ -109,21 +109,23 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             var genderPieChart = new Chart(chartTarget, {
                 type: 'pie',
                 data: {
-                    labels: ["Male", "Female", "Self-Identify"],
+                    labels: ["No Response", "Male", "Female", "Self-Identify"],
                     datasets: [{
                         label: 'Gender',
                         data: self.genderData,
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)'
+                            '#aaaaaa',
+                            '#c8e6c9',
+                            '#a5d6a7',
+                            '#81c784',
                         ],
                         borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)'
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
                         ],
-                        borderWidth: 1
+                        borderWidth: 2
                     }]
                 },
                 options: {
@@ -133,7 +135,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
             self.chartsArray.push(genderPieChart);            
 
-        } else if (chartType === 'howLong') {
+        } else if (chartType === 'How Long') {
             self.howLongData = [0, 0, 0, 0, 0, 0];
 
             for (var i = 0; i < self.gottenData.list.length; i++) {
@@ -148,7 +150,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             var howLongPieChart = new Chart(chartTarget, {
                 type: 'pie',
                 data: {
-                    labels: ["1-3 Months", "4-11 Months", "1-3 Years", "3-5 Years", "5+ Years"],
+                    labels: ["No Response", "1-3 Months", "4-11 Months", "1-3 Years", "3-5 Years", "5+ Years"],
                     datasets: [{
                         label: 'How Long Have You Lived Here?',
                         data: self.howLongData,
@@ -178,7 +180,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
             self.chartsArray.push(howLongPieChart);
 
-        } else if (chartType === 'ethnicity') {
+        } else if (chartType === 'Ethnicity') {
             self.ethnicityData = [0, 0, 0, 0, 0, 0, 0, 0];
 
             for (var i = 0; i < self.gottenData.list.length; i++) {
@@ -194,14 +196,14 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             var ethnicityPieChart = new Chart(chartTarget, {
                 type: 'pie',
                 data: {
-                    labels: ["American Indian", "African Immigrant (Somali, Nigerian, Eritrean, other)", "Asian / Pacific Islander", "Black / African American", "Caucasian / White", "Hispanic / Latino", "Other"],
+                    labels: ["No Response", "American Indian", "African Immigrant (Somali, Nigerian, Eritrean, other)", "Asian / Pacific Islander", "Black / African American", "Caucasian / White", "Hispanic / Latino", "Other"],
                     datasets: [{
                         label: 'What Ethnicity Best Describes You?',
                         data: self.ethnicityData,
                         backgroundColor: [
                             '#aaaaaa',
                             '#c8e6c9',
-                            "#a5d6a7",
+                            '#a5d6a7',
                             '#81c784',
                             '#4caf50',
                             '#388e3c',
@@ -228,7 +230,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
             self.chartsArray.push(ethnicityPieChart);
 
-        } else if (chartType === 'age') {
+        } else if (chartType === 'Age') {
             self.ageData = [0, 0, 0, 0, 0, 0, 0];
 
             for (var i = 0; i < self.gottenData.list.length; i++) {
@@ -240,7 +242,44 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     self.ageData[ageAnswer]++;
                 }
             }
-        } else if (chartType === 'income') {
+
+            var agePieChart = new Chart(chartTarget, {
+                type: 'pie',
+                data: {
+                    labels: ["No Response", "Under 18", "18-25", "26-35", "36-45", "46-55", "Over 55"],
+                    datasets: [{
+                        label: 'How Old Are You?',
+                        data: self.ageData,
+                        backgroundColor: [
+                            '#aaaaaa',
+                            '#c8e6c9',
+                            '#a5d6a7',
+                            '#81c784',
+                            '#4caf50',
+                            '#388e3c',
+                            '#1b5e20'
+                        ],
+                        borderColor: [
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+
+                }
+            });
+
+            self.chartsArray.push(agePieChart);
+
+        } else if (chartType === 'Income') {
             self.incomeData = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
             for (var i = 0; i < self.gottenData.list.length; i++) {

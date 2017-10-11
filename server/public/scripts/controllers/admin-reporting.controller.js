@@ -14,7 +14,8 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
     self.calcList = [
         "Gender",
         "How Long",
-        "Ethnicity"
+        "Ethnicity",
+        "Age"
     ]
 
     self.chartData = AdminService.chartData; // actual data is in .list property, which is an array of objects
@@ -110,30 +111,34 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
             self.propertiesToGet = AdminService.propertyList.list;
         }
 
-        switch (calc) {
-            case "Gender":
-                domElement = context; // where we're going to build the chart
+        domElement = context; // where we're going to build the chart
+        AdminService.getData(self.yearToGet, self.propertiesToGet, calc, domElement);
 
-                AdminService.getData(self.yearToGet, self.propertiesToGet, 'gender', domElement);
-                // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
-                break;
-            case "How Long":
-                domElement = context; // where we're going to build the chart
+        
+        // switch (calc) {
+        //     case "Gender":
+        //         domElement = context; // where we're going to build the chart
 
-                AdminService.getData(self.yearToGet, self.propertiesToGet, 'howLong', domElement);
-                // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
-                break;
+        //         AdminService.getData(self.yearToGet, self.propertiesToGet, 'gender', domElement);
+        //         // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
+        //         break;
+        //     case "How Long":
+        //         domElement = context; // where we're going to build the chart
 
-            case "Ethnicity":
-                domElement = context; // where we're going to build the chart
+        //         AdminService.getData(self.yearToGet, self.propertiesToGet, 'howLong', domElement);
+        //         // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
+        //         break;
 
-                AdminService.getData(self.yearToGet, self.propertiesToGet, 'ethnicity', domElement);
-                // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
-                break;
+        //     case "Ethnicity":
+        //         domElement = context; // where we're going to build the chart
 
-            default:
-                console.log('arc.runCalc NYI');
-        }
+        //         AdminService.getData(self.yearToGet, self.propertiesToGet, 'ethnicity', domElement);
+        //         // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
+        //         break;
+
+        //     default:
+        //         console.log('arc.runCalc NYI');
+        // }
 
 
 
