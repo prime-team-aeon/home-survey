@@ -32,7 +32,8 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     self.propertyList = AdminService.propertyList; // list of unique properties in .list
 
-    var ctx = document.getElementById("myChart").getContext("2d");
+    canvas = document.getElementById("myChart");
+    context = document.getElementById("myChart").getContext("2d");
 
 
 
@@ -80,6 +81,19 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         self.propertiesToGet.splice(index, 1);
     }
 
+    // download the current chart as a png
+    self.downloadChart = function() {
+        var datastream = canvas.toDataURL('image/png');
+        /* Change MIME type to trick the browser to downlaod the file instead of displaying it */
+        datastream = datastream.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
+      
+        /* In addition to <a>'s "download" attribute, we define HTTP-style headers */
+        datastream = datastream.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Chart.png');
+
+        window.open(datastream);
+      
+        // this.href = dt;
+      };
 
     // Toggle Sidenav
     self.openLeftMenu = function () {
@@ -97,7 +111,8 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
         switch (calc) {
             case "Demographics Report":
-                domElement = ctx; // where we're going to build the chart
+                domElement = context; // where we're going to build the chart
+
                 AdminService.getData(self.yearToGet, self.propertiesToGet, 'demographics', domElement);
                 // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
                 break;

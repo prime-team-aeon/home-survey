@@ -10,7 +10,7 @@
   </div>
 </md-toolbar>
 
-<div layout="row" >
+<div layout="row" class="full-height">
 
   <div ng-include="'views/partials/sidenav.html'"></div>
 
@@ -23,11 +23,6 @@
     </md-input-container>
 
     <div id="admin-reporting-propselect-container" layout="column" layout-align="start center">
-      <!-- <md-input-container>
-        <md-select placeholder="" ng-model="newProperty" ng-change="arc.addProperty(newProperty)">
-          <md-option ng-repeat="property in arc.propertyList.list">{{property}}</md-option>
-        </md-select>
-      </md-input-container> -->
 
       <md-input-container>
         <label>Choose Property</label>
@@ -55,10 +50,12 @@
       </md-select>
     </md-input-container>
 
-    <md-button class="md-primary md-raised" ng-click="arc.runCalc(arc.calculation)">Chart!</md-button>
+    <md-button class="md-primary md-raised" ng-click="arc.runCalc(arc.calculation)">Create Chart</md-button>
 
-    <md-button class="md-warn md-raised" ng-click="arc.clearCalc()">Clear</md-button>
+    <md-button class="md-accent" ng-click="arc.downloadChart()">Download Chart</md-button>
     
+    <md-button class="md-warn" ng-click="arc.clearCalc()">Clear</md-button>
+
   </div>
 
   <div id="admin-reporting-values-container" layout="column" layout-align="start start" layout-margin>
@@ -89,11 +86,7 @@
     </div>
   </div>
 
-  <div class="chart-container" layout="row" layout-margin>
+  <div class="chart-container" layout="column" layout-margin>
     <canvas id="myChart" width="400" height="400"></canvas>
   </div>
-</div>
-
-<div class="canvas-container">
-
 </div>
