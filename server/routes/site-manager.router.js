@@ -4,8 +4,9 @@ var passport = require('passport');
 var path = require('path');
 var pool = require('../modules/pool.js');
 
-// GET list of user's property
-router.get('/getProperties', function (req, res) {
+// GET list of all properties the site manager is authorized for
+router.get('/propertyList',
+ function (req, res) {   
 
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator' || req.user.role == 'Site Manager') {
@@ -15,7 +16,7 @@ router.get('/getProperties', function (req, res) {
                     res.sendStatus(500);
                 } else {
                     //query
-                    client.query('SELECT * FROM occupancy JOIN occupancy_users ON occupancy.property = occupancy_users.occupancy_property WHERE user_id=$1 ORDER BY occupancy.property, occupancy.unit;', [req.user.id], function (err, data) {
+                    client.query('SELECT DISTINCT occupancy.property FROM occupancy JOIN occupancy_users ON occupancy.property = occupancy_users.occupancy_property WHERE occupancy_users.user_id=$1 ORDER BY occupancy.property;', [req.user.id], function (err, data) {
                         done();
                         if (err) {
                             console.log('query error', err);
@@ -35,8 +36,9 @@ router.get('/getProperties', function (req, res) {
     }
 
 });
-// GET list of all properties
-router.get('/getProperties', function (req, res) {
+
+// GET list of propert and units for which the site manager selects
+router.get('/getProperty', function (req, res) {    
 
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator' || req.user.role == 'Site Manager') {
@@ -46,7 +48,7 @@ router.get('/getProperties', function (req, res) {
                     res.sendStatus(500);
                 } else {
                     //query
-                    client.query('SELECT * FROM occupancy JOIN occupancy_users ON occupancy.property = occupancy_users.occupancy_property WHERE user_id=$1 ORDER BY occupancy.property, occupancy.unit;', [req.user.id], function (err, data) {
+                    client.query('SELECT * FROM occupancy JOIN occupancy_users ON occupancy.property = occupancy_users.occupancy_property WHERE occupancy_users.user_id=$1 AND occupancy.property=$2 AND occupancy.year=$3 ORDER BY occupancy.property, occupancy.unit;', [req.user.id, req.query.property, req.query.year], function (err, data) {
                         done();
                         if (err) {
                             console.log('query error', err);

@@ -3,34 +3,60 @@
 <div layout="row" layout-padding layout-margin>
     <div flex>
         <h1>Site Manager</h1>
-        <md-input-container>
-            <label>Select a Property</label>
-            <md-select ng-model="smc.SiteManagerService.selectedProperty" placeholder="Select a Property" ng-change="smc.getResponseRate(smc.SiteManagerService.selectedProperty)">
-                <md-option ng-value="property" ng-repeat="property in smc.SiteManagerService.selectProperties">{{ property }}</md-option>
-            </md-select>
-        </md-input-container>
+        <div layout="row">
+            <div flex>
+                <h3>Select a Property</h3>
+                <md-input-container>
+                    <label>Select a Property</label>
+                    <md-select ng-model="smc.selectedProperty">
+                        <md-option ng-value="property" ng-repeat="property in smc.propertyList.list">{{ property.property }}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container>
+                    <label>Select a Year</label>
+                    <md-select ng-model="smc.selectedYear">
+                        <md-option ng-value="year" ng-repeat="year in smc.yearsArray">{{ year }}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-button class="md-raised md-primary" ng-click="smc.getProperty(smc.selectedProperty, smc.selectedYear)">Submit</md-button>
+            </div>
+        </div>
         <div ng-if="smc.SiteManagerService.selectedProperty">
             <h2>{{smc.SiteManagerService.selectedProperty}}</h2>
             <div class="response-rate-container">
-                <h2>Response Rate: <span class="response-rate" ng-class="{'redText': smc.responseRate.rate < 50, 'yellowText': (smc.responseRate.rate >= 50) && (smc.responseRate.rate < 70), 'greenText': (smc.responseRate.rate >= 70)}">{{smc.responseRate.rate}}%</span></h2>
+                <h2>Response Rate:
+                    <span class="response-rate" ng-class="{'redText': smc.responseRate.rate < 50, 'yellowText': (smc.responseRate.rate >= 50) && (smc.responseRate.rate < 70), 'greenText': (smc.responseRate.rate >= 70)}">{{smc.responseRate.rate}}%</span>
+                </h2>
             </div>
-
-            <div layout="row">
-                <div flex="25">
-                    <h3>Unit #</p>
-                </div>
-                <div flex="25">
-                    <h3>Responded?</p>
-                </div>
-                <div flex="25">
-                    <h3>Property Occupied?</p>
-                </div>
-                <div flex="25">
-                    <h3>Paid?</h3>
-                </div>
-            </div>
-            <md-divider></md-divider>
-            <div layout="row" ng-repeat="property in smc.SiteManagerService.properties.list | filter: smc.SiteManagerService.selectedProperty"
+            <md-table-container>
+                <table md-table multiple ng-model="apc.selectedProperty">
+                    <thead md-head md-order="apc.orderByColumn">
+                        <tr md-row>
+                            <th md-column md-order-by="unit">Unit</th>
+                            <th md-column md-order-by="occupied">Occupied</th>
+                            <th md-column></th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row md-select="property" md-select-id="property" md-auto-select ng-repeat="property in apc.selectedEditProperty.list | orderBy: apc.orderByColumn"
+                            aria-label="users">
+                            <td md-cell>{{property.unit}}</td>
+                            <td md-cell>
+                                <md-checkbox ng-model="property.occupied" ng-change="apc.AdminService.updateOccupied(property)" aria-label="Occupied">
+                                    <span ng-if="property.occupied">Occupied</span>
+                                    <span ng-if="!property.occupied">Unoccupied</span>
+                                </md-checkbox>
+                            </td>
+                            <td md-cell>
+                                <md-button class="md-icon-button" ng-click="apc.AdminService.deleteUnit(property.id)">
+                                    <i class="material-icons">delete</i>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <!-- <div layout="row" ng-repeat="property in smc.SiteManagerService.properties.list | filter: smc.SiteManagerService.selectedProperty"
                 ng-class-odd="'striped'">
                 <div flex="25">
                     <p>{{property.unit}}</p>
@@ -46,7 +72,7 @@
                         <md-checkbox ng-model="property.paid" ng-change="smc.SiteManagerService.updatePaid(property)" aria-label="paid"></md-checkbox>
                     </p>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
