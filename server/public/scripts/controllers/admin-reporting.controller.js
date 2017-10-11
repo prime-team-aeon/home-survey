@@ -17,7 +17,9 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         "Ethnicity",
         "Age",
         "Income"
-    ]
+    ];
+
+    self.yearToGet = thisYear;
 
     self.chartData = AdminService.chartData; // actual data is in .list property, which is an array of objects
 
@@ -31,7 +33,10 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         self.yearsArray.push(i);
     }
 
+    self.yearToGet = thisYear;
+    
     self.propertiesToGet = [];
+    self.selectAllProperties = true;
 
     self.propertyList = AdminService.propertyList; // list of unique properties in .list
 
