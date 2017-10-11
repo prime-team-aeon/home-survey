@@ -133,7 +133,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 }
             });
 
-            self.chartsArray.push(genderPieChart);            
+            self.chartsArray.push(genderPieChart);
 
         } else if (chartType === 'How Long') {
             self.howLongData = [0, 0, 0, 0, 0, 0];
@@ -332,10 +332,178 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
             self.chartsArray.push(incomePieChart);
 
-        } else if(chartType === 'HOME Score'){
-            
-        }
+        } else if (chartType === 'Scores') {
 
+            /* SCORE DEFINITIONS
+
+                Engagement = average of questions 5-13
+                Safety = average of questions 1-4
+                Ownership = average of questions 14-15, 20
+                Staff Performance = average of questions 16-18
+                Home Score = average of Safety, Engagement, and Ownership
+
+            */
+
+            // engagement, safety, ownership, staff performance, home
+            self.scoreData = [0, 0, 0, 0, 0]; // holds the actual data for the chart. eventually.
+            var scoreTotals = [
+                [0, 0],
+                [0, 0],
+                [0, 0],
+                [0, 0],
+            ]; //[total points, #of responses]
+
+            var engagementResult = 0;
+            var engagementTotal = 0;
+
+            for (var i = 0; i < self.gottenData.list.length; i++) {
+
+                // Engagement = average of questions 5-13
+
+                let engagementAnswers = [
+                    self.gottenData.list[i].answer5,
+                    self.gottenData.list[i].answer6,
+                    self.gottenData.list[i].answer7,
+                    self.gottenData.list[i].answer8,
+                    self.gottenData.list[i].answer9,
+                    self.gottenData.list[i].answer10,
+                    self.gottenData.list[i].answer11,
+                    self.gottenData.list[i].answer12,
+                    self.gottenData.list[i].answer13
+                ]
+
+                for (let j = 0; j < engagementAnswers.length; j++) {
+                    if (engagementAnswers[j]) {
+                        scoreTotals[0][0] += engagementAnswers[j];
+                        scoreTotals[0][1]++;
+                    }
+                }
+
+                // Safety = average of questions 1-4
+
+                let safetyAnswers = [
+                    self.gottenData.list[i].answer1,
+                    self.gottenData.list[i].answer2,
+                    self.gottenData.list[i].answer3,
+                    self.gottenData.list[i].answer4
+                ]
+
+                for (let j = 0; j < safetyAnswers.length; j++) {
+                    if (safetyAnswers[j]) {
+                        scoreTotals[1][0] += safetyAnswers[j];
+                        scoreTotals[1][1]++;
+                    }
+                }
+
+                // Ownership = average of questions 14-15, 20
+
+                let ownershipAnswers = [
+                    self.gottenData.list[i].answer14,
+                    self.gottenData.list[i].answer15,
+                    self.gottenData.list[i].answer20
+                ]
+
+                for (let j = 0; j < ownershipAnswers.length; j++) {
+                    if (ownershipAnswers[j]) {
+                        scoreTotals[2][0] += ownershipAnswers[j];
+                        scoreTotals[2][1]++;
+                    }
+                }
+
+                // Staff Performance = average of questions 16-18
+
+                let staffAnswers = [
+                    self.gottenData.list[i].answer16,
+                    self.gottenData.list[i].answer17,
+                    self.gottenData.list[i].answer18
+                ]
+
+                for (let j = 0; j < staffAnswers.length; j++) {
+                    if (staffAnswers[j]) {
+                        scoreTotals[3][0] += staffAnswers[j];
+                        scoreTotals[3][1]++;
+                    }
+                }
+            }
+
+            /* so now scoreTotals looks like this:
+               
+                [[engagementTotalPoints, engagementResponses],
+                [safetyTotalPoints, safetyResponses],
+                [ownershipTotalPoints, ownershipResponses],
+                [staffTotalPoints, staffResponses],
+
+                note: homeScore will be calculated and added directly to the scoreData array
+            */
+
+            // finally actually put the averages in the display array
+            // we're also going to be sneaky and calculate homeScore at the same time
+
+            let positiveScores = 0;
+
+            for (let j = 0; j< scoreTotals.length; j++){
+                if(scoreTotals[j][1] > 0){
+                    // non-zero divisor
+                    self.scoreData[j] = scoreTotals[j][0] / scoreTotals[j][1];
+                    positiveScores++;
+                    self.scoreData[self.scoreData.length-1] += self.scoreData[j];
+                } // else it remains 0
+            }
+
+            /* so scoreData is now:
+
+                [engagementAverage,
+                safetyAverage,
+                ownershipAverage,
+                staffAverage,
+                homeScoreTotal]
+
+                next: divide homeScore by the number of non-zero averages
+
+            */
+
+            // Home Score = average of Safety, Engagement, and Ownership
+
+            if(positiveScores > 0){
+                self.scoreData[self.scoreData.length-1] = self.scoreData[self.scoreData.length-1] / positiveScores;
+            }
+
+            // VICTORY! (hopefully)
+
+            console.log('scoreData',self.scoreData);
+            
+            var scorePieChart = new Chart(chartTarget, {
+                type: 'bar',
+                data: {
+                    labels: ["Engagement", "Safety", "Ownership", "Staff Performance", "Home Score"],
+                    datasets: [{
+                        label: 'Scores',
+                        data: self.scoreData,
+                        backgroundColor: [
+                            '#c8e6c9',
+                            '#a5d6a7',
+                            '#66bb6a',
+                            '#388e3c',
+                            '#003300'
+                        ],
+                        borderColor: [
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+
+                }
+            });
+
+            self.chartsArray.push(scorePieChart);
+
+        }
     }
 
 

@@ -12,6 +12,7 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     // List of calculations we support for reporting
     self.calcList = [
+        "Scores",
         "Gender",
         "How Long",
         "Ethnicity",
