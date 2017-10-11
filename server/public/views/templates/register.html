@@ -8,7 +8,7 @@
       </div>
     </md-toolbar>
     <md-card-content>
-      <form name="Form">
+      <form name="Form" ng-submit="lc.registerUser()">
         <md-input-container class="md-block">
           <label>Login</label>
           <input type="text" name="email" ng-model="lc.user.username" placeholder="register using your aeonmn.org email address" required="" />
@@ -23,8 +23,8 @@
             <div ng-message="required" class="my-message">Please enter a password.</div>
           </div>
         </md-input-container>
-        <md-button ng-disabled="!Form.$valid" ng-click="lc.registerUser()" class="md-raised md-primary" a href="#home">Register</md-button>
-        <md-button ng-click="lc.cancelToast($event)" class="md-raised md-primary" a href="#home">Cancel</a>
+        <md-button ng-disabled="!Form.$valid" type="submit" class="md-raised md-primary">Register</md-button>
+        <md-button ng-click="lc.cancelToast($event)" type="button" class="" a href="#home">Cancel</a>
         </md-button>
       </form>
     </md-card-content>
