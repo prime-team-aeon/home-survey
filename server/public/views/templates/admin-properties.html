@@ -37,7 +37,7 @@
                     <md-input-container>
                         <label>Select a Property</label>
                         <md-select ng-model="apc.selectedProperty">
-                            <md-option ng-value="property" ng-repeat="property in apc.AdminService.propertyList.list">{{ property }}</md-option>
+                            <md-option ng-value="property" ng-repeat="property in apc.AdminService.propertyList.list | orderBy: property">{{ property }}</md-option>
                         </md-select>
                     </md-input-container>
                     <md-input-container>
@@ -66,7 +66,7 @@
                                     aria-label="users">
                                     <td md-cell>{{property.unit}}</td>
                                     <td md-cell>
-                                        <md-checkbox ng-model="property.occupied" ng-change="apc.AdminService.updateOccupied(property)" aria-label="Occupied"><span ng-if="property.occupied">Occupied</span><span ng-if="!property.occupied">Unoccupied</span></md-checkbox>
+                                        <md-checkbox ng-model="property.occupied" ng-change="apc.AdminService.updateOccupied(property)" aria-label="Occupied"></md-checkbox>
                                     </td>
                                     <td md-cell>
                                         <md-button class="md-icon-button" ng-click="apc.AdminService.deleteUnit(property.id)">
