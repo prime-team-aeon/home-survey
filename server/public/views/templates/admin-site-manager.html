@@ -23,7 +23,7 @@
                     <md-input-container>
                         <label>Select a Property</label>
                         <md-select ng-model="ac.selectedProperty">
-                            <md-option ng-value="property" ng-repeat="property in ac.AdminService.propertyList.list">{{ property }}</md-option>
+                            <md-option ng-value="property" ng-repeat="property in ac.AdminService.propertyList.list | orderBy: property">{{ property }}</md-option>
                         </md-select>
                     </md-input-container>
 
