@@ -176,13 +176,13 @@ router.delete('/delete-unit', function (req, res) {
 // Update unit occupied status. called from admin-properties view
 router.put('/updateOccupied', function (req, res) {
     if (req.isAuthenticated()) {
-        if (req.user.role == 'Administrator') {
+        if (req.user.role == 'Administrator' || req.user.role == 'Site Manager') {
             pool.connect(function (errDatabase, client, done) {
                 if (errDatabase) {
                     console.log('Error connecting to database', errDatabase);
                     res.sendStatus(500);
                 } else {
-                    client.query('UPDATE occupancy SET occupied=$1 WHERE id=$2;', [
+                    client.query('UPDATE occupancy SET occupied=$1 WHERE id=$2 RETURNING *;', [
                             req.body.occupied,
                             req.body.id
                         ],
@@ -192,7 +192,7 @@ router.put('/updateOccupied', function (req, res) {
                                 console.log('Error making database query', errQuery);
                                 res.sendStatus(500);
                             } else {
-                                res.sendStatus(201);
+                                res.send(data.rows)
                             }
                         });
                 }

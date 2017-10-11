@@ -22,7 +22,7 @@ myApp.controller('AdminPropertiesController', ['AdminService', 'UserService', '$
     self.thisYear = now.getFullYear();
 
     self.yearsArray = [];
-    self.yearToAdd = self.thisYear;
+    self.selectedYear = self.thisYear;
 
     //--------------------------------------
     //-------------FUNCTIONS----------------
