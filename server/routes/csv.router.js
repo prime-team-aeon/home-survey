@@ -31,10 +31,10 @@ router.post('/upload/:year', function (req, res) {
                 var unitsArray = req.body.data;
                 console.log('unitsArray[3]', unitsArray[3]);
                 
-                var queryString = 'INSERT INTO occupancy (property, unit, occupied, year) VALUES (';
+                var queryString = 'INSERT INTO occupancy (property, occupied, unit, year) VALUES (';
 
                 // SQL query looks like:
-                // INSERT INTO occupancy (property, unit, occupied, year) VALUES ($1, $2, $3, $4), ($5,$6,$7,$8), [...];
+                // INSERT INTO occupancy (property, occupied, unit, year) VALUES ($1, $2, $3, $4), ($5,$6,$7,$8), [...];
 
                 var explodedArray = [];
 

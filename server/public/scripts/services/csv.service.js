@@ -71,9 +71,17 @@ myApp.service('CsvService', function ($http, $location, $mdToast) {
       
       // scrub the data
       for (var j = 0; j < parsed.data[i].length; j++) {
-        parsed.data[i][j] = parsed.data[i][j].replace(/(?!\w|\s|-)./g, '') // remove all non-alphanumeric characters except whitespace, -, and _
+        if(j===1){
+          if(parsed.data[i][j].search('Occupied') >= 0){
+            parsed.data[i][j] = true;
+          } else{
+            parsed.data[i][j] = false;
+          }
+        } else {
+          parsed.data[i][j] = parsed.data[i][j].replace(/(?!\w|\s|-)./g, '') // remove all non-alphanumeric characters except whitespace, -, and _
           .replace(/\s+/g, ' ') // replace all multiple-whitespace patterns with a single space
           .replace(/^(\s*)([\W\w]*)(\b\s*$)/g, '$2'); // remove all trailing and leading whitespace
+        }
       }
 
       // add the passed-in year to the data row
