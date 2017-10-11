@@ -15,7 +15,8 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         "Gender",
         "How Long",
         "Ethnicity",
-        "Age"
+        "Age",
+        "Income"
     ]
 
     self.chartData = AdminService.chartData; // actual data is in .list property, which is an array of objects

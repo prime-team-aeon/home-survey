@@ -292,6 +292,48 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     self.incomeData[incomeAnswer]++;
                 }
             }
+
+            var incomePieChart = new Chart(chartTarget, {
+                type: 'pie',
+                data: {
+                    labels: ["No Response", "Less than $800/mo. (Less than $9,600/yr.)", "$801 - 1,300/mo. ($9601 - 15,600/yr.)", "$1,301 - 1,800/mo. ($15,601 - 21,600/yr.)", "$1,801 - 2,300/mo. ($21,601 - 27,600/yr.)", "$2,301 - 2,800/mo. ($27,601 - 33,600/yr.)", "$2,801 - 3,300/mo. ($33,601 - 39,600/yr.)", "$3,301 - 3,800/mo. ($39,601 - 45,600/yr.)", "More than $3,800/mo. (More than 45,600/yr.)"],
+                    datasets: [{
+                        label: 'What Is Your Income Level?',
+                        data: self.incomeData,
+                        backgroundColor: [
+                            '#aaaaaa',
+                            '#c8e6c9',
+                            '#a5d6a7',
+                            '#81c784',
+                            '#66bb6a',
+                            '#4caf50',
+                            '#388e3c',
+                            '#1b5e20',
+                            '#003300'
+                        ],
+                        borderColor: [
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+
+                }
+            });
+
+            self.chartsArray.push(incomePieChart);
+
+        } else if(chartType === 'HOME Score'){
+            
         }
 
     }
