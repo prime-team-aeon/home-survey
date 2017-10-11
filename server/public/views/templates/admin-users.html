@@ -3,7 +3,7 @@
         <md-button class="md-icon-button" ng-click="ac.openLeftMenu()" hide-gt-sm>
             <i class="material-icons">menu</i>
         </md-button>
-        <h2 md-truncate flex>Aeon Home Survey</h2>
+        <h2 md-truncate flex>Aeon Home Survey Administration</h2>
         <md-button ng-click="ac.UserService.logout()">
             Logout
         </md-button>
@@ -18,7 +18,7 @@
         <div layout="column">
             <div layout="row" ng-show="!ac.selectedSiteManager">
                 <div flex="75">
-                    <h1>User Management</h1>
+                    <h2 class="md-display-1">Admin | User Management</h2>
                 </div>
                 <div flex="25">
                     <md-input-container>
@@ -76,7 +76,8 @@
 
             <!-- Site Manager admin -->
             <div ng-repeat="user in ac.AdminService.users.list" ng-if="user.role == 'Site Manager' && user.username == ac.selectedSiteManager">
-                <md-button ng-click="ac.selectedSiteManager = ''">Go Back to All Users</md-button>
+                <md-button class="md-raised" ng-click="ac.selectedSiteManager = ''">Go Back to All Users</md-button>
+                <h2 class="md-display-1">Admin | Site Manager User</h2>
                 <h1>Site Manager: {{user.username}}</h1>
                 <md-input-container>
                     <label>Authorize Property</label>

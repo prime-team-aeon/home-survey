@@ -17,6 +17,7 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
 
   self.yearsArray = [];
   self.yearToAdd = self.thisYear;
+  self.selectedYear = self.thisYear;
   self.validInput = false;
 
   self.questions = CsvService.questions;
