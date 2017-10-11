@@ -75,20 +75,16 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         }
     }
 
-    // takes a DOM HTML5 <canvas> element and builds a chart in it based on the chartType data that's in self.gottenData
-    self.buildDemographicsChart = function (chartTarget, chartType) {
-        self.howLongData = [0, 0, 0, 0, 0, 0];
+    // takes a DOM HTML5 <canvas> element and builds a chart in it based on the chartType data and what's in self.gottenData
+    self.buildChart = function (chartTarget, chartType) {
 
-        self.ethnicityData = [0, 0, 0, 0, 0, 0, 0, 0];
+        console.log('buildChart', chartType);
+        
 
-        self.genderData = [0, 0, 0, 0];
-        self.genderStrings = [];
+        if (chartType === 'gender') {
+            self.genderData = [0, 0, 0, 0];
+            self.genderStrings = [];
 
-        self.ageData = [0, 0, 0, 0, 0, 0, 0];
-
-        self.incomeData = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-
-        if (chartType = 'gender') {
             for (var i = 0; i < self.gottenData.list.length; i++) {
 
                 let genderAnswer = self.gottenData.list[i].answer25;
@@ -131,24 +127,60 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     }]
                 },
                 options: {
-    
+
                 }
             });
-    
-        }
 
-        else if (chartType = 'howLong') {
+            self.chartsArray.push(genderPieChart);            
+
+        } else if (chartType === 'howLong') {
+            self.howLongData = [0, 0, 0, 0, 0, 0];
+
             for (var i = 0; i < self.gottenData.list.length; i++) {
                 let howLongAnswer = self.gottenData.list[i].answer23;
                 if ((howLongAnswer == undefined) || (howLongAnswer == null)) {
                     self.howLongData[0]++;
                 } else {
                     self.howLongData[howLongAnswer]++;
-                }    
+                }
             }
-        }
 
-        else if (chartType = 'ethnicity') {
+            var howLongPieChart = new Chart(chartTarget, {
+                type: 'pie',
+                data: {
+                    labels: ["1-3 Months", "4-11 Months", "1-3 Years", "3-5 Years", "5+ Years"],
+                    datasets: [{
+                        label: 'How Long Have You Lived Here?',
+                        data: self.howLongData,
+                        backgroundColor: [
+                            '#aaaaaa',
+                            '#c8e6c9',
+                            '#81c784',
+                            '#4caf50',
+                            '#388e3c',
+                            '#1b5e20',
+                        ],
+                        borderColor: [
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+
+                }
+            });
+
+            self.chartsArray.push(howLongPieChart);
+
+        } else if (chartType === 'ethnicity') {
+            self.ethnicityData = [0, 0, 0, 0, 0, 0, 0, 0];
+
             for (var i = 0; i < self.gottenData.list.length; i++) {
                 let ethnicityAnswer = self.gottenData.list[i].answer24;
 
@@ -156,38 +188,73 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     self.ethnicityData[0]++;
                 } else {
                     self.ethnicityData[ethnicityAnswer]++;
-                }    
+                }
+            }
+
+            var ethnicityPieChart = new Chart(chartTarget, {
+                type: 'pie',
+                data: {
+                    labels: ["American Indian", "African Immigrant (Somali, Nigerian, Eritrean, other)", "Asian / Pacific Islander", "Black / African American", "Caucasian / White", "Hispanic / Latino", "Other"],
+                    datasets: [{
+                        label: 'What Ethnicity Best Describes You?',
+                        data: self.ethnicityData,
+                        backgroundColor: [
+                            '#aaaaaa',
+                            '#c8e6c9',
+                            "#a5d6a7",
+                            '#81c784',
+                            '#4caf50',
+                            '#388e3c',
+                            '#1b5e20',
+                            '#003300'
+                        ],
+                        borderColor: [
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300',
+                            '#003300'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+
+                }
+            });
+
+            self.chartsArray.push(ethnicityPieChart);
+
+        } else if (chartType === 'age') {
+            self.ageData = [0, 0, 0, 0, 0, 0, 0];
+
+            for (var i = 0; i < self.gottenData.list.length; i++) {
+                let ageAnswer = self.gottenData.list[i].answer26;
+
+                if ((ageAnswer == undefined) || (ageAnswer == null)) {
+                    self.ageData[0]++;
+                } else {
+                    self.ageData[ageAnswer]++;
+                }
+            }
+        } else if (chartType === 'income') {
+            self.incomeData = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+            for (var i = 0; i < self.gottenData.list.length; i++) {
+
+                let incomeAnswer = self.gottenData.list[i].answer26;
+
+                if ((incomeAnswer == undefined) || (incomeAnswer == null)) {
+                    self.incomeData[0]++;
+                } else {
+                    self.incomeData[incomeAnswer]++;
+                }
             }
         }
 
-        else if (chartType = 'age') {
-            let ageAnswer = self.gottenData.list[i].answer26;
-
-            if ((ageAnswer == undefined) || (ageAnswer == null)) {
-                self.ageData[0]++;
-            } else {
-                self.ageData[ageAnswer]++;
-            }            
-        }
-
-        else if (chartType = 'income') {
-            let incomeAnswer = self.gottenData.list[i].answer26;
-            
-            if ((incomeAnswer == undefined) || (incomeAnswer == null)) {
-                self.incomeData[0]++;
-            } else {
-                self.incomeData[incomeAnswer]++;
-            }
-        }
-
-        for (var i = 0; i < self.gottenData.list.length; i++) {
-
-
-
-        } // end for loop going through surveys
-
-
-        self.chartsArray.push(genderPieChart);
     }
 
 
@@ -314,15 +381,19 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             console.log('self.gottenData.list', self.gottenData.list);
 
             // now we actually build the chart
+            self.buildChart(domElement, chartFunction);
 
-            switch (chartFunction) {
-                case 'gender':
-                    self.buildDemographicsChart(domElement, 'gender');
-                    break;
-                default:
-                    console.log('admin service buildChart got bad callback:', chartFunction);
-                    return;
-            }
+            // switch (chartFunction) {
+            //     case 'gender':
+            //         self.buildDemographicsChart(domElement, 'gender');
+            //         break;
+            //     case 'howLong':
+            //         self.buildDemographicsChart(domElement, 'howLong');
+            //         break;
+            //     default:
+            //         console.log('admin service buildChart got bad callback:', chartFunction);
+            //         return;
+            // }
 
         })
     }

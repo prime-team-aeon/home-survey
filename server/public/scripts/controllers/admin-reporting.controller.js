@@ -12,8 +12,9 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     // List of calculations we support for reporting
     self.calcList = [
-        "Demographics Report",
-        "Basic Questions"
+        "Gender",
+        "How Long",
+        "Ethnicity"
     ]
 
     self.chartData = AdminService.chartData; // actual data is in .list property, which is an array of objects
@@ -65,13 +66,13 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         }
     }
 
-    self.clearCalc = function(){
+    self.clearCalc = function () {
         self.yearToGet = null;
         self.propertiesToGet = [];
         self.selectAllProperties = false;
         self.calculation = null;
         AdminService.destroyAllCharts();
-        
+
     }
 
     // remove property from list of properties to get from db
@@ -82,18 +83,18 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
     }
 
     // download the current chart as a png
-    self.downloadChart = function() {
+    self.downloadChart = function () {
         var datastream = canvas.toDataURL('image/png');
         /* Change MIME type to trick the browser to downlaod the file instead of displaying it */
         datastream = datastream.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
-      
+
         /* In addition to <a>'s "download" attribute, we define HTTP-style headers */
         datastream = datastream.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Chart.png');
 
         window.open(datastream);
-      
+
         // this.href = dt;
-      };
+    };
 
     // Toggle Sidenav
     self.openLeftMenu = function () {
@@ -104,18 +105,32 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
     self.runCalc = function (calc) {
         console.log('arc.runCalc', calc);
 
-        if(self.selectAllProperties){
+        if (self.selectAllProperties) {
             // "All" is one of the selected properties, which supercedes anything else
             self.propertiesToGet = AdminService.propertyList.list;
         }
 
         switch (calc) {
-            case "Demographics Report":
+            case "Gender":
                 domElement = context; // where we're going to build the chart
 
-                AdminService.getData(self.yearToGet, self.propertiesToGet, 'demographics', domElement);
+                AdminService.getData(self.yearToGet, self.propertiesToGet, 'gender', domElement);
                 // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
                 break;
+            case "How Long":
+                domElement = context; // where we're going to build the chart
+
+                AdminService.getData(self.yearToGet, self.propertiesToGet, 'howLong', domElement);
+                // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
+                break;
+
+            case "Ethnicity":
+                domElement = context; // where we're going to build the chart
+
+                AdminService.getData(self.yearToGet, self.propertiesToGet, 'ethnicity', domElement);
+                // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
+                break;
+
             default:
                 console.log('arc.runCalc NYI');
         }
@@ -147,50 +162,50 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
 
 
-    // // build test chart
-    // self.chartTest = function () {
-    //     console.log('arc.chartTest()');
+// // build test chart
+// self.chartTest = function () {
+//     console.log('arc.chartTest()');
 
-    //     AdminService.buildTestChart();
+//     AdminService.buildTestChart();
 
-    //     console.log('arc.chartData.list', self.chartData.list);
-    //     var myChart = new Chart(ctx, {
-    //         type: 'bar',
-    //         data: {
-    //             labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-    //             datasets: [{
-    //                 label: '# of Votes',
-    //                 data: self.chartData.list,
-    //                 backgroundColor: [
-    //                     'rgba(255, 99, 132, 0.2)',
-    //                     'rgba(54, 162, 235, 0.2)',
-    //                     'rgba(255, 206, 86, 0.2)',
-    //                     'rgba(75, 192, 192, 0.2)',
-    //                     'rgba(153, 102, 255, 0.2)',
-    //                     'rgba(255, 159, 64, 0.2)'
-    //                 ],
-    //                 borderColor: [
-    //                     'rgba(255,99,132,1)',
-    //                     'rgba(54, 162, 235, 1)',
-    //                     'rgba(255, 206, 86, 1)',
-    //                     'rgba(75, 192, 192, 1)',
-    //                     'rgba(153, 102, 255, 1)',
-    //                     'rgba(255, 159, 64, 1)'
-    //                 ],
-    //                 borderWidth: 1
-    //             }]
-    //         },
-    //         options: {
-    //             scales: {
-    //                 yAxes: [{
-    //                     ticks: {
-    //                         beginAtZero: true
-    //                     }
-    //                 }]
-    //             }
-    //         }
-    //     });
+//     console.log('arc.chartData.list', self.chartData.list);
+//     var myChart = new Chart(ctx, {
+//         type: 'bar',
+//         data: {
+//             labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+//             datasets: [{
+//                 label: '# of Votes',
+//                 data: self.chartData.list,
+//                 backgroundColor: [
+//                     'rgba(255, 99, 132, 0.2)',
+//                     'rgba(54, 162, 235, 0.2)',
+//                     'rgba(255, 206, 86, 0.2)',
+//                     'rgba(75, 192, 192, 0.2)',
+//                     'rgba(153, 102, 255, 0.2)',
+//                     'rgba(255, 159, 64, 0.2)'
+//                 ],
+//                 borderColor: [
+//                     'rgba(255,99,132,1)',
+//                     'rgba(54, 162, 235, 1)',
+//                     'rgba(255, 206, 86, 1)',
+//                     'rgba(75, 192, 192, 1)',
+//                     'rgba(153, 102, 255, 1)',
+//                     'rgba(255, 159, 64, 1)'
+//                 ],
+//                 borderWidth: 1
+//             }]
+//         },
+//         options: {
+//             scales: {
+//                 yAxes: [{
+//                     ticks: {
+//                         beginAtZero: true
+//                     }
+//                 }]
+//             }
+//         }
+//     });
 
-    // }
+// }
 
-    // self.getData([2017, 2018], ['1822 Park', 'The Jourdain']);
+// self.getData([2017, 2018], ['1822 Park', 'The Jourdain']);
