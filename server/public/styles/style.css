@@ -65,7 +65,6 @@
     }
 
     #logout-button {
-        float: right;
         padding:10px;
         margin-top:25px;
         margin-left:40px;
@@ -74,12 +73,7 @@
 
         
     }
-    #logout-button-nav{
-     float: right;
-        padding:10px;
-        margin-left:40px;
-        font-size: 150%;   
-    }
+   
     #instructionsButton{
     padding:10px;
     margin-top:25px;
@@ -243,4 +237,16 @@
     #admin-reporting-propselect-container{
         border: 2px solid green;
         border-radius: 10px;
+    }
+
+    .redText{
+        color:#690707
+    }
+
+    .yellowText{
+        color: #BD9F1B
+    }
+
+    .greenText{
+        color: #0B7A0B
     }
