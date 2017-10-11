@@ -6,7 +6,9 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     var self = this;
 
-    self.responseRate = {rate: 0}; // holds the response rate retrieved from the db
+    self.responseRate = {
+        rate: 0
+    }; // holds the response rate retrieved from the db
     self.allProperties = {}; // holds all unit/property combos    
     self.newProperty = {}; // data bound to the property and input fields in the Add New Property section
     self.users = {
@@ -57,8 +59,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             }).then(function (response) {
                 $mdToast.show(
                     $mdToast.simple()
-                        .textContent('Property has been added.')
-                        .hideDelay(2000)
+                    .textContent('Property has been added.')
+                    .hideDelay(2000)
                 );
                 self.newProperty = {}; // sets new property and unit input boxes to empty
                 self.getProperties(); // reload all properties to include the new property and unit
@@ -67,14 +69,14 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         } else {
             $mdToast.show(
                 $mdToast.simple()
-                    .textContent('Please enter in both a property name')
-                    .hideDelay(2000)
+                .textContent('Please enter in both a property name')
+                .hideDelay(2000)
             );
         }
     }
 
-    // takes a DOM HTML5 <canvas> element and builds a chart in it based on the data that's in self.gottenData
-    self.buildDemographicsChart = function (chartTarget) {
+    // takes a DOM HTML5 <canvas> element and builds a chart in it based on the chartType data that's in self.gottenData
+    self.buildDemographicsChart = function (chartTarget, chartType) {
         self.howLongData = [0, 0, 0, 0, 0, 0];
 
         self.ethnicityData = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -86,80 +88,104 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
         self.incomeData = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-        for (var i = 0; i < self.gottenData.list.length; i++) {
-            let howLongAnswer = self.gottenData.list[i].answer23;
-            let ethnicityAnswer = self.gottenData.list[i].answer24;
-            let genderAnswer = self.gottenData.list[i].answer25;
+        if (chartType = 'gender') {
+            for (var i = 0; i < self.gottenData.list.length; i++) {
+
+                let genderAnswer = self.gottenData.list[i].answer25;
+
+                switch (genderAnswer) {
+                    // 1,2,3 (string),null, 
+                    case '1':
+                        self.genderData[1]++;
+                        break;
+                    case '2':
+                        self.genderData[2]++;
+                        break;
+                    case '3':
+                        self.genderData[3]++;
+                        self.genderStrings.push(genderAnswer);
+                        break;
+                    default:
+                        self.genderData[0]++;
+                }
+            }
+
+            var genderPieChart = new Chart(chartTarget, {
+                type: 'pie',
+                data: {
+                    labels: ["Male", "Female", "Self-Identify"],
+                    datasets: [{
+                        label: 'Gender',
+                        data: self.genderData,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+    
+                }
+            });
+    
+        }
+
+        else if (chartType = 'howLong') {
+            for (var i = 0; i < self.gottenData.list.length; i++) {
+                let howLongAnswer = self.gottenData.list[i].answer23;
+                if ((howLongAnswer == undefined) || (howLongAnswer == null)) {
+                    self.howLongData[0]++;
+                } else {
+                    self.howLongData[howLongAnswer]++;
+                }    
+            }
+        }
+
+        else if (chartType = 'ethnicity') {
+            for (var i = 0; i < self.gottenData.list.length; i++) {
+                let ethnicityAnswer = self.gottenData.list[i].answer24;
+
+                if ((ethnicityAnswer == undefined) || (ethnicityAnswer == null)) {
+                    self.ethnicityData[0]++;
+                } else {
+                    self.ethnicityData[ethnicityAnswer]++;
+                }    
+            }
+        }
+
+        else if (chartType = 'age') {
             let ageAnswer = self.gottenData.list[i].answer26;
-            let incomeAnswer = self.gottenData.list[i].answer26;
-
-            if ((howLongAnswer == undefined) || (howLongAnswer == null)) {
-                self.howLongData[0]++;
-            } else {
-                self.howLongData[howLongAnswer]++;
-            }
-
-            if ((ethnicityAnswer == undefined) || (ethnicityAnswer == null)) {
-                self.ethnicityData[0]++;
-            } else {
-                self.ethnicityData[ethnicityAnswer]++;
-            }
-
-            switch (genderAnswer) {
-                // 1,2,3 (string),null, 
-                case '1':
-                    self.genderData[1]++;
-                    break;
-                case '2':
-                    self.genderData[2]++;
-                    break;
-                case '3':
-                    self.genderData[3]++;
-                    self.genderStrings.push(genderAnswer);
-                    break;
-                default:
-                    self.genderData[0]++;
-            }
 
             if ((ageAnswer == undefined) || (ageAnswer == null)) {
                 self.ageData[0]++;
             } else {
                 self.ageData[ageAnswer]++;
-            }
+            }            
+        }
 
-
+        else if (chartType = 'income') {
+            let incomeAnswer = self.gottenData.list[i].answer26;
+            
             if ((incomeAnswer == undefined) || (incomeAnswer == null)) {
                 self.incomeData[0]++;
             } else {
                 self.incomeData[incomeAnswer]++;
             }
+        }
+
+        for (var i = 0; i < self.gottenData.list.length; i++) {
+
+
 
         } // end for loop going through surveys
 
-        var genderPieChart = new Chart(chartTarget, {
-            type: 'pie',
-            data: {
-                labels: ["Male", "Female", "Self-Identify"],
-                datasets: [{
-                    label: 'Gender',
-                    data: self.genderData,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-
-            }
-        });
 
         self.chartsArray.push(genderPieChart);
     }
@@ -177,8 +203,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
         }).then(function (response) {
             $mdToast.show(
                 $mdToast.simple()
-                    .textContent('Unit has been deleted.')
-                    .hideDelay(2000)
+                .textContent('Unit has been deleted.')
+                .hideDelay(2000)
             );
             self.getProperties();
             self.getSelectedEditProperty(self.selectedEditProperty.list[0].property, self.selectedEditProperty.list[0].year);
@@ -193,14 +219,14 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             if (response.status == 200) {
                 $mdToast.show(
                     $mdToast.simple()
-                        .textContent('User deleted.')
-                        .hideDelay(2000)
+                    .textContent('User deleted.')
+                    .hideDelay(2000)
                 );
             } else {
                 $mdToast.show(
                     $mdToast.simple()
-                        .textContent('Deletion unsuccessful.')
-                        .hideDelay(2000)
+                    .textContent('Deletion unsuccessful.')
+                    .hideDelay(2000)
                 );
             }
             self.getUsers(); // get a fresh list of users
@@ -229,10 +255,10 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     // takes an array of properties, or the string 'all', and returns the response rate for that dataset
     self.getResponseRate = function (properties) {
         $http.get('/admin/responses', {
-            params: {
-                properties: properties
-            }
-        })
+                params: {
+                    properties: properties
+                }
+            })
             .then(function (response) {
                 self.responseRate.rate = +response.data;
                 self.responseRate.rate = self.responseRate.rate.toFixed(4);
@@ -290,8 +316,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             // now we actually build the chart
 
             switch (chartFunction) {
-                case 'demographics':
-                    self.buildDemographicsChart(domElement);
+                case 'gender':
+                    self.buildDemographicsChart(domElement, 'gender');
                     break;
                 default:
                     console.log('admin service buildChart got bad callback:', chartFunction);
