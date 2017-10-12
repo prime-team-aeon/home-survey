@@ -10,7 +10,12 @@
   </div>
 </md-toolbar>
 
-<div layout="row" class="full-height">
+<div layout="column" class="full-height">
+
+  <div layout="row" layout-align="space-around center" layout-padding class="response-rate-container">
+    <h2>Overall Response Rate: <span class="response-rate" ng-class="{'redText': ac.responseRate.rate < 50, 'yellowText': (ac.responseRate.rate >= 50) && (ac.responseRate.rate < 70), 'greenText': (ac.responseRate.rate >= 70)}">{{ac.responseRate.rate}}%</span></h2>
+  </div>
+
 
   <div ng-include="'views/partials/sidenav.html'"></div>
 
@@ -53,7 +58,7 @@
     <md-button class="md-primary md-raised" ng-click="arc.runCalc(arc.calculation)">Create Chart</md-button>
 
     <md-button class="md-accent" ng-click="arc.downloadChart()">Download Chart</md-button>
-    
+
     <md-button class="md-warn" ng-click="arc.clearCalc()">Clear</md-button>
 
   </div>

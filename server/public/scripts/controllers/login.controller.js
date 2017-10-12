@@ -29,7 +29,7 @@ myApp.controller('LoginController', function ($http, $location, UserService, $md
           // location works with SPA (ng-route)
           //cascading ifs for each user role using else ifs
           if (vm.user.role == 'Administrator') {
-            $location.path('/admin'); // http://localhost:5000/#/admin
+            $location.path('/admin-reporting'); // http://localhost:5000/#/admin
           } else if (vm.user.role == 'Site Manager') {
             $location.path('/site-manager'); // http://localhost:5000/#/site-manager
           } else if (vm.user.role === 'Resident') {
