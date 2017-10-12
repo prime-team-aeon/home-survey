@@ -64,11 +64,13 @@ body {
 
 #logout-button {
     padding: 5px 10px;
+    font-size: 120%;
 }
 
 #instructionsButton {
     padding: 5px 10px;
     background-color: #d8e6c9;
+    font-size: 120%;
 }
 
 
