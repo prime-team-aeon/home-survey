@@ -3,6 +3,10 @@ body {
     z-index: 0;
 }
 
+.aeon-logo-bg {
+    background: url(../assets/tree-bg.png) no-repeat 50% 20%;
+}
+
 .material-icons.md-dark {
     color: rgba(0, 0, 0, 0.54);
 }
@@ -28,8 +32,6 @@ body {
 }
 
 .survey-language-langbtn-container {
-    /* margin-top: 15vw;
-        margin-bottom: 15vw; */
     height: 50vh;
     width: 35vw;
 }
@@ -143,7 +145,6 @@ md-list {
 }
 
 .header-survey-container {
-    max-height: 120px;
     border-bottom: #d8e6c9 solid 3px;
 }
 
