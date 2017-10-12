@@ -35,13 +35,17 @@ myApp.controller('LoginController', function ($http, $location, UserService, $md
           } else if (vm.user.role === 'Resident') {
             $location.path('/survey-language'); // http://localhost:5000/#/survey-language
           } else {
-            console.log('Warning! User has no role.', response);
-          }
+            $mdToast.show(
+              $mdToast.simple()
+                .textContent("Unauthorized - Please contact an administrator to authorize you as a Site Manager or Administrator.")
+                .position('top right')
+            );//end of $mdToast
+              }
         }
       }).catch(function (response) {
         $mdToast.show(
           $mdToast.simple()
-            .textContent("Unauthorized - You must be confirmed by an administrator to log in.")
+            .textContent("Unauthorized - Invalid username/password, or your account may not have been authorized by an administrator yet.")
             .position('top right')
         );//end of $mdToast
       });
