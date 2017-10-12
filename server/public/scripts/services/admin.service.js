@@ -595,8 +595,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             })
             .then(function (response) {
                 self.responseRate.rate = +response.data;
-                self.responseRate.rate = self.responseRate.rate.toFixed(4);
                 self.responseRate.rate = self.responseRate.rate * 100;
+                self.responseRate.rate = self.responseRate.rate.toFixed(2);
                 console.log('responseRate.rate', self.responseRate.rate);
 
             });

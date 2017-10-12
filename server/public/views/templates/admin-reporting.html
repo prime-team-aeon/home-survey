@@ -10,88 +10,96 @@
   </div>
 </md-toolbar>
 
-<div layout="column" class="full-height">
-
-  <div layout="row" layout-align="space-around center" layout-padding class="response-rate-container">
-    <h2>Overall Response Rate: <span class="response-rate" ng-class="{'redText': ac.responseRate.rate < 50, 'yellowText': (ac.responseRate.rate >= 50) && (ac.responseRate.rate < 70), 'greenText': (ac.responseRate.rate >= 70)}">{{ac.responseRate.rate}}%</span></h2>
-  </div>
-
+<div layout="row" class="full-height">
 
   <div ng-include="'views/partials/sidenav.html'"></div>
 
-  <div id="admin-reporting-controls" layout="column" layout-align="start center" layout-margin>
+  <div id="admin-column-wrapper" class="full-width" layout="column" layout-align="start center">
 
-    <md-input-container>
-      <md-select placeholder="Choose Year" ng-model="arc.yearToGet">
-        <md-option ng-repeat="year in arc.yearsArray">{{year}}</md-option>
-      </md-select>
-    </md-input-container>
+    <div layout="row" layout-align="start start" layout-padding class="response-rate-container">
+      <h2>Overall Response Rate: <span class="response-rate" ng-class="{'redText': arc.responseRate.rate < 50, 'yellowText': (arc.responseRate.rate >= 50) && (arc.responseRate.rate < 70), 'greenText': (arc.responseRate.rate >= 70)}">{{arc.responseRate.rate}}%</span></h2>
+    </div>
 
-    <div id="admin-reporting-propselect-container" layout="column" layout-align="start center">
-
+    <div id="admin-reporting-controls-container" layout="row" layout-padding layout-margin layout-align="start start">
       <md-input-container>
-        <label>Choose Property</label>
-        <form ng-submit="$event.preventDefault()">
-          <md-autocomplete md-selected-item="arc.typedProperty" md-selected-item-change="arc.addProperty(arc.typedProperty);" md-search-text-change="arc.searchTextChange(arc.searchText)"
-            md-search-text="arc.searchText" md-selected-item-change="arc.selectedItemChange(property)" md-items="property in arc.propertyList.list | filter: arc.searchText"
-            md-item-text="item" md-min-length="0">
-            <md-item-template>
-              <span md-highlight-text="arc.searchText" md-highlight-flags="^i">{{property}}</span>
-            </md-item-template>
-            <md-not-found>
-              No properties matching "{{arc.searchText}}" were found.
-            </md-not-found>
-          </md-autocomplete>
-        </form>
+        <md-select placeholder="Choose Year" ng-model="arc.yearToGet">
+          <md-option ng-repeat="year in arc.yearsArray">{{year}}</md-option>
+        </md-select>
       </md-input-container>
 
-      <md-button class="md-raised" ng-click="arc.selectAllProperties = !arc.selectAllProperties" ng-class="{'md-accent': arc.selectAllProperties}">Select All Properties</md-button>
+      <div id="admin-reporting-year-control" layout="column" layout-align="start start" layout-margin>
+        <md-input-container>
+          <label>Choose Property</label>
+          <form ng-submit="$event.preventDefault()">
+            <md-autocomplete md-selected-item="arc.typedProperty" md-selected-item-change="arc.addProperty(arc.typedProperty);" md-search-text-change="arc.searchTextChange(arc.searchText)"
+              md-search-text="arc.searchText" md-selected-item-change="arc.selectedItemChange(property)" md-items="property in arc.propertyList.list | filter: arc.searchText"
+              md-item-text="item" md-min-length="0">
+              <md-item-template>
+                <span md-highlight-text="arc.searchText" md-highlight-flags="^i">{{property}}</span>
+              </md-item-template>
+              <md-not-found>
+                No properties matching "{{arc.searchText}}" were found.
+              </md-not-found>
+            </md-autocomplete>
+          </form>
+        </md-input-container>
+
+        <md-button class="md-raised" ng-click="arc.selectAllProperties = !arc.selectAllProperties" ng-class="{'md-accent': arc.selectAllProperties}">Toggle All Properties</md-button>
+      </div>
+
+      <md-input-container>
+        <label>Choose Calculation</label>
+        <md-select ng-model="arc.calculation">
+          <md-option ng-repeat="calc in arc.calcList">{{calc}}</md-option>
+        </md-select>
+      </md-input-container>
+
     </div>
 
-    <md-input-container>
-      <label>Choose Calculation</label>
-      <md-select ng-model="arc.calculation">
-        <md-option ng-repeat="calc in arc.calcList">{{calc}}</md-option>
-      </md-select>
-    </md-input-container>
+    <div id="admin-reporting-buttons-container" layout="row" layout-align="space-around center" layout-padding layout-margin>
 
-    <md-button class="md-primary md-raised" ng-click="arc.runCalc(arc.calculation)">Create Chart</md-button>
+      <md-button id="admin-reporting-create-button" class="md-primary md-raised" ng-click="arc.runCalc(arc.calculation)">Create Chart</md-button>
 
-    <md-button class="md-accent" ng-click="arc.downloadChart()">Download Chart</md-button>
+      <md-button id="admin-reporting-download-button" class="md-primary" ng-click="arc.downloadChart()">Download Chart</md-button>
 
-    <md-button class="md-warn" ng-click="arc.clearCalc()">Clear</md-button>
+      <md-button id="admin-reporting-clear-button" class="md-warn" ng-click="arc.clearCalc()">Clear</md-button>
 
-  </div>
-
-  <div id="admin-reporting-values-container" layout="column" layout-align="start start" layout-margin>
-    <div id="admin-reporting-properties">
-      <h3>Year:</h3>
-      <span>{{arc.yearToGet}}</span>
     </div>
 
-    <div id="admin-reporting-properties" ng-show="!arc.selectAllProperties">
-      <h3>Properties:</h3>
+    <div id="admin-reporting-values-container" layout="row" layout-align="start start" layout-margin>
 
-      <div class="admin-reporting-property" ng-repeat="property in arc.propertiesToGet">
-        <span>{{property}}</span>
-        <md-button class="md-warn" ng-click="arc.deleteProperty(property)">
-          Remove
-        </md-button>
+      <div id="admin-reporting-properties">
+        <h3>Year:</h3>
+        <span>{{arc.yearToGet}}</span>
+      </div>
+
+      <div id="admin-reporting-properties" ng-show="!arc.selectAllProperties">
+
+        <h3>Properties:</h3>
+
+        <div class="admin-reporting-property" ng-repeat="property in arc.propertiesToGet">
+          <span>{{property}}</span>
+          <md-button class="md-warn" ng-click="arc.deleteProperty(property)">
+            Remove
+          </md-button>
+        </div>
+
+      </div>
+
+      <div id="admin-reporting-all-properties" ng-show="arc.selectAllProperties">
+        <h3>Properties</h3>
+        <span>All</span>
+      </div>
+
+      <div id="admin-reporting-calc-container" layout="column" layout-align="start start">
+        <h3>Calculation:</h3>
+        <span>{{arc.calculation}}</span>
       </div>
     </div>
 
-    <div id="admin-reporting-all-properties" ng-show="arc.selectAllProperties">
-      <h3>Properties</h3>
-      <span>All</span>
+    <div class="chart-container">
+      <canvas id="myChart" width="400" height="400"></canvas>
     </div>
 
-    <div id="admin-reporting-calc-container" layout="column" layout-align="start start">
-      <h3>Calculation:</h3>
-      <span>{{arc.calculation}}</span>
-    </div>
-  </div>
-
-  <div class="chart-container" layout="column" layout-margin>
-    <canvas id="myChart" width="400" height="400"></canvas>
   </div>
 </div>

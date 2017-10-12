@@ -43,6 +43,8 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     canvas = document.getElementById("myChart");
     context = document.getElementById("myChart").getContext("2d");
+    context.canvas.width = 300;
+    context.canvas.height = 300;
 
 
 
@@ -79,8 +81,6 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         self.propertiesToGet = [];
         self.selectAllProperties = false;
         self.calculation = null;
-        AdminService.destroyAllCharts();
-
     }
 
     // remove property from list of properties to get from db
@@ -121,34 +121,9 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         domElement = context; // where we're going to build the chart
         AdminService.getData(self.yearToGet, self.propertiesToGet, calc, domElement);
 
-        
-        // switch (calc) {
-        //     case "Gender":
-        //         domElement = context; // where we're going to build the chart
-
-        //         AdminService.getData(self.yearToGet, self.propertiesToGet, 'gender', domElement);
-        //         // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
-        //         break;
-        //     case "How Long":
-        //         domElement = context; // where we're going to build the chart
-
-        //         AdminService.getData(self.yearToGet, self.propertiesToGet, 'howLong', domElement);
-        //         // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
-        //         break;
-
-        //     case "Ethnicity":
-        //         domElement = context; // where we're going to build the chart
-
-        //         AdminService.getData(self.yearToGet, self.propertiesToGet, 'ethnicity', domElement);
-        //         // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
-        //         break;
-
-        //     default:
-        //         console.log('arc.runCalc NYI');
-        // }
-
-
-
+        context.canvas.width = 300;
+        context.canvas.height = 300;
+    
     }
 
 
@@ -159,6 +134,7 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
     //--------------------------------------
 
     AdminService.getResponseRate(['all']);
+    self.responseRate = AdminService.responseRate;
     
 
 }]);

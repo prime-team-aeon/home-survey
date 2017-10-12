@@ -212,3 +212,33 @@ table.md-table td.md-cell {
 .greenText {
     color: #0B7A0B;
 }
+
+#admin-reporting-controls-container{
+    height: 130px !important;
+}
+
+.chart-container{
+    width: 450px;
+    height: 450px;
+    margin: 40px;
+}
+
+.full-width{
+    width: 100%;
+}
+
+#admin-reporting-controls-container{
+    margin-bottom: 60px;
+
+}
+
+#admin-reporting-buttons-container{
+
+}
+#admin-reporting-create-button{
+
+}
+
+#admin-reporting-download-button{
+}
+
