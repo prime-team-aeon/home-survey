@@ -1,12 +1,19 @@
 <header ng-include="'/views/partials/header-login.html'"></header>
 
-<div id="bg" alt=""><img src="../../assets/tree-transparent-opacity30-800w.png" alt="Smiley face" height="42" width="42"></div>
-<div id="thankyou-message">
-    <p>{{sc.surveyObject.thanks}}</p>
-    <p>{{sc.surveyObject.requestresults}}</p>
+<div id="bg" alt="">
+    <img src="../../assets/tree-transparent-opacity30-800w.png" alt="Smiley face" height="42" width="42">
 </div>
 
-<div layout="row" layout-align="space-around">
-    <div class="cancelbtn-container" layout-align="space-around-center">
-        <md-button class="cancelbtn md-raised" ng-click='sc.cancelSurvey(false)'>{{sc.surveyObject.begin}}</md-button>
+<div layout="column">
+    <div layout="row" layout-align="center center">
+        <div id="thankyou-message" flex-gt-xs="80" flex-offsetgt-xs="10">
+            <p>{{sc.surveyObject.thanks}}</p>
+            <p>{{sc.surveyObject.requestresults}}</p>
+        </div>
     </div>
+    <div layout="row" layout-align="center" layout-padding>
+        <div class="cancelbtn-container">
+            <md-button class="cancelbtn md-raised" ng-click='sc.cancelSurvey(false)'>{{sc.surveyObject.begin}}</md-button>
+        </div>
+    </div>
+</div>

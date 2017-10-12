@@ -3,47 +3,43 @@
     <img src="../../assets/tree-transparent-opacity30-800w.png" alt="Aeon Tree Img" height="42" width="42">
 </div>
 
-<div class="container" layout="row" layout-align="space-around center">
-    <div class="progressbar">
-
-        <i class="material-icons md-48">looks_one</i>
-        <i class="material-icons md-48">looks_two</i>
-        <i class="material-icons md-48">looks_3</i>
-        <i class="material-icons md-48">looks_4</i>
-        <i class="material-icons md-48 inactive">looks_5</i>
+<div layout="column">
+    <div layout="row" layout-align="center">
+        <div class="progressbar">
+            <i class="material-icons md-48">looks_one</i>
+            <i class="material-icons md-48">looks_two</i>
+            <i class="material-icons md-48">looks_3</i>
+            <i class="material-icons md-48">looks_4</i>
+            <i class="material-icons md-48 inactive">looks_5</i>
+        </div>
     </div>
-</div>
-
-<div layout="column" layout-align="center center">
-
-
-    <section class="survey-question">
-        <p>21. {{sc.surveyObject[21]}}</p>
-
-        <md-input-container class="md-block" flex>
-            <label>{{sc.surveyObject.writeanswer}}</label>
-            <input id="question-21-input" type="text" ng-model="sc.surveyAnswers.list[20].answer">
-        </md-input-container>
-    </section>
-
-    <section class="survey-question">
-        <p>22. {{sc.surveyObject[22]}}</p>
-
-        <md-input-container class="md-block" flex>
-            <label>{{sc.surveyObject.writeanswer}}</label>
-            <input id="question-22-input" type="text" ng-model="sc.surveyAnswers.list[21].answer">
-        </md-input-container>
-    </section>
-</div>
-
-<div layout="row" layout-align="space-around">
-    <div layout="column" class="cancelbtn-container" layout-align="space-around-center">
-        <md-button class="cancelbtn md-raised" ng-click='sc.cancelSurvey()'>{{sc.surveyObject.cancel}}</md-button>
+    <div layout="row" layout-align="center">
+        <section class="survey-question" style="min-width: 500px;">
+            <p>21. {{sc.surveyObject[21]}}</p>
+            <md-input-container class="md-block">
+                <label>{{sc.surveyObject.writeanswer}}</label>
+                <input id="question-21-input" type="text" ng-model="sc.surveyAnswers.list[20].answer">
+            </md-input-container>
+        </section>
     </div>
+    <div layout="row" layout-align="center">
+        <section class="survey-question" style="min-width: 500px;">
+            <p>22. {{sc.surveyObject[22]}}</p>
 
-    <div>
-        <md-button id="goBackButton" class="md-raised md" ng-click='sc.go("/survey-q3")'>{{sc.surveyObject.goback}}</md-button>
-        <md-button class="md-raised md-primary" ng-click='sc.go("/survey-demographics")'>{{sc.surveyObject.next}}</md-button>
+            <md-input-container class="md-block">
+                <label>{{sc.surveyObject.writeanswer}}</label>
+                <input id="question-22-input" type="text" ng-model="sc.surveyAnswers.list[21].answer">
+            </md-input-container>
+        </section>
     </div>
+    <div layout="row" layout-align="center" layout-padding layout-margin>
+        <div class="cancelbtn-container" style="margin-right: 150px;">
+            <md-button class="cancelbtn md-raised" ng-click='sc.cancelSurvey()'>{{sc.surveyObject.cancel}}</md-button>
+        </div>
 
+        <div>
+            <md-button id="goBackButton" class="md-raised" ng-click='sc.go("/survey-q3")'>{{sc.surveyObject.goback}}</md-button>
+            <md-button class="md-raised md-primary" ng-click='sc.go("/survey-demographics")'>{{sc.surveyObject.next}}</md-button>
+        </div>
+    </div>
 </div>
