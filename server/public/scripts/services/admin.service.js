@@ -373,7 +373,25 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                 ]
 
                 for (let j = 0; j < engagementAnswers.length; j++) {
+                    // question 8 is reversed; 1 is a positive response
                     if (engagementAnswers[j]) {
+                        if (j === 3) {
+                            switch (engagementAnswers[j]) {
+                                case 0:
+                                    engagementAnswers[j] = 4;
+                                    break;
+                                case 1:
+                                    engagementAnswers[j] = 3;
+                                    break;
+                                case 2:
+                                    engagementAnswers[j] = 2;
+                                    break;
+                                case 3:
+                                    engagementAnswers[j] = 1;
+                                    break;
+                            }
+                        }
+                        
                         scoreTotals[0][0] += engagementAnswers[j];
                         scoreTotals[0][1]++;
                     }
@@ -441,12 +459,12 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
             let positiveScores = 0;
 
-            for (let j = 0; j< scoreTotals.length; j++){
-                if(scoreTotals[j][1] > 0){
+            for (let j = 0; j < scoreTotals.length; j++) {
+                if (scoreTotals[j][1] > 0) {
                     // non-zero divisor
                     self.scoreData[j] = scoreTotals[j][0] / scoreTotals[j][1];
                     positiveScores++;
-                    self.scoreData[self.scoreData.length-1] += self.scoreData[j];
+                    self.scoreData[self.scoreData.length - 1] += self.scoreData[j];
                 } // else it remains 0
             }
 
@@ -464,14 +482,14 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
             // Home Score = average of Safety, Engagement, and Ownership
 
-            if(positiveScores > 0){
-                self.scoreData[self.scoreData.length-1] = self.scoreData[self.scoreData.length-1] / positiveScores;
+            if (positiveScores > 0) {
+                self.scoreData[self.scoreData.length - 1] = self.scoreData[self.scoreData.length - 1] / positiveScores;
             }
 
             // VICTORY! (hopefully)
 
-            console.log('scoreData',self.scoreData);
-            
+            console.log('scoreData', self.scoreData);
+
             var scorePieChart = new Chart(chartTarget, {
                 type: 'bar',
                 data: {

@@ -1,8 +1,8 @@
-<div layout="row" class="header-survey-container" layout-align="center center">
+<div layout="row" class="header-survey-container" layout-align="center center" ng-controller="LogoutController as vm">
     <div flex>
         <img id="headerImage" src="../../assets/Website-logo-transparent.png" alt="Aeon logo">
     </div>
     <div flex style="text-align:right;">
-        <md-button class="md-raised" id="logout-button" ng-click="sc.UserService.logout(); smc.logout()">{{sc.surveyObject.logout}}</md-button>
+        <md-button class="md-raised" id="logout-button" ng-click="vm.UserService.logout()">Logout</md-button>
     </div>
 </div>
