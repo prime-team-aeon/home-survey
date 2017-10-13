@@ -19,40 +19,46 @@
 
             <div layout="row">
                 <div flex>
-                    <h2 class="md-display-1">Admin | Edit Properties</h2>
-                    <h3>Add a Property/Unit</h3>
-                    <md-input-container>
-                        <label>Property Name</label>
-                        <input ng-model="apc.AdminService.newProperty.name" type="text">
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Unit Number</label>
-                        <input ng-model="apc.AdminService.newProperty.unit" type="number">
-                    </md-input-container>
-                    <md-button class="md-primary md-raised" ng-click="apc.addNewProperty()">Add Property</md-button>
+                    <h2 class="md-display-1">Admin | Properties</h2>
                 </div>
             </div>
             <div layout="row">
-                <div flex>
-                    <h3>Edit Properties</h3>
-                    <md-input-container>
+                <div flex class="md-whiteframe-4dp" layout-padding layout-margin>
+                    <h3 class="md-headline">Edit a Property</h3>
+                    <md-input-container class="md-block">
                         <label>Select a Property</label>
                         <md-select ng-model="apc.selectedProperty">
                             <md-option ng-value="property" ng-repeat="property in apc.AdminService.propertyList.list | orderBy: property">{{ property }}</md-option>
                         </md-select>
                     </md-input-container>
-                    <md-input-container>
-                        <label>Select a Year</label>
+                    <md-input-container class="md-block">
+                        <label>Select a Survey Year</label>
                         <md-select ng-model="apc.selectedYear">
                             <md-option ng-value="year" ng-repeat="year in apc.yearsArray | orderBy: '-year'">{{ year }}</md-option>
                         </md-select>
                     </md-input-container>
-                    <md-button class="md-raised md-primary" ng-click="apc.getSelectedEditProperty(apc.selectedProperty, apc.selectedYear)">Submit</md-button>
+                    <div layout="row">
+                        <md-button class="md-raised md-primary" ng-click="apc.getSelectedEditProperty(apc.selectedProperty, apc.selectedYear)">View Property</md-button>
+                    </div>
+                </div>
+                <div flex class="md-whiteframe-4dp" layout-padding layout-margin>
+                    <h3 class="md-headline">Add a Property/Unit</h3>
+                    <md-input-container class="md-block">
+                        <label>Property Name</label>
+                        <input ng-model="apc.AdminService.newProperty.name" type="text">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Unit Number</label>
+                        <input ng-model="apc.AdminService.newProperty.unit" type="number">
+                    </md-input-container>
+                    <div layout="row">
+                        <md-button class="md-primary md-raised" ng-click="apc.addNewProperty()">Add Property</md-button>
+                    </div>
                 </div>
             </div>
             <div layout="row" ng-if="apc.selectedEditProperty.list[0]">
-                <div flex>
-                    <h3>{{apc.selectedEditProperty.list[0].property}} ({{apc.selectedEditProperty.list[0].year}})</h3>
+                <div flex class="md-whiteframe-4dp" layout-padding layout-margin>
+                    <h3 class="md-headline">{{apc.selectedEditProperty.list[0].property}} ({{apc.selectedEditProperty.list[0].year}})</h3>
                     <md-table-container>
                         <table md-table multiple ng-model="apc.selectedProperty">
                             <thead md-head md-order="apc.orderByColumn">
