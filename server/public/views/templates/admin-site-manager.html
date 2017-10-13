@@ -20,29 +20,43 @@
             <div layout="row">
                 <div flex>
                     <h2 class="md-display-1">Admin | Site Manager View</h2>
-                    <md-input-container>
+                </div>
+            </div>
+            <div layout="row">
+                <div flex="50" class="md-whiteframe-4dp" layout-padding layout-margin>
+                    <h3 class="md-headline">Select a Property to View</h3>
+                    <md-input-container class="md-block">
                         <label>Select a Property</label>
                         <md-select ng-model="ac.selectedProperty">
                             <md-option ng-value="property" ng-repeat="property in ac.AdminService.propertyList.list | orderBy: property">{{ property }}</md-option>
                         </md-select>
                     </md-input-container>
-
-                    <md-input-container>
-                        <label>Select a Year</label>
+                    <md-input-container class="md-block">
+                        <label>Select the Survey Year</label>
                         <md-select ng-model="ac.selectedYear">
                             <md-option ng-value="year" ng-repeat="year in ac.yearsArray">{{ year }}</md-option>
                         </md-select>
                     </md-input-container>
-                    
-                    <md-button class="md-raised md-primary" ng-click="ac.getSelectedSiteProperty(ac.selectedProperty, ac.selectedYear)">Submit</md-button>
+
+                    <div layout="row">
+                        <div>
+                            <md-button class="md-raised md-primary" ng-click="ac.getSelectedSiteProperty(ac.selectedProperty, ac.selectedYear)">View Property</md-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div layout="row">
+                <div flex>
                     <div class="response-rate-container">
-                        <h2>Response Rate: <span class="response-rate" ng-class="{'redText': ac.responseRate.rate < 50, 'yellowText': (ac.responseRate.rate >= 50) && (ac.responseRate.rate < 70), 'greenText': (ac.responseRate.rate >= 70)}">{{ac.responseRate.rate}}%</span></h2>
+                        <h2>Response Rate:
+                            <span class="response-rate" ng-class="{'redText': ac.responseRate.rate < 50, 'yellowText': (ac.responseRate.rate >= 50) && (ac.responseRate.rate < 70), 'greenText': (ac.responseRate.rate >= 70)}">{{ac.responseRate.rate}}%</span>
+                        </h2>
                     </div>
                 </div>
             </div>
             <div layout="row" ng-if="ac.selectedSiteManagerProperty.list[0].property">
-                <div flex>
-                    <h3>{{ac.selectedSiteManagerProperty.list[0].property}} ({{ac.selectedSiteManagerProperty.list[0].year}})</h3>
+                <div flex class="md-whiteframe-4dp" layout-padding layout-margin>
+                    <h3 class="md-headline">{{ac.selectedSiteManagerProperty.list[0].property}} ({{ac.selectedSiteManagerProperty.list[0].year}})</h3>
                     <md-table-container>
                         <table md-table multiple ng-model="ac.selectedSiteManagerProperty">
                             <thead md-head md-order="ac.mySiteManagerOrder">

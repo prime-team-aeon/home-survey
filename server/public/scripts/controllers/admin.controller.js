@@ -21,13 +21,12 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   self.validInput = false;
 
   self.questions = CsvService.questions;
-  self.propertyList = AdminService.propertyList;  
+  self.propertyList = AdminService.propertyList;
 
   self.selectedSiteManagerProperty = AdminService.selectedSiteManagerProperty;
   self.mySiteManagerOrder = 'unit'; // default site manager property order
 
   self.selectedUser = []; // used for the user md-data-table
-
 
   //--------------------------------------
   //-------------FUNCTIONS----------------
@@ -46,7 +45,7 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
 
     $mdDialog.show(confirm).then(function () {
       AdminService.deleteUser(user.username);
-    }, function () {}); // blank function is to do nothing when 'cancel' is chosen. otherwise md generates console warnings
+    }, function () { }); // blank function is to do nothing when 'cancel' is chosen. otherwise md generates console warnings
   }
 
   // exports all responses for the chosen year to a csv and starts the download
@@ -55,7 +54,7 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   }
 
   // get all occupancy data for the admin site manager page
-  self.getSiteManagerProperties = function() {
+  self.getSiteManagerProperties = function () {
     AdminService.getSiteManagerProperties();
   }
 
@@ -89,17 +88,17 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   // called by the UPLOAD CSV button, sends the chosen file and the year to the service for POSTing to the server. Hides the upload button to avoid weird double-click errors
   self.startUpload = function () {
     var confirm = $mdDialog.confirm()
-    .title('Confirm Upload')
-    .textContent('Uploading data will OVERWRITE the selected year\'s occupancy data. Are you sure?')
-    .ariaLabel('upload confirm dialog')
-    .targetEvent(event)
-    .ok('Overwrite')
-    .cancel('Cancel');
+      .title('Confirm Upload')
+      .textContent('Uploading data will OVERWRITE the selected year\'s occupancy data. Are you sure?')
+      .ariaLabel('upload confirm dialog')
+      .targetEvent(event)
+      .ok('Overwrite')
+      .cancel('Cancel');
 
-  $mdDialog.show(confirm).then(function () {
-    CsvService.uploadCsv(self.userInput, self.yearToAdd);
-    self.validInput = false;
-  }, function () {});
+    $mdDialog.show(confirm).then(function () {
+      CsvService.uploadCsv(self.userInput, self.yearToAdd);
+      self.validInput = false;
+    }, function () { });
 
   }
 
@@ -127,13 +126,13 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
 
     $mdDialog.show(confirm).then(function () {
       CsvService.updateQuestion(question, year);
-    }, function () {});
+    }, function () { });
   }
 
   //--------------------------------------
   //-------------RUNTIME CODE-------------
   //--------------------------------------
-  
+
   // build yearsArray - this is what's shown in the select. Starts at START_YEAR and ends at that plus NUM_FUTURE_YEARS
   for (i = START_YEAR; i < (self.thisYear + NUM_FUTURE_YEARS); i++) {
     self.yearsArray.push(i);
@@ -154,12 +153,12 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
   self.UserService = UserService; // connects admin controller to user service
   self.SiteManagerService = SiteManagerService; // connects admin controller to site manager service
 
-  self.getSelectedSiteProperty = function(selectedProperty, year) {
-    AdminService.getSelectedSiteProperty(selectedProperty, year);  
-    AdminService.getResponseRate([selectedProperty]);    
+  self.getSelectedSiteProperty = function (selectedProperty, year) {
+    AdminService.getSelectedSiteProperty(selectedProperty, year);
+    AdminService.getResponseRate([selectedProperty]);
   }
 
   self.responseRate = AdminService.responseRate;
- 
+
   AdminService.getResponseRate(['all']);
 }]);
