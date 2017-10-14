@@ -36,24 +36,24 @@
           <section id="admin-upload-container">
 
             <!-- <input type="file" id="admin-file-input" name="admin-file-input" accept=".csv"> -->
-            <h3 class="md-headline">Admin | Import Property Data</h3>
-            <md-input-container class="md-block">
+            <h3 class="md-headline">Import Property Data</h3>
+            <md-input-container>
               <label>Select Year to Import</label>
-              <md-select ng-model="ac.yearToAdd">
+              <md-select ng-model="ac.yearToAdd" style="min-width: 200px;">
                 <md-option ng-value="year" ng-repeat="year in ac.yearsArray">{{year}}</md-option>
               </md-select>
             </md-input-container>
-            <label for="admin-file-input" class="md-button md-raised">Choose File To Upload</label>
+            <label for="admin-file-input" class="md-button md-raised md-primary">Choose File To Upload</label>
             <input class="ng-hide" id="admin-file-input" type="file" name="admin-file-input" accept=".csv" /><md-button ng-show="ac.validInput" class="md-raised md-primary" ng-click="ac.startUpload()">Upload</md-button>
-            </md-input-container class="md-block">
+            </md-input-container>
           </section>
         </div>
         <div flex class="md-whiteframe-4dp" layout-padding layout-margin>
           <section id="admin-export-container">
             <h3 class="md-headline">Export Survey Response Data</h3>
-            <md-input-container class="md-block">
-              <label>Survey Response Year to Export</label>
-              <md-select ng-model="ac.yearToAdd">
+            <md-input-container>
+              <label>Select Year to Export</label>
+              <md-select ng-model="ac.yearToAdd" style="min-width: 200px;">
                 <md-option ng-value="year" ng-repeat="year in ac.yearsArray">{{year}}</md-option>
               </md-select>
             </md-input-container class="md-block">

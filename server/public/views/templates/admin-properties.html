@@ -25,15 +25,15 @@
             <div layout="row">
                 <div flex class="md-whiteframe-4dp" layout-padding layout-margin>
                     <h3 class="md-headline">Edit a Property</h3>
-                    <md-input-container class="md-block">
+                    <md-input-container>
                         <label>Select a Property</label>
-                        <md-select ng-model="apc.selectedProperty">
+                        <md-select ng-model="apc.selectedProperty" style="min-width: 200px;">
                             <md-option ng-value="property" ng-repeat="property in apc.AdminService.propertyList.list | orderBy: property">{{ property }}</md-option>
                         </md-select>
                     </md-input-container>
-                    <md-input-container class="md-block">
+                    <md-input-container>
                         <label>Select a Survey Year</label>
-                        <md-select ng-model="apc.selectedYear">
+                        <md-select ng-model="apc.selectedYear" style="min-width: 200px;">
                             <md-option ng-value="year" ng-repeat="year in apc.yearsArray | orderBy: '-year'">{{ year }}</md-option>
                         </md-select>
                     </md-input-container>
@@ -43,11 +43,11 @@
                 </div>
                 <div flex class="md-whiteframe-4dp" layout-padding layout-margin>
                     <h3 class="md-headline">Add a Property/Unit</h3>
-                    <md-input-container class="md-block">
+                    <md-input-container>
                         <label>Property Name</label>
                         <input ng-model="apc.AdminService.newProperty.name" type="text">
                     </md-input-container>
-                    <md-input-container class="md-block">
+                    <md-input-container>
                         <label>Unit Number</label>
                         <input ng-model="apc.AdminService.newProperty.unit" type="number">
                     </md-input-container>
