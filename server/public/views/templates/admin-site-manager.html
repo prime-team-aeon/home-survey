@@ -3,7 +3,7 @@
         <md-button class="md-icon-button" ng-click="ac.openLeftMenu()" hide-gt-sm>
             <i class="material-icons">menu</i>
         </md-button>
-        <h2 md-truncate flex>Aeon Home Survey Admin</h2>
+        <h2 md-truncate flex>Aeon Home Survey Administration</h2>
         <md-button ng-click="ac.UserService.logout()">
             Logout
         </md-button>
@@ -25,15 +25,15 @@
             <div layout="row">
                 <div flex="50" class="md-whiteframe-4dp" layout-padding layout-margin>
                     <h3 class="md-headline">Select a Property to View</h3>
-                    <md-input-container class="md-block">
+                    <md-input-container>
                         <label>Select a Property</label>
-                        <md-select ng-model="ac.selectedProperty">
+                        <md-select ng-model="ac.selectedProperty" style="min-width: 200px;">
                             <md-option ng-value="property" ng-repeat="property in ac.AdminService.propertyList.list | orderBy: property">{{ property }}</md-option>
                         </md-select>
                     </md-input-container>
-                    <md-input-container class="md-block">
+                    <md-input-container>
                         <label>Select the Survey Year</label>
-                        <md-select ng-model="ac.selectedYear">
+                        <md-select ng-model="ac.selectedYear" style="min-width: 200px;">
                             <md-option ng-value="year" ng-repeat="year in ac.yearsArray">{{ year }}</md-option>
                         </md-select>
                     </md-input-container>

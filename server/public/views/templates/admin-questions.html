@@ -17,36 +17,46 @@
 
     <div layout="column">
       <h2 class="md-display-1">Admin | Survey Questions</h2>
-      <p><span>Note:</span> This tool allows you to edit the survey questions. To edit responses, please contact your friendly neighborhood database administrator. </p>
-      <p>This tool will not localize changes made to the English question to any other languages. Make sure to get localized questions from a translator before updating any questions.</p>
+      <p>
+        <span>Note:</span> This tool allows you to edit the survey questions. To edit responses, please contact your friendly neighborhood
+        database administrator. </p>
+      <p>This tool will not localize changes made to the English question to any other languages. Make sure to get localized
+        questions from a translator before updating any questions.</p>
 
       <section id="admin-questions-container">
-        <div ng-repeat="question in ac.questions.list" layout = "row">
-          <md-button type="button" class="md-primary md-raised" ng-click="ac.updateQuestion(question)">Update #{{question.question_number}}</md-button>
-          <md-input-container>
-            <label>English</label>
-            <input ng-model="question.english">
-          </md-input-container>
-          <md-input-container>
-            <label>Spanish</label>
-            <input ng-model="question.spanish">
-          </md-input-container>
-          <md-input-container>
-            <label>Somali</label>
-            <input ng-model="question.somali">
-          </md-input-container>
-          <md-input-container>
-            <label>Hmong</label>
-            <input ng-model="question.hmong">
-          </md-input-container>
+        <div ng-repeat="question in ac.questions.list" layout="row">
+          <div flex layout-padding layout-margin class="md-whiteframe-4dp">
+            <div>
+              <h3 class="md-title" style="margin-top:0;" id="question{{question.question_number}}">Question #{{question.question_number}}</h3>
+            </div>
+            <md-input-container class="md-block">
+              <label>English</label>
+              <input type="textarea" ng-model="question.english">
+            </md-input-container>
+            <md-input-container class="md-block">
+              <label>Spanish</label>
+              <input type="textarea" ng-model="question.spanish">
+            </md-input-container>
+            <md-input-container class="md-block">
+              <label>Somali</label>
+              <input type="textarea" ng-model="question.somali">
+            </md-input-container>
+            <md-input-container class="md-block">
+              <label>Hmong</label>
+              <input type="textarea" ng-model="question.hmong">
+            </md-input-container>
+            <md-input-container id="admin-theme-select">
+              <label>Theme</label>
+              <md-select ng-model="question.theme">
+                <md-option ng-repeat="themeValue in ac.questions.theme" ng-value="themeValue">{{themeValue}} </md-option>
+              </md-select>
+            </md-input-container>
+            <div layout="row">
+              <md-button type="button" class="md-primary md-raised" ng-click="ac.updateQuestion(question)">Update #{{question.question_number}}</md-button>
+            </div>
+          </div>
 
-          <md-input-container id = "admin-theme-select">
-            <label>Theme</label>
-            <md-select ng-model="question.theme">
-              <md-option ng-repeat="themeValue in ac.questions.theme" ng-value="themeValue">{{themeValue}} </md-option>
-            </md-select>
-          </md-input-container>
-         
+
 
         </div>
       </section>
