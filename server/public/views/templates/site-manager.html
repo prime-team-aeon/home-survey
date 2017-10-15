@@ -1,58 +1,64 @@
 <header ng-include="'/views/partials/header-logout-button.html'"></header>
-
-<div layout="row" layout-padding layout-margin>
-    <div flex>
-        <h1>Manage Your Properties</h1>
-        <div layout="row">
-            <div flex>
-                <md-input-container>
-                    <label>Select a Property</label>
-                    <md-select ng-model="smc.selectedProperty">
-                        <md-option ng-value="property" ng-repeat="property in smc.propertyList.list">{{ property.property }}</md-option>
-                    </md-select>
-                </md-input-container>
-                <md-input-container>
-                    <label>Select a Year</label>
-                    <md-select ng-model="smc.selectedYear">
-                        <md-option ng-value="year" ng-repeat="year in smc.yearsArray">{{ year }}</md-option>
-                    </md-select>
-                </md-input-container>
-                <md-button class="md-raised md-primary" ng-click="smc.getProperty(smc.selectedProperty, smc.selectedYear)">Submit</md-button>
-            </div>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2 md-truncate flex>Aeon Annual Home Survey</h2>
+    </div>
+</md-toolbar>
+<div layout="row">
+    <div flex layout-padding layout-margin>
+        <h2 class="md-display-1">Manage Your Properties</h2>
+        <md-input-container>
+            <label>Select a Property</label>
+            <md-select ng-model="smc.selectedProperty" style="min-width: 200px;">
+                <md-option ng-value="property" ng-repeat="property in smc.propertyList.list">{{ property.property }}</md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container>
+            <label>Select the Survey Year</label>
+            <md-select ng-model="smc.selectedYear" style="min-width: 200px;">
+                <md-option ng-value="year" ng-repeat="year in smc.yearsArray">{{ year }}</md-option>
+            </md-select>
+        </md-input-container>
+        <span>
+            <md-button class="md-raised md-primary" ng-click="smc.getProperty(smc.selectedProperty, smc.selectedYear)">View Property</md-button>
+        </span>
+    </div>
+</div>
+<div layout="row" ng-if="smc.properties.list[0].property">
+    <div flex class="md-whiteframe-4dp" layout-padding layout-margin>
+        <h3 class="md-headline">{{smc.properties.list[0].property}} ({{smc.properties.list[0].year}})</h3>
+        <div class="response-rate-container">
+            <h2>Response Rate:
+                <span class="response-rate" ng-class="{'redText': smc.responseRate.rate < 50, 'yellowText': (smc.responseRate.rate >= 50) && (smc.responseRate.rate < 70), 'greenText': (smc.responseRate.rate >= 70)}">{{smc.responseRate.rate}}%</span>
+            </h2>
         </div>
-        <div ng-if="smc.properties.list[0].property">
-            <h2 class="md-display-1">{{smc.properties.list[0].property}} ({{smc.properties.list[0].year}})</h2>
-            <div class="response-rate-container">
-                <h2>Response Rate:
-                    <span class="response-rate" ng-class="{'redText': smc.responseRate.rate < 50, 'yellowText': (smc.responseRate.rate >= 50) && (smc.responseRate.rate < 70), 'greenText': (smc.responseRate.rate >= 70)}">{{smc.responseRate.rate}}%</span>
-                </h2>
-            </div>
-            <md-table-container>
-                <table md-table multiple ng-model="smc.selectedProperty">
-                    <thead md-head md-order="smc.orderByColumn">
-                        <tr md-row>
-                            <th md-column md-order-by="unit">Unit</th>
-                            <th md-column md-order-by="responded">Responded</th>
-                            <th md-column md-order-by="occupied">Occupied</th>
-                            <th md-column md-order-by="paid">Paid</th>
-                        </tr>
-                    </thead>
-                    <tbody md-body>
-                        <tr md-row md-select="property" md-select-id="property" md-auto-select ng-repeat="property in smc.properties.list | orderBy: smc.orderByColumn"
-                            aria-label="users">
-                            <td md-cell>{{property.unit}}</td>
-                            <td md-cell><span ng-if="property.responded">{{property.responded}}</span>
-                            <span ng-if="!property.responded">No Response</span></td>
-                            <td md-cell>
-                                <md-checkbox ng-model="property.occupied" ng-change="smc.updateOccupied(property)" aria-label="Occupied"></md-checkbox>
-                            </td>
-                            <td md-cell>
-                                <md-checkbox ng-model="property.paid" ng-change="smc.SiteManagerService.updatePaid(property)" aria-label="paid"></md-checkbox>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </md-table-container>
-        </div>
+        <md-table-container>
+            <table md-table multiple ng-model="smc.selectedProperty">
+                <thead md-head md-order="smc.orderByColumn">
+                    <tr md-row>
+                        <th md-column md-order-by="unit">Unit</th>
+                        <th md-column md-order-by="responded">Responded</th>
+                        <th md-column md-order-by="occupied">Occupied</th>
+                        <th md-column md-order-by="paid">Paid</th>
+                    </tr>
+                </thead>
+                <tbody md-body>
+                    <tr md-row md-select="property" md-select-id="property" md-auto-select ng-repeat="property in smc.properties.list | orderBy: smc.orderByColumn"
+                        aria-label="users">
+                        <td md-cell>{{property.unit}}</td>
+                        <td md-cell>
+                            <span ng-if="property.responded">Yes</span>
+                            <span ng-if="!property.responded">No</span>
+                        </td>
+                        <td md-cell>
+                            <md-checkbox ng-model="property.occupied" ng-change="smc.updateOccupied(property)" aria-label="Occupied"></md-checkbox>
+                        </td>
+                        <td md-cell>
+                            <md-checkbox ng-model="property.paid" ng-change="smc.SiteManagerService.updatePaid(property)" aria-label="paid"></md-checkbox>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </md-table-container>
     </div>
 </div>
