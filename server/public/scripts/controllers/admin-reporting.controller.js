@@ -1,4 +1,4 @@
-myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$timeout', '$mdSidenav', '$log', function (AdminService, $mdDialog, $timeout, $mdSidenav, $log) {
+myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$timeout', '$mdSidenav', '$log', 'UserService', function (AdminService, $mdDialog, $timeout, $mdSidenav, $log, UserService) {
 
 
     //--------------------------------------
@@ -9,6 +9,7 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
     var self = this;
 
     self.AdminService = AdminService;
+    self.UserService = UserService;
 
     // List of calculations we support for reporting
     self.calcList = [
@@ -43,6 +44,8 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     canvas = document.getElementById("myChart");
     context = document.getElementById("myChart").getContext("2d");
+    context.canvas.width = 300;
+    context.canvas.height = 300;
 
 
 
@@ -79,8 +82,6 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         self.propertiesToGet = [];
         self.selectAllProperties = false;
         self.calculation = null;
-        AdminService.destroyAllCharts();
-
     }
 
     // remove property from list of properties to get from db
@@ -111,7 +112,6 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     // takes a string based on user input, and gets the data and builds a chart based on that
     self.runCalc = function (calc) {
-        console.log('arc.runCalc', calc);
 
         if (self.selectAllProperties) {
             // "All" is one of the selected properties, which supercedes anything else
@@ -121,34 +121,9 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         domElement = context; // where we're going to build the chart
         AdminService.getData(self.yearToGet, self.propertiesToGet, calc, domElement);
 
-        
-        // switch (calc) {
-        //     case "Gender":
-        //         domElement = context; // where we're going to build the chart
-
-        //         AdminService.getData(self.yearToGet, self.propertiesToGet, 'gender', domElement);
-        //         // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
-        //         break;
-        //     case "How Long":
-        //         domElement = context; // where we're going to build the chart
-
-        //         AdminService.getData(self.yearToGet, self.propertiesToGet, 'howLong', domElement);
-        //         // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
-        //         break;
-
-        //     case "Ethnicity":
-        //         domElement = context; // where we're going to build the chart
-
-        //         AdminService.getData(self.yearToGet, self.propertiesToGet, 'ethnicity', domElement);
-        //         // we have to send the DOM element to build the chart in to the service, because we don't seem to be able to data-bind the dataset inside the chart constructor
-        //         break;
-
-        //     default:
-        //         console.log('arc.runCalc NYI');
-        // }
-
-
-
+        context.canvas.width = 300;
+        context.canvas.height = 300;
+    
     }
 
 
@@ -158,66 +133,8 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
     //-------------RUNTIME CODE-------------
     //--------------------------------------
 
-    // none
+    AdminService.getResponseRate(['all']);
+    self.responseRate = AdminService.responseRate;
+    
 
 }]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // build test chart
-// self.chartTest = function () {
-//     console.log('arc.chartTest()');
-
-//     AdminService.buildTestChart();
-
-//     console.log('arc.chartData.list', self.chartData.list);
-//     var myChart = new Chart(ctx, {
-//         type: 'bar',
-//         data: {
-//             labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-//             datasets: [{
-//                 label: '# of Votes',
-//                 data: self.chartData.list,
-//                 backgroundColor: [
-//                     'rgba(255, 99, 132, 0.2)',
-//                     'rgba(54, 162, 235, 0.2)',
-//                     'rgba(255, 206, 86, 0.2)',
-//                     'rgba(75, 192, 192, 0.2)',
-//                     'rgba(153, 102, 255, 0.2)',
-//                     'rgba(255, 159, 64, 0.2)'
-//                 ],
-//                 borderColor: [
-//                     'rgba(255,99,132,1)',
-//                     'rgba(54, 162, 235, 1)',
-//                     'rgba(255, 206, 86, 1)',
-//                     'rgba(75, 192, 192, 1)',
-//                     'rgba(153, 102, 255, 1)',
-//                     'rgba(255, 159, 64, 1)'
-//                 ],
-//                 borderWidth: 1
-//             }]
-//         },
-//         options: {
-//             scales: {
-//                 yAxes: [{
-//                     ticks: {
-//                         beginAtZero: true
-//                     }
-//                 }]
-//             }
-//         }
-//     });
-
-// }
-
-// self.getData([2017, 2018], ['1822 Park', 'The Jourdain']);
