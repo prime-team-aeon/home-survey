@@ -221,9 +221,7 @@ router.get('/selectedProperty', function (req, res) {
                         done();
                         if (err) {
                             console.log('query error', err);
-                        } else {
-                            console.log('data.row', data.rows);
-                            
+                        } else {                            
                             res.send(data.rows);
                         }
                     });
@@ -247,8 +245,6 @@ router.get('/responses', function (req, res) {
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator' || req.user.role == 'Site Manager') {
             var properties = req.query.properties;
-
-            console.log('properties', properties);
             
             if (properties == 'all') {
                 queryString = 'SELECT COUNT(*) FROM occupancy WHERE responded=$1';

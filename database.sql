@@ -33,7 +33,7 @@ CREATE TABLE occupancy
     id SERIAL PRIMARY KEY,
     property TEXT NOT NULL,
     unit TEXT NOT NULL,
-    responded TEXT,
+    responded BOOLEAN,
     paid BOOLEAN,
     occupied BOOLEAN,
     year INT NOT NULL
