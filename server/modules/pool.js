@@ -32,8 +32,8 @@ if (process.env.DATABASE_URL) {
         host: process.env.DATABASE_SERVER || 'localhost', // Server hosting the postgres database
         port: process.env.DATABASE_PORT || 5432, //env var: PGPORT
         database: process.env.DATABASE_NAME || 'aeon', //env var: PGDATABASE
-        max: 50, // max number of clients in the pool
-        idleTimeoutMillis: 2000, // how long a client is allowed to remain idle before being closed
+        max: 10, // max number of clients in the pool
+        idleTimeoutMillis: 10000, // how long a client is allowed to remain idle before being closed
     };
 }
 
