@@ -42,10 +42,13 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     self.propertyList = AdminService.propertyList; // list of unique properties in .list
 
+    const CANVAS_WIDTH = 450;
+    const CANVAS_HEIGHT = 450;
+
     canvas = document.getElementById("myChart");
     context = document.getElementById("myChart").getContext("2d");
-    context.canvas.width = 300;
-    context.canvas.height = 300;
+    context.canvas.width = CANVAS_WIDTH;
+    context.canvas.height = CANVAS_HEIGHT;
 
 
 
@@ -121,8 +124,8 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         domElement = context; // where we're going to build the chart
         AdminService.getData(self.yearToGet, self.propertiesToGet, calc, domElement);
 
-        context.canvas.width = 300;
-        context.canvas.height = 300;
+        context.canvas.width = CANVAS_WIDTH;
+        context.canvas.height = CANVAS_HEIGHT;
 
         // reset properties array so if you un-toggle Select All after running a report you don't get all properties
         if(self.selectAllProperties){
