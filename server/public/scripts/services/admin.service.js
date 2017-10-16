@@ -78,7 +78,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
     // takes a DOM HTML5 <canvas> element and builds a chart in it based on the chartType data and what's in self.gottenData
     self.buildChart = function (chartTarget, chartType) {
 
-        console.log('buildChart', chartType);
+        // console.log('buildChart', chartType);
         self.destroyAllCharts();
 
         if (chartType === 'Gender') {
@@ -129,7 +129,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     }]
                 },
                 options: {
-
+                    responsive: false
                 }
             });
 
@@ -488,9 +488,9 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
             // VICTORY! (hopefully)
 
-            console.log('scoreData', self.scoreData);
+            // console.log('scoreData', self.scoreData);
 
-            var scorePieChart = new Chart(chartTarget, {
+            var scoreBarChart = new Chart(chartTarget, {
                 type: 'bar',
                 data: {
                     labels: ["Engagement", "Safety", "Ownership", "Staff Performance", "Home Score"],
@@ -515,11 +515,20 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     }]
                 },
                 options: {
-
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 2,
+                                max: 4,
+                                stepSize: 0.2
+                            }
+                        }]
+                    }
                 }
             });
 
-            self.chartsArray.push(scorePieChart);
+            self.chartsArray.push(scoreBarChart);
 
         }
     }
@@ -570,8 +579,6 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     self.destroyAllCharts = function () {
         for (var i = 0; i < self.chartsArray.length; i++) {
-            console.log('i', i);
-
             self.chartsArray[i].destroy();
         }
     }
@@ -595,10 +602,8 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             })
             .then(function (response) {
                 self.responseRate.rate = +response.data;
-                self.responseRate.rate = self.responseRate.rate.toFixed(4);
                 self.responseRate.rate = self.responseRate.rate * 100;
-                console.log('responseRate.rate', self.responseRate.rate);
-
+                self.responseRate.rate = self.responseRate.rate.toFixed(2);
             });
     }
 
@@ -634,7 +639,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     // take in a year and an array of properties, and get the matching dataset from the server
     self.getData = function (year, properties, chartFunction, domElement) {
-        console.log('getData year, properties, callback', year, properties, chartFunction);
+        // console.log('getData year, properties, callback', year, properties, chartFunction);
 
         $http({
             method: 'GET',
@@ -645,7 +650,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
             }
         }).then(function (response) {
             self.gottenData.list = response.data;
-            console.log('self.gottenData.list', self.gottenData.list);
+            // console.log('self.gottenData.list', self.gottenData.list);
 
             // now we actually build the chart
             self.buildChart(domElement, chartFunction);
@@ -709,8 +714,6 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
     // Update the users active status PUT request
     self.toggleActive = function (user) {
-        console.log('heres the user', user);
-
         $http({
             method: 'PUT',
             url: '/user-roles/active',

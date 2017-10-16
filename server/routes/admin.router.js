@@ -221,9 +221,7 @@ router.get('/selectedProperty', function (req, res) {
                         done();
                         if (err) {
                             console.log('query error', err);
-                        } else {
-                            console.log('data.row', data.rows);
-                            
+                        } else {                            
                             res.send(data.rows);
                         }
                     });
@@ -247,7 +245,7 @@ router.get('/responses', function (req, res) {
     if (req.isAuthenticated()) {
         if (req.user.role == 'Administrator' || req.user.role == 'Site Manager') {
             var properties = req.query.properties;
-
+            
             if (properties == 'all') {
                 queryString = 'SELECT COUNT(*) FROM occupancy WHERE responded=$1';
                 secondQueryString = 'SELECT COUNT(*) FROM occupancy WHERE occupied=$1';
@@ -271,8 +269,8 @@ router.get('/responses', function (req, res) {
 
             }
 
-            console.log('queryString', queryString);
-            console.log('secondQueryString', secondQueryString);
+            // console.log('queryString', queryString);
+            // console.log('secondQueryString', secondQueryString);
             
 
             pool.connect(function (err, client, done) {
@@ -288,6 +286,8 @@ router.get('/responses', function (req, res) {
                         } else {
                             // data.rows[0].count is a string of how many responses we have
                             let responses = data.rows[0].count;
+                            // console.log('responses', responses);
+                            
                             pool.connect(function (err, client, done) {
                                 client.query(secondQueryString, [true,...properties], function (err, data) {
                                     done();
@@ -297,7 +297,11 @@ router.get('/responses', function (req, res) {
                                     } else if (data.rows[0].count > 0) {
                                         // data.rows[0].count is a string of how many occupied units we have
                                         let occupied = data.rows[0].count;
+                                        // console.log('occupied', occupied);
+                                        
                                         let responseRate = responses / occupied;
+                                        // console.log('responseRate', responseRate.toString());
+                                        
                                         res.send(responseRate.toString());
                                     } else {
                                         res.send('no occupied units found');

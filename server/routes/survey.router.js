@@ -66,6 +66,26 @@ router.get('/data/:number', function (req, res) {
                             for (var j = 0; j < NUM_BASIC_QUESTIONS; j++) {
                                 index = randomNumber(0, NUM_BASIC_ANSWERS);
                                 if (index > 0) {
+                                    if (j < 21 && index == 3){
+                                        index = 4;
+                                    }
+
+                                    if (j < 13 && index == 2){
+                                        index = 3;
+                                    }
+
+                                    if (j < 5 && index == 1){
+                                        index = 2;
+                                    }
+
+                                    if (j <= 18 && j >= 13 && index == 1){
+                                        index = 4;
+                                    }
+
+                                    if (j == 21 && index < 3){
+                                        index = 3;
+                                    }
+
                                     survey.push(index);
                                 } else {
                                     survey.push(null);
@@ -79,8 +99,13 @@ router.get('/data/:number', function (req, res) {
                                 }
                             }
                             for (var j = 0; j < NUM_DEMO_QUESTIONS; j++) {
-                                index = randomNumber(0, DEMO_ANSWERS[j]);
+                                index = randomNumber(0, DEMO_ANSWERS[j]*10);
                                 if (index > 0) {
+                                    if(index == 2){
+                                        if (randomNumber(0,2) == 0){
+                                            index == 1;
+                                        }
+                                    } else if (index == 4){}
                                     survey.push(index);
                                 } else {
                                     survey.push(null);
