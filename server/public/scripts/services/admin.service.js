@@ -129,7 +129,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     }]
                 },
                 options: {
-
+                    responsive: false
                 }
             });
 
@@ -490,7 +490,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
             console.log('scoreData', self.scoreData);
 
-            var scorePieChart = new Chart(chartTarget, {
+            var scoreBarChart = new Chart(chartTarget, {
                 type: 'bar',
                 data: {
                     labels: ["Engagement", "Safety", "Ownership", "Staff Performance", "Home Score"],
@@ -515,11 +515,20 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     }]
                 },
                 options: {
-
+                    responsive: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 1,
+                                max: 4,
+                                stepSize: 0.3
+                            }
+                        }]
+                    }
                 }
             });
 
-            self.chartsArray.push(scorePieChart);
+            self.chartsArray.push(scoreBarChart);
 
         }
     }

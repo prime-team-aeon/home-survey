@@ -111,7 +111,6 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     // takes a string based on user input, and gets the data and builds a chart based on that
     self.runCalc = function (calc) {
-        console.log('arc.runCalc', calc);
 
         if (self.selectAllProperties) {
             // "All" is one of the selected properties, which supercedes anything else

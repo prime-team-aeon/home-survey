@@ -77,12 +77,7 @@
 
         <h3>Properties:</h3>
 
-        <div class="admin-reporting-property" ng-repeat="property in arc.propertiesToGet">
-          <span>{{property}}</span>
-          <md-button class="md-warn" ng-click="arc.deleteProperty(property)">
-            Remove
-          </md-button>
-        </div>
+
 
       </div>
 
@@ -97,9 +92,23 @@
       </div>
     </div>
 
-    <div class="chart-container">
-      <canvas id="myChart" width="400" height="400"></canvas>
-    </div>
+    <div layout="row" layout-align="space-between center">
+      <div layout="column">
+        <div class="admin-reporting-property" ng-repeat="property in arc.propertiesToGet" ng-if
+          "(arc.propertiesToGet && !arc.selectAllProperties)">
+          <span>{{property}}</span>
+          <md-button class="md-warn" ng-click="arc.deleteProperty(property)">
+            Remove
+          </md-button>
+        </div>
 
+      </div>
+
+      <div class="chart-container">
+        <canvas id="myChart" width="400" height="400"></canvas>
+      </div>
+
+
+    </div>
   </div>
 </div>
