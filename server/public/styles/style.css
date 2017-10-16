@@ -218,8 +218,8 @@ table.md-table td.md-cell {
 }
 
 .chart-container{
-    width: 350px;
-    height: 350px;
+    width: 450px;
+    height: 450px;
     padding: 20px;
     position:relative !important;
 }
@@ -252,4 +252,8 @@ table.md-table td.md-cell {
 
 canvas {
     position: relative;
+}
+
+#admin-column-wrapper{
+    min-height: 1000px;
 }
