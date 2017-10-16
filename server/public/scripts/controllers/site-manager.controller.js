@@ -31,6 +31,7 @@ myApp.controller('SiteManagerController', ['SiteManagerService', 'UserService', 
 
     self.yearsArray = [];
     self.yearToAdd = self.thisYear;
+    self.selectedYear = self.thisYear;
 
     //--------------------------------------
     //-------------FUNCTIONS----------------

@@ -65,7 +65,7 @@ myApp.controller('SurveyController', function (AdminService, SurveyService, User
       .ok(self.surveyObject.continue);
 
     $mdDialog.show(confirm).then(function () {
-      SurveyService.help();
+      // SurveyService.help();
     }, function () {});
   }
 
