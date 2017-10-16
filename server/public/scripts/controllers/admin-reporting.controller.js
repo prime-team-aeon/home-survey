@@ -1,4 +1,4 @@
-myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$timeout', '$mdSidenav', '$log', function (AdminService, $mdDialog, $timeout, $mdSidenav, $log) {
+myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$timeout', '$mdSidenav', '$log', 'UserService', function (AdminService, $mdDialog, $timeout, $mdSidenav, $log, UserService) {
 
 
     //--------------------------------------
@@ -9,6 +9,7 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
     var self = this;
 
     self.AdminService = AdminService;
+    self.UserService = UserService;
 
     // List of calculations we support for reporting
     self.calcList = [
