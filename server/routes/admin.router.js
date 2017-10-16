@@ -290,7 +290,7 @@ router.get('/responses', function (req, res) {
                         } else {
                             // data.rows[0].count is a string of how many responses we have
                             let responses = data.rows[0].count;
-                            console.log('responses', responses);
+                            // console.log('responses', responses);
                             
                             pool.connect(function (err, client, done) {
                                 client.query(secondQueryString, [true,...properties], function (err, data) {
@@ -301,10 +301,10 @@ router.get('/responses', function (req, res) {
                                     } else if (data.rows[0].count > 0) {
                                         // data.rows[0].count is a string of how many occupied units we have
                                         let occupied = data.rows[0].count;
-                                        console.log('occupied', occupied);
+                                        // console.log('occupied', occupied);
                                         
                                         let responseRate = responses / occupied;
-                                        console.log('responseRate', responseRate.toString());
+                                        // console.log('responseRate', responseRate.toString());
                                         
                                         res.send(responseRate.toString());
                                     } else {

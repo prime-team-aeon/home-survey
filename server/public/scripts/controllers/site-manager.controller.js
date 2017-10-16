@@ -43,7 +43,6 @@ myApp.controller('SiteManagerController', ['SiteManagerService', 'UserService', 
 
     // send the users submission for a property and year to the service
     self.getProperty = function(property, year) {    
-        console.log('smc property', property);        
         SiteManagerService.getProperty(property.property, year);
         SiteManagerService.getResponseRate([property.property]);        
     }
