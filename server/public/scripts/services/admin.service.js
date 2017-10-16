@@ -391,7 +391,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                                     break;
                             }
                         }
-                        
+
                         scoreTotals[0][0] += engagementAnswers[j];
                         scoreTotals[0][1]++;
                     }
@@ -708,6 +708,12 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
         $http.put('/user-roles/properties/' + route, authInfo).then(function (response) {
             self.getUsers();
+        }, function (response) {
+            $mdToast.show(
+                $mdToast.simple()
+                .textContent('ERROR - Property already authorized.')
+                .hideDelay(2000)
+            );
         });
     }
 
