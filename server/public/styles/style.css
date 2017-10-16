@@ -4,7 +4,8 @@ body {
 }
 
 .aeon-logo-bg {
-    background: url(../assets/tree-bg.png) no-repeat 50% 20%;
+    background: url(../assets/tree-bg.png) no-repeat 50% 0%;
+    min-height: 640px;
 }
 
 .material-icons.md-dark {
