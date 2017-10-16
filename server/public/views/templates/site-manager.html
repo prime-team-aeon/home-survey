@@ -47,8 +47,8 @@
                         aria-label="users">
                         <td md-cell>{{property.unit}}</td>
                         <td md-cell>
-                            <span ng-if="property.responded">Yes</span>
-                            <span ng-if="!property.responded">No</span>
+                            <span ng-if="property.responded" class="responded-un-highlight">Yes</span>
+                            <span ng-if="!property.responded" ng-class="{'responded-highlight': property.occupied, 'responded-un-highlight': !property.occupied}">No</span>
                         </td>
                         <td md-cell>
                             <md-checkbox ng-model="property.occupied" ng-change="smc.updateOccupied(property)" aria-label="Occupied"></md-checkbox>

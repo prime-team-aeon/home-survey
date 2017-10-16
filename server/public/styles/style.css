@@ -251,3 +251,13 @@ canvas {
 #admin-column-wrapper{
     min-height: 1000px;
 }
+
+.responded-highlight {
+    font-weight: 700;
+    color: #630606
+}
+
+.responded-un-highlight {
+    font-weight: 200;
+    color: rgba(0,0,0,0.4);
+}

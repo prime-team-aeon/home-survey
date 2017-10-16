@@ -74,9 +74,8 @@
                                         <md-checkbox ng-model="property.occupied" ng-change="ac.AdminService.updateOccupied(property)" aria-label="Occupied"></md-checkbox>
                                     </td>
                                     <td md-cell>
-                                        <span ng-if="property.responded">Yes</span>
-                                        <span ng-if="!property.responded">No</span>
-                                    </td>
+                                        <span ng-if="property.responded" class="responded-un-highlight">Yes</span>
+                                        <span ng-if="!property.responded" ng-class="{'responded-highlight': property.occupied, 'responded-un-highlight': !property.occupied}">No</span>                                        </td>
                                     <td md-cell>
                                         <md-checkbox ng-model="property.paid" ng-change="ac.SiteManagerService.updatePaid(property)" aria-label="paid"></md-checkbox>
                                     </td>
