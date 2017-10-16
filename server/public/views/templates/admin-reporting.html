@@ -66,33 +66,33 @@
 
     </div>
 
-    <div id="admin-reporting-values-container" layout="row" layout-align="start start" layout-margin>
+    <hr id="admin-reporting-hr">
 
-      <div id="admin-reporting-properties">
-        <h3>Year:</h3>
-        <span>{{arc.yearToGet}}</span>
+    <div layout="row" layout-align="space-between center" id="admin-reporting-bottom-row">
+
+      <div id="admin-reporting-values-container" layout="column" layout-align="start start" layout-margin>
+
+        <div id="admin-reporting-properties">
+          <h3>Year:</h3>
+          <span>{{arc.yearToGet}}</span>
+        </div>
+
+        <div id="admin-reporting-properties" ng-show="!arc.selectAllProperties">
+
+          <h3>Properties:</h3>
+
+        </div>
+
+        <div id="admin-reporting-all-properties" ng-show="arc.selectAllProperties">
+          <h3>Properties</h3>
+          <span>All</span>
+        </div>
+
+        <div id="admin-reporting-calc-container" layout="column" layout-align="start start">
+          <h3>Calculation:</h3>
+          <span>{{arc.calculation}}</span>
+        </div>
       </div>
-
-      <div id="admin-reporting-properties" ng-show="!arc.selectAllProperties">
-
-        <h3>Properties:</h3>
-
-
-
-      </div>
-
-      <div id="admin-reporting-all-properties" ng-show="arc.selectAllProperties">
-        <h3>Properties</h3>
-        <span>All</span>
-      </div>
-
-      <div id="admin-reporting-calc-container" layout="column" layout-align="start start">
-        <h3>Calculation:</h3>
-        <span>{{arc.calculation}}</span>
-      </div>
-    </div>
-
-    <div layout="row" layout-align="space-between center">
       <div layout="column">
         <div class="admin-reporting-property" ng-repeat="property in arc.propertiesToGet" ng-if
           "(arc.propertiesToGet && !arc.selectAllProperties)">

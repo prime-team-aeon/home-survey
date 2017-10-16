@@ -515,7 +515,7 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
                     }]
                 },
                 options: {
-                    responsive: false,
+                    responsive: true,
                     scales: {
                         yAxes: [{
                             ticks: {

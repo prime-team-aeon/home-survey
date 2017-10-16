@@ -218,9 +218,10 @@ table.md-table td.md-cell {
 }
 
 .chart-container{
-    width: 450px;
-    height: 450px;
-    margin: 70px;
+    width: 350px;
+    height: 350px;
+    padding: 20px;
+    position:relative !important;
 }
 
 .full-width{
@@ -228,7 +229,7 @@ table.md-table td.md-cell {
 }
 
 #admin-reporting-controls-container{
-    margin-bottom: 60px;
+    margin-bottom: 10px;
 }
 
 #admin-reporting-buttons-container{
@@ -241,3 +242,14 @@ table.md-table td.md-cell {
 #admin-reporting-download-button{
 }
 
+#admin-reporting-bottom-row{
+    border-top: 2px green;
+}
+
+#admin-reporting-hr{
+    width: 80%;
+}
+
+canvas {
+    position: relative;
+}
