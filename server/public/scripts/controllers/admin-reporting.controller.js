@@ -123,6 +123,11 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
         context.canvas.width = 300;
         context.canvas.height = 300;
+
+        // reset properties array so if you un-toggle Select All after running a report you don't get all properties
+        if(self.selectAllProperties){
+            self.propertiesToGet = [];                    
+        }
     
     }
 
