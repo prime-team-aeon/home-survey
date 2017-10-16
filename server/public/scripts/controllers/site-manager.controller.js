@@ -41,14 +41,10 @@ myApp.controller('SiteManagerController', ['SiteManagerService', 'UserService', 
         UserService.logout();
     };
 
-    self.getResponseRate = function (property) {
-        property = [property];
-        SiteManagerService.getResponseRate(property);
-    }
-
     // send the users submission for a property and year to the service
-    self.getProperty = function(property, year) {        
-        SiteManagerService.getProperty(property.property, year);   
+    self.getProperty = function(property, year) {    
+        SiteManagerService.getProperty(property.property, year);
+        SiteManagerService.getResponseRate([property.property]);        
     }
 
     // Called from a checkbox on the /admin-properties page. Sends unit occupied status update to the admin service
