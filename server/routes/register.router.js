@@ -83,8 +83,7 @@ router.get('/', function (req, res, next) {
 // Handles POST request with new user data
 router.post('/', function (req, res, next) {
 
-  // if (req.body.username.indexOf('aeonmn.org') === -1) {
-  if (false) { // DEBUG
+  if (req.body.username.indexOf('aeonmn.org') === -1) {
     res.status(400).send('bad email');
   } else {
 
