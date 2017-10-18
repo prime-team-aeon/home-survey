@@ -64,6 +64,9 @@ The following are features that could be added at some point in the future.
 ## Deployment
 
 - The app can be opened with the Heroku live link: https://aeon-home-survey.herokuapp.com
+- Deploy the app to a hositng environment of your choice, like Heroku.
+- Deploy a Postgres database and configure the database using the database.sql file.
+- Refer to Google Doc being provided as walkthrough for entire app.
 
 ## Authors
 
