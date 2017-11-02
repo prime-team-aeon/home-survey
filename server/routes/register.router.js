@@ -3,7 +3,7 @@ var router = express.Router();
 var path = require('path');
 var pool = require('../modules/pool.js');
 var encryptLib = require('../modules/encryption');
-var randomstring = require('randomstring');
+// var randomstring = require('randomstring'); // used for deprecated email authorization feature
 var nodemailer = require('nodemailer');
 
 // searches for the token and flips associated user to active if found
@@ -83,14 +83,14 @@ router.get('/', function (req, res, next) {
 // Handles POST request with new user data
 router.post('/', function (req, res, next) {
 
-  if (req.body.username.indexOf('aeonmn.org') === -1) {
+  if (req.body.username.indexOf('aeonmn.org') > 0 || req.body.username.indexOf('aeon.org') > 0) {
     res.status(400).send('bad email');
   } else {
 
     var saveUser = {
       username: req.body.username,
       password: encryptLib.encryptPassword(req.body.password),
-      token: randomstring.generate(16),
+      // token: randomstring.generate(16), // this is used for deprecated email verification feature
       timestamp: new Date()
     };
 
@@ -107,7 +107,18 @@ router.post('/', function (req, res, next) {
             console.log("Error inserting data: ", err);
             res.sendStatus(500);
           } else {
+            
+            /* ------- DEPRECATED -------
+             *
+             * Turns out Gmail has a bunch of automated security measures that don't play
+             * nicely with cloud-hosted applications and really wants you to set up OAuth.
+             * Unfortunately that sounds like work, so we're just turning off the email 
+             * verification link entirely.
+             * 
+             * -------------------------- 
+            
             //send verification email with nodemailer
+
             var transporter = nodemailer.createTransport({
               service: 'Gmail',
               auth: {
@@ -135,6 +146,10 @@ router.post('/', function (req, res, next) {
                 res.sendStatus(201);
               }
             });
+
+            --- END DEPRECATED CODE --- */
+
+            res.sendStatus(201);
           }
         });
     });
