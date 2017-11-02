@@ -11,7 +11,7 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (1 + max - min) + min);
 }
 
-var randomstring = require('randomstring');
+// var randomstring = require('randomstring'); // we don't use this lib any more
 
 router.get('/data/:number', function (req, res) {
     console.log('GET /survey/data', req.params.number);
@@ -93,7 +93,7 @@ router.get('/data/:number', function (req, res) {
                             }
                             for (var j = 0; j < NUM_FREE_QUESTIONS; j++) {
                                 if (randomNumber(0, 1) > 0) {
-                                    survey.push("'" + randomstring.generate(32) + "'");
+                                    survey.push("'" + 'fjdalk' + "'");
                                 } else {
                                     survey.push(null);
                                 }

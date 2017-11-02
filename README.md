@@ -37,8 +37,7 @@ Link to software that is required to install the app (e.g. node).
 - "passport": "^0.2.2",
 - "passport-local": "^1.0.0",
 - "path": "^0.11.14",
-- "pg": "^7.3.0",
-- "randomstring": "^1.1.5"
+- "pg": "^7.3.0"
 
 ### Completed Features
 
