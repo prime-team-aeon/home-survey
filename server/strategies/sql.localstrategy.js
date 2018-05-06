@@ -20,17 +20,15 @@ passport.deserializeUser(function (id, done) {
     var user = {};
 
     client.query("SELECT * FROM users WHERE id = $1", [id], function (err, result) {
-
+      release();
       // Handle Errors
       if (err) {
         console.log('query err ', err);
         done(err);
-        release();
       }
 
       if (result != undefined) {
         user = result.rows[0];
-        release();
       }
       
       if (!user) {
@@ -59,6 +57,7 @@ passport.use('local', new localStrategy({
     // assumes the username will be unique, thus returning 1 or 0 results
     client.query("SELECT * FROM users WHERE username = $1", [username],
       function (err, result) {
+        release();
         var user = {};
 
         // console.log('here');
@@ -68,8 +67,6 @@ passport.use('local', new localStrategy({
           console.log('connection err ', err);
           done(null, user);
         }
-
-        release();
 
         if (result.rows[0] != undefined) {
           user = result.rows[0];
