@@ -61,7 +61,7 @@ myApp.controller('LoginController', function ($http, $location, UserService, $md
         $location.path('/home');
         $mdToast.show(
           $mdToast.simple()
-            .textContent("Registration Successful! Please check your email to verify.")
+            .textContent("Registration Successful! Please alert an Aeon administrator so you can be granted permissions.")
             .position('top right')
         );//end of $mdToast
       }).catch(function (response) {
