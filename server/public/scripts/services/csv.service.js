@@ -23,8 +23,6 @@ myApp.service('CsvService', function ($http, $location, $mdToast) {
       exportCsv = encodeURI(exportCsv);
 
       // tell the browser to download it
-      // window.open(exportCsv);
-
       var link = document.createElement("a");
       link.download = 'home-survey-responses-' + year;
       link.href = exportCsv;

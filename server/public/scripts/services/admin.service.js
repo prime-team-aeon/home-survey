@@ -488,8 +488,6 @@ myApp.service('AdminService', ['$http', '$mdToast', '$location', function ($http
 
             // VICTORY! (hopefully)
 
-            // console.log('scoreData', self.scoreData);
-
             var scoreBarChart = new Chart(chartTarget, {
                 type: 'bar',
                 data: {

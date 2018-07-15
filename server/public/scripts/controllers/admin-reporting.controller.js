@@ -21,6 +21,8 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         "Income"
     ];
 
+    self.calculation = self.calcList[0];
+
     self.yearToGet = thisYear;
 
     self.chartData = AdminService.chartData; // actual data is in .list property, which is an array of objects
