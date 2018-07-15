@@ -8,6 +8,9 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
 
     var self = this;
 
+    let now = new Date();
+    self.thisYear = now.getFullYear();
+
     self.surveyObject = {}; // holds the translated answers from the db
     self.surveyProperty = ""; // holds the user-selected property
     self.surveyUnit = ""; // holds the user-selected unit
@@ -33,6 +36,7 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
         // is the property/unit combo legit?        
         $http.get('/survey/begin', {
             params: {
+                'year': self.thisYear,
                 'property': property,
                 'unit': unit
             }
@@ -98,7 +102,8 @@ myApp.service('SurveyService', function ($http, $location, $mdDialog) {
             params: {
                 'language': self.surveyLanguage.language,
                 'property': self.surveyProperty,
-                'unit': self.surveyUnit
+                'unit': self.surveyUnit,
+                'year': self.thisYear
             }
         }).then(function (response) {
             if (response.status == 201) {

@@ -25,7 +25,7 @@
       <div layout="row">
         <div flex>
           <div class="response-rate-container">
-            <h2>Overall Response Rate:
+            <h2>Overall {{ac.thisYear}} Response Rate:
               <span class="response-rate" ng-class="{'redText': ac.responseRate.rate < 50, 'yellowText': (ac.responseRate.rate >= 50) && (ac.responseRate.rate < 70), 'greenText': (ac.responseRate.rate >= 70)}">{{ac.responseRate.rate}}%</span>
             </h2>
           </div>

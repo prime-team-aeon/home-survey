@@ -166,7 +166,7 @@ router.get('/begin', function (req, res) {
                     console.log('db connect error', err);
                     res.sendStatus(500);
                 } else {
-                    client.query('SELECT * FROM occupancy WHERE property=$1 AND unit=$2', [req.query.property, req.query.unit], function (err, data) {
+                    client.query('SELECT * FROM occupancy WHERE property=$1 AND unit=$2 AND year=$3', [req.query.property, req.query.unit, req.query.year], function (err, data) {
                         done();
                         if (err) {
                             console.log('query error', err);
@@ -371,7 +371,7 @@ router.post('/', function (req, res) {
                     res.sendStatus(500);
                 } else
                     // double-check that the unit hasn't responded yet 
-                    client.query('SELECT * FROM occupancy WHERE property=$1 AND unit=$2', [req.query.property, req.query.unit], function (err, data) {
+                    client.query('SELECT * FROM occupancy WHERE property=$1 AND unit=$2 AND year=$3', [req.query.property, req.query.unit, req.query.year], function (err, data) {
                         if (err) {
                             done();
                             console.log('unit check query error', err);

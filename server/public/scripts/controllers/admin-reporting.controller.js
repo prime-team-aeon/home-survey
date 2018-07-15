@@ -29,6 +29,7 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
     const START_YEAR = 2010;
     var thisYear = new Date();
     thisYear = thisYear.getFullYear();
+    self.thisYear = thisYear;
     self.yearsArray = [];
 
     for (var i = thisYear; i >= START_YEAR; i--) {

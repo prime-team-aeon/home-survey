@@ -17,7 +17,7 @@
   <div id="admin-column-wrapper" class="full-width" layout="column" layout-align="start center">
 
     <div layout="row" layout-align="start start" layout-padding class="response-rate-container">
-      <h2>Overall Response Rate: <span class="response-rate" ng-class="{'redText': arc.responseRate.rate < 50, 'yellowText': (arc.responseRate.rate >= 50) && (arc.responseRate.rate < 70), 'greenText': (arc.responseRate.rate >= 70)}">{{arc.responseRate.rate}}%</span></h2>
+      <h2>Overall {{arc.thisYear}} Response Rate: <span class="response-rate" ng-class="{'redText': arc.responseRate.rate < 50, 'yellowText': (arc.responseRate.rate >= 50) && (arc.responseRate.rate < 70), 'greenText': (arc.responseRate.rate >= 70)}">{{arc.responseRate.rate}}%</span></h2>
     </div>
 
     <div id="admin-reporting-controls-container" layout="row" layout-padding layout-margin layout-align="start start">
