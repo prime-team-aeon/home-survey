@@ -94,9 +94,13 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
         /* In addition to <a>'s "download" attribute, we define HTTP-style headers */
         datastream = datastream.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Chart.png');
 
-        window.open(datastream);
-
-        // this.href = dt;
+        var link = document.createElement("a");
+        link.download = 'aeon-survey-custom-chart';
+        link.href = datastream;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        delete link;
     };
 
     // Toggle Sidenav
