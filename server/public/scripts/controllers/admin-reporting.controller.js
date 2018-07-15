@@ -58,21 +58,12 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     // add property to list of properties to get from db
     self.addProperty = function (newProperty) {
-        console.log('addProperty', newProperty);
-
         if (newProperty != undefined) {
-            console.log('defined');
-
             if (newProperty.length > 0) {
                 // look for duplicate
-                console.log('length > 0');
-
                 var index = self.propertiesToGet.indexOf(newProperty);
-                console.log('index', index);
 
                 if (index == -1) {
-                    console.log('index ok');
-
                     self.propertiesToGet.push(newProperty);
                     self.typedProperty = null;
                 }
@@ -89,7 +80,6 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
 
     // remove property from list of properties to get from db
     self.deleteProperty = function (property) {
-        console.log('deleteProperty', property);
         var index = self.propertiesToGet.indexOf(property);
         self.propertiesToGet.splice(index, 1);
     }
@@ -141,7 +131,7 @@ myApp.controller('AdminReportingController', ['AdminService', '$mdDialog', '$tim
     //-------------RUNTIME CODE-------------
     //--------------------------------------
 
-    AdminService.getResponseRate(['all']);
+    AdminService.getResponseRate(['all'], thisYear);
     self.responseRate = AdminService.responseRate;
     
 

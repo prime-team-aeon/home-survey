@@ -155,10 +155,10 @@ myApp.controller('AdminController', ['CsvService', 'AdminService', 'UserService'
 
   self.getSelectedSiteProperty = function (selectedProperty, year) {
     AdminService.getSelectedSiteProperty(selectedProperty, year);
-    AdminService.getResponseRate([selectedProperty]);
+    AdminService.getResponseRate([selectedProperty], year);
   }
 
   self.responseRate = AdminService.responseRate;
 
-  AdminService.getResponseRate(['all']);
+  AdminService.getResponseRate(['all'], self.thisYear);
 }]);

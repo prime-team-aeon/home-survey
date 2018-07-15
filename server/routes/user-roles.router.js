@@ -36,20 +36,13 @@ router.put('/properties/deauth', function (req, res) {
                     res.sendStatus(500);
                 } else {
                     // query like DELETE FROM occupancy_users WHERE occupancy_property='chicago' AND user_id=2; 
-                    pool.connect(function (err, client, done) {
+                    client.query('DELETE FROM occupancy_users WHERE occupancy_property=$1 AND user_id=$2;', [req.body.property, req.body.id], function (err, data) {
+                        done();
                         if (err) {
-                            console.log('connection err', err);
+                            console.log('deauth query error', err);
                             res.sendStatus(500);
                         } else {
-                            client.query('DELETE FROM occupancy_users WHERE occupancy_property=$1 AND user_id=$2;', [req.body.property, req.body.id], function (err, data) {
-                                done();
-                                if (err) {
-                                    console.log('deauth query error', err);
-                                    res.sendStatus(500);
-                                } else {
-                                    res.sendStatus(200);
-                                }
-                            });
+                            res.sendStatus(200);
                         }
                     });
                 }
@@ -111,51 +104,36 @@ router.get('/', function (req, res) {
                 } else {
                     //query
                     client.query('SELECT id, username, active, role FROM users ORDER BY username', function (err, data) {
-                        done();
                         if (err) {
+                            done();
                             console.log('get / query error', err);
                         } else {
                             // now we need to get the users' authorized properties
-                            pool.connect(function (err, client, done) {
+                            var userData = data.rows;
+                            client.query('SELECT * FROM occupancy_users', function (err, data) {
+                                done();
                                 if (err) {
-                                    console.log('get / connect2 err', err);
+                                    console.log('user-roles.router get / query error', err);
                                     res.sendStatus(500);
                                 } else {
-                                    var userData = data.rows;
-                                    pool.connect(function (err, client, done) {
-                                        if (err) {
-                                            console.log('connection err', err);
-                                            res.sendStatus(500);
-                                        } else {
-                                            client.query('SELECT * FROM occupancy_users', function (err, data) {
-                                                done();
-                                                if (err) {
-                                                    console.log('user-roles.router get / query error', err);
-                                                    res.sendStatus(500);
-                                                } else {
-                                                    // data is the occupancy_users junction table
-                                                    // loop through that whole table, pushing authorized properties into user objects
-                                                    for (var i = 0; i < data.rows.length; i++) {
-                                                        var authorization = data.rows[i];
-                                                        // loop through user data, assign the property as a string when user_id is found
-                                                        for (var j = 0; j < userData.length; j++) {
-                                                            if (authorization.user_id == userData[j].id) {
-                                                                if (userData[j].properties == undefined) {
-                                                                    userData[j].properties = [];
-                                                                }
-                                                                userData[j].properties.push(authorization.occupancy_property);
-                                                                continue;
-                                                            }
-                                                        }
-                                                    } // loop done, userData should now have all authorized property data
-                                                    res.send(userData);
+                                    // data is the occupancy_users junction table
+                                    // loop through that whole table, pushing authorized properties into user objects
+                                    for (var i = 0; i < data.rows.length; i++) {
+                                        var authorization = data.rows[i];
+                                        // loop through user data, assign the property as a string when user_id is found
+                                        for (var j = 0; j < userData.length; j++) {
+                                            if (authorization.user_id == userData[j].id) {
+                                                if (userData[j].properties == undefined) {
+                                                    userData[j].properties = [];
                                                 }
-                                            });
+                                                userData[j].properties.push(authorization.occupancy_property);
+                                                continue;
+                                            }
                                         }
-                                    });
+                                    } // loop done, userData should now have all authorized property data
+                                    res.send(userData);
                                 }
                             });
-
                         }
                     });
                 }

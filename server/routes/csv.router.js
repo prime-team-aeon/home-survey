@@ -23,14 +23,14 @@ router.post('/upload/:year', function (req, res) {
             res.sendStatus(500);
           } else {
             client.query('DELETE FROM occupancy WHERE year=$1', [req.params.year], function (err, data) {
-              done();
               if (err) {
+                done();
                 console.log('delete query error', err);
                 res.sendStatus(500);
               } else {
                 var unitsArray = req.body.data;
                 console.log('unitsArray[3]', unitsArray[3]);
-                
+
                 var queryString = 'INSERT INTO occupancy (property, occupied, unit, year) VALUES (';
 
                 // SQL query looks like:
@@ -62,20 +62,13 @@ router.post('/upload/:year', function (req, res) {
                 queryString += ';';
 
                 // push the whole thing into the occupancy table of the db
-                pool.connect(function (err, client, done) {
+                client.query(queryString, explodedArray, function (err, result) {
+                  done();
                   if (err) {
-                    console.log('error connecting to db', err);
+                    console.log('error making csv insert query', err);
                     res.sendStatus(500);
                   } else {
-                    client.query(queryString, explodedArray, function (err, result) {
-                      done();
-                      if (err) {
-                        console.log('error making query', err);
-                        res.sendStatus(500);
-                      } else {
-                        res.sendStatus(201);
-                      }
-                    });
+                    res.sendStatus(201);
                   }
                 });
               }

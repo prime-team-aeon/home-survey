@@ -232,26 +232,19 @@ router.get('/language', function (req, res) {
                 } else {
                     //query
                     client.query(language, function (err, data) {
-                        done();
                         if (err) {
+                            done();
                             console.log('query error', err);
                         } else {
                             surveyObject.questions = data.rows;
-                            pool.connect(function (err, client, done) {
+                            client.query(translation, function (err, data) {
+                                done();
                                 if (err) {
-                                    console.log('error connecting to db', err);
-                                    res.sendStatus(500);
+                                    console.log('query error', err);
                                 } else {
-                                    client.query(translation, function (err, data) {
-                                        done();
-                                        if (err) {
-                                            console.log('query error', err);
-                                        } else {
-                                            // send response data back to client
-                                            surveyObject.translations = data.rows;
-                                            res.send(surveyObject);
-                                        }
-                                    });
+                                    // send response data back to client
+                                    surveyObject.translations = data.rows;
+                                    res.send(surveyObject);
                                 }
                             });
                         }
@@ -361,7 +354,7 @@ router.post('/', function (req, res) {
                 if (req.body.list[i].answer == undefined) {
                     // no answer
                     queryString += "null, ";
-                } else if ((i === 20) || (i === 21) || (i === 24)){
+                } else if ((i === 20) || (i === 21) || (i === 24)) {
                     // text answer
                     queryString += "'" + req.body.list[i].answer + "', ";
                 } else {
@@ -379,52 +372,40 @@ router.post('/', function (req, res) {
                 } else
                     // double-check that the unit hasn't responded yet 
                     client.query('SELECT * FROM occupancy WHERE property=$1 AND unit=$2', [req.query.property, req.query.unit], function (err, data) {
-                        done();
                         if (err) {
+                            done();
                             console.log('unit check query error', err);
                             res.sendStatus(500);
                         } else {
                             if (data.rows[0]) {
+                                // unit is found
                                 if (data.rows[0].responded) {
-                                    // responded == true
+                                    done();
                                     res.send('responded');
                                 } else {
                                     // unit exists and hasn't responded. first, enter the survey data
-                                    pool.connect(function (err, client, done) {
+                                    client.query(queryString, [req.query.property, req.query.language, thisYear], function (err, data) {
                                         if (err) {
-                                            console.log('connection err', err);
+                                            done();
+                                            console.log('insert query error', err, queryString);
                                             res.sendStatus(500);
                                         } else {
-                                            client.query(queryString, [req.query.property, req.query.language, thisYear], function (err, data) {
+                                            client.query('UPDATE occupancy SET responded=true WHERE property=$1 AND unit=$2;', [req.query.property, req.query.unit], function (err, data) {
                                                 done();
                                                 if (err) {
-                                                    console.log('insert query error', err, queryString);
+                                                    console.log('query error', err);
                                                     res.sendStatus(500);
                                                 } else {
-                                                    pool.connect(function (err, client, done) {
-                                                        if (err) {
-                                                            console.log('connection err', err);
-                                                            res.sendStatus(500);
-                                                        } else {
-                                                            client.query('UPDATE occupancy SET responded=true WHERE property=$1 AND unit=$2;', [req.query.property, req.query.unit], function (err, data) {
-                                                                done();
-                                                                if (err) {
-                                                                    console.log('query error', err);
-                                                                    res.sendStatus(500);
-                                                                } else {
-                                                                    res.sendStatus(201);
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-
+                                                    res.sendStatus(201);
                                                 }
                                             });
                                         }
                                     });
+
                                 }
                             } else {
                                 // unit not found
+                                done();
                                 res.send('unit not found');
                             }
                         }

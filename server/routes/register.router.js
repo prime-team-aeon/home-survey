@@ -18,8 +18,8 @@ router.get('/verify/:token', function (req, res) {
       // query like: SELECT id, timestamp FROM users WHERE token = 'sAhlEMrt0rL1f3St';
       client.query('SELECT id, timestamp FROM users WHERE token = $1;', [req.params.token],
         function (err, results) {
-          done();
           if (err) {
+            done();
             console.log("query error ", err);
             res.sendStatus(500);
           } else {
@@ -37,33 +37,25 @@ router.get('/verify/:token', function (req, res) {
                 //less than 24 hrs difference erase token
                 //client.query to remove token and update to true(active)
                 //UPDATE user SET active=true, token=null WHERE id=1;
-                pool.connect(function (err, client, done) {
-                  if (err) {
-                    console.log("Error connecting: ", err);
-                    res.sendStatus(500);
-                  } else {
-                    client.query('UPDATE users SET active=true, token=null WHERE id=$1;', [userId],
-                      function (err, results) {
-                        done()
-                        if (err) {
-                          console.log('query error', err);
-                          res.sendStatus(500);
-                        } else {
-                          res.sendStatus(200)
-                        }
-                      }
-                    );
+                client.query('UPDATE users SET active=true, token=null WHERE id=$1;', [userId],
+                  function (err, results) {
+                    done()
+                    if (err) {
+                      console.log('query error', err);
+                      res.sendStatus(500);
+                    } else {
+                      res.sendStatus(200)
+                    }
                   }
-                });
+                );
               } else {
+                done();
                 console.log('expired token');
                 res.status(400).send('expired')
               }
             }
           }
         })
-
-
     }
   });
   //if we find the token, we need to check the timestamp, needs to be within 24 hrs
@@ -107,7 +99,7 @@ router.post('/', function (req, res, next) {
             console.log("Error inserting data: ", err);
             res.sendStatus(500);
           } else {
-            
+
             /* ------- DEPRECATED -------
              *
              * Turns out Gmail has a bunch of automated security measures that don't play

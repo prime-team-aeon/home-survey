@@ -38,18 +38,17 @@ myApp.service('SiteManagerService', ['$http', '$mdToast', function ($http, $mdTo
     };
 
     // takes an array of properties, or the string 'all', and returns the response rate for that dataset
-    self.getResponseRate = function (properties) {
+    self.getResponseRate = function (properties, year) {
         $http.get('/admin/responses', {
             params: {
-                properties: properties
+                properties: properties,
+                year: year
             }
         })
             .then(function (response) {
                 self.responseRate.rate = +response.data;
                 self.responseRate.rate = self.responseRate.rate * 100;
                 self.responseRate.rate = self.responseRate.rate.toFixed(2);
-                console.log('responseRate.rate', self.responseRate.rate);
-
             });
     };
 
